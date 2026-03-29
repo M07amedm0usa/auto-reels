@@ -16,7 +16,7 @@ const Scene = ({ item }: { item: any }) => {
     return (
         <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center' }}>
             <div className={`sketch-box ${item.style} ${item.color}`} style={{ transform: `scale(${scale})` }}>
-                <div className="box-title">{item.title}</div>
+                <div className="box-title" dir="rtl" style={{ unicodeBidi: 'plaintext' }}>{item.title}</div>
                 <div className={item.type === 'box' ? 'box-body' : 'code-block'} 
                      style={{ direction: item.type === 'code' ? 'ltr' : 'rtl' }}>
                     {frame > 15 && (

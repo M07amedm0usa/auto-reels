@@ -1,11 +1,22 @@
 name: Render Video
-on: [push, workflow_dispatch]
+
+on:
+  # هيشتغل أوتوماتيك بس لو حصل تعديل في ملف الداتا ده
+  push:
+    branches:
+      - main
+    paths:
+      - 'public/assets/data.json'
+  
+  # هيسمحلك تشغله يدوي من زرار Run workflow في صفحة GitHub
+  workflow_dispatch:
 
 jobs:
   render:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -14,12 +25,18 @@ jobs:
         run: npm install
 
       - name: Render Video
-        # HelloWorld هو اسم الـ Composition الافتراضي في القالب بتاعك
-        run: npx remotion render HelloWorld output/video.mp4
+        # أمر الريندر بإعدادات الجودة العالية لمقاسات الريلز
+        run: |
+          npx remotion render HelloWorld output/video.mp4 \
+          --codec h264 \
+          --crf 16 \
+          --pixel-format yuv420p \
+          --audio-codec mp3
 
       - name: Upload Video
+        # رفع الفيديو النهائي عشان تحمله
         uses: actions/upload-artifact@v4
         with:
-            name: Final-Reel
-            path: output/video.mp4
-            
+          name: Final-Reel
+          path: output/video.mp4
+          

@@ -1,4 +1,8 @@
 [
-  { "type": "box", "style": "style-8", "color": "c-purple", "title": "تركات فلاتر 🚀", "content": "حاجات محدش هيقولك عليها!" },
-  { "type": "code", "style": "style-5", "color": "c-black", "title": "شكل الكود الصح 💻", "code": "class CleanApp extends StatelessWidget {\n  // Architecture is key\n}" }
+  { "type": "box", "style": "style-8", "color": "c-purple", "title": "Clean Architecture 🚀", "content": "ليه هي أهم حاجة في فلاتر؟" },
+  { "type": "box", "style": "style-1", "color": "c-blue", "title": "1. فصل المهام ✂️", "content": "افصل الـ UI عن الـ Logic تماماً" },
+  { "type": "code", "style": "style-5", "color": "c-black", "title": "2. الـ Use Cases ⚙️", "code": "class GetUser {\n  execute() => repo.get();\n}" },
+  { "type": "box", "style": "style-3", "color": "c-green", "title": "3. سهولة التيست ✅", "content": "تقدر تعمل Test لكل جزء لوحده" },
+  { "type": "box", "style": "style-7", "color": "c-orange", "title": "الخلاصة 🧠", "content": "الكود النضيف بيعيش أطول!" },
+  { "type": "box", "style": "style-4", "color": "c-black", "title": "تابعني للمزيد 🔥", "content": "@m07amedm0usa" }
 ]

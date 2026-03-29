@@ -37,10 +37,10 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
                     
                     {frame > 15 && (
                         <>
-                            {/* 🚨 ملحوظة: لو لسه مجبتش ملف writing.mp3 امسح السطور بتاعت الـ Audio دي عشان السيرفر ميضربش Error */}
-                            {/* <Sequence from={15} durationInFrames={typingDuration}>
-                                <Audio src={staticFile("assets/writing.mp3")} volume={0.8} loop />
-                            </Sequence> */}
+                            {/* 2. صوت شخبطة القلم (تم تفعيله وتحديث مساره لـ sfx) */}
+                            <Sequence from={15} durationInFrames={typingDuration}>
+                                <Audio src={staticFile("assets/sfx/writing.mp3")} volume={0.8} loop />
+                            </Sequence>
                             
                             <TypewriterWithPen text={text} frameOffset={15} />
                         </>
@@ -61,7 +61,7 @@ export const MyVideo = () => {
             backgroundSize: '30px 30px'
         }}>
             
-            {/* 🚨 ملحوظة: لو لسه مجبتش ملف music.mp3 امسحه برضه مؤقتاً */}
+            {/* 🚨 ملحوظة: لو مجبتش ملف music.mp3 خليه معمول كدة Comment عشان السيرفر ميضربش Error */}
             {/* <Audio src={staticFile("assets/music.mp3")} volume={0.1} loop /> */}
 
             {data.map((item, index) => {
@@ -80,3 +80,4 @@ export const MyVideo = () => {
         </AbsoluteFill>
     );
 };
+                                

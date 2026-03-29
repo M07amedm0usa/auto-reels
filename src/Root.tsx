@@ -2,11 +2,20 @@ import { Composition } from 'remotion';
 import { MyVideo } from './MyVideo';
 import data from '../public/assets/data.json';
 
+// إعدادات السرعة (لازم تكون موحدة في كل الملفات)
+export const TYPING_SPEED = 2; // فريم لكل حرف
+export const READ_BUFFER = 60; // 2 ثانية انتظار بعد ما يخلص كتابة
+export const ENTRANCE_OFFSET = 20; // وقت ظهور البوكس
+
 export const RemotionRoot: React.FC = () => {
-  const sceneDuration = 150; // 5 ثواني لكل مشهد
-  
-  // السحر هنا: بنضرب عدد المشاهد في وقتها ونزود 30 فريم (ثانية واحدة) تثبيت في الآخر
-  const totalDuration = (data.length * sceneDuration) + 30; 
+  // دالة تحسب مدة كل مشهد لوحده
+  const calculateSceneDuration = (item: any) => {
+    const text = item.content || item.code || "";
+    return (text.length * TYPING_SPEED) + READ_BUFFER + ENTRANCE_OFFSET;
+  };
+
+  // إجمالي وقت الفيديو = مجموع أوقات المشاهد + ثانية التثبيت في الآخر
+  const totalDuration = data.reduce((acc, item) => acc + calculateSceneDuration(item), 0) + 30;
 
   return (
     <>

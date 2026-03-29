@@ -11,7 +11,7 @@
     "style": "style-1",
     "color": "c-blue",
     "title": "1. استخدم const دايماً 🧱",
-    "content": "أي Widget مش هيتغير وقت الـ Runtime لازم تديله keyword اللي اسمها const.\nده بيخلي فلاتر يعمل Caching للـ Widget وميرجعش يبنيه من الصفر مع كل Rebuild."
+    "content": "أي Widget مش هيتغير  وقت الـ Runtime لازم تديله keyword اللي اسمها const.\nده بيخلي فلاتر يعمل Caching للـ Widget وميرجعش يبنيه من الصفر مع كل Rebuild."
   },
   {
     "type": "code",

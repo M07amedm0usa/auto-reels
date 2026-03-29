@@ -1,19 +1,21 @@
 name: Render Video
 
 on:
-  # هيشتغل أوتوماتيك بس لو حصل تعديل في ملف الداتا ده
   push:
     branches:
       - main
     paths:
       - 'public/assets/data.json'
-  
-  # هيسمحلك تشغله يدوي من زرار Run workflow في صفحة GitHub
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   render:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    
     steps:
       - uses: actions/checkout@v4
       
@@ -25,18 +27,26 @@ jobs:
         run: npm install
 
       - name: Render Video
-        # أمر الريندر بإعدادات الجودة العالية لمقاسات الريلز
         run: |
-          npx remotion render HelloWorld output/video.mp4 \
+          npx remotion render ReelAutomationScene output/video.mp4 \
           --codec h264 \
           --crf 16 \
           --pixel-format yuv420p \
           --audio-codec mp3
 
-      - name: Upload Video
-        # رفع الفيديو النهائي عشان تحمله
-        uses: actions/upload-artifact@v4
-        with:
-          name: Final-Reel
-          path: output/video.mp4
+      - name: Reset Data & Save Video
+        run: |
+          git config --global user.name "Reel-Bot"
+          git config --global user.email "bot@github.com"
+
+          # 1. تصفير محتوى الملف تماماً (بدل المسح عشان الكود ميعلقش)
+          echo "[]" > public/assets/data.json
+
+          # 2. إضافة الفيديو للمستودع وتحديث الداتا المصفرة
+          git add -f output/video.mp4
+          git add public/assets/data.json
+
+          # 3. الرفع مع تجاوز التشغيل التلقائي
+          git commit -m "Video Generated & Data Reset for n8n [skip ci]" || echo "No changes"
+          git push
           

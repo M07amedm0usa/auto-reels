@@ -29,6 +29,105 @@
 .style-6 { background: transparent; border: none; border-right: 12px solid currentColor; border-left: 12px solid currentColor; border-radius: 50px; padding: 40px 60px; }
 .style-7 { background: rgba(0,0,0,0.04); border: none; border-bottom: 10px solid currentColor; border-radius: 10px 10px 0 0; transform: skewX(-5deg); }
 .style-8 { background: #fff; border: 6px solid currentColor; border-radius: 20px 255px 20px 255px / 255px 20px 255px 20px; box-shadow: 10px 10px 0 rgba(0,0,0,0.05), -4px -4px 0 currentColor; }
+/* ─── الترسانة الجديدة (20 ستايل احترافي) ─── */
+
+/* 9. نيو-بروتاليزم (Neo-Brutalism) تريند جداً */
+.style-9 { background: #fff; border: 8px solid #000; box-shadow: 15px 15px 0 #000; border-radius: 0; }
+
+/* 10. التوهج النيون (Cyberpunk Glow) */
+.style-10 { background: #111; color: #fff !important; border: 2px solid currentColor; box-shadow: 0 0 20px currentColor, inset 0 0 15px currentColor; border-radius: 15px; }
+
+/* 11. الزجاج المغبش (Glassmorphism) */
+.style-11 { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.5); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border-radius: 24px; }
+
+/* 12. تدرج الانستجرام (Gradient Pop) */
+.style-12 { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #fff !important; border: none; border-radius: 20px; box-shadow: 0 15px 35px rgba(220, 39, 67, 0.4); }
+
+/* 13. الخط الجانبي العريض (Minimal Accent) */
+.style-13 { background: #fff; border: none; border-right: 20px solid currentColor; border-radius: 10px; box-shadow: -5px 10px 25px rgba(0,0,0,0.06); }
+
+/* 14. الورقة المطوية (Folded Corner) */
+.style-14 { background: #fdfbfb; border: 2px solid #ddd; border-radius: 0 40px 0 40px; box-shadow: inset 0 0 20px rgba(0,0,0,0.02), 8px 8px 0 currentColor; }
+
+/* 15. شاشة الهاكر (Matrix Terminal) */
+.style-15 { background: #0a0a0a; color: #0f0 !important; border: 2px solid #0f0; border-radius: 8px; font-family: 'Courier New', monospace; box-shadow: 6px 6px 0 rgba(0, 255, 0, 0.3); }
+
+/* 16. الإطار المزدوج (Double Outline) */
+.style-16 { background: transparent; border: 4px solid currentColor; outline: 4px solid currentColor; outline-offset: 12px; border-radius: 15px; margin: 40px auto; }
+
+/* 17. الظل الداخلي (Inset Depth) */
+.style-17 { background: #f0f3f5; border: none; border-radius: 25px; box-shadow: inset 10px 10px 20px rgba(0,0,0,0.05), inset -10px -10px 20px #fff; }
+
+/* 18. ورقة الكوميكس (Comic Alert) */
+.style-18 { background: #ffeb3b; border: 5px solid #000; color: #000 !important; border-radius: 0; transform: rotate(3deg); box-shadow: -10px 10px 0 #000; }
+
+/* 19. الخطوط المخططة (Striped Background) */
+.style-19 { background: repeating-linear-gradient(45deg, rgba(0,0,0,0.02), rgba(0,0,0,0.02) 15px, #fff 15px, #fff 30px); border: 5px solid currentColor; border-radius: 20px; }
+
+/* 20. الأقواس العكسية (Inverted Brackets) */
+.style-20 { background: #fff; border-top: 8px solid currentColor; border-bottom: 8px solid currentColor; border-radius: 0; padding: 50px 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+/* 21. الظل الملون (Color Drop Shadow) */
+.style-21 { background: #fff; border: 3px solid #111; box-shadow: 15px 15px 0 currentColor; border-radius: 0 30px 0 30px; }
+
+/* 22. الفقاعة (Speech Bubble) */
+.style-22 { background: #fff; border: 4px solid currentColor; border-radius: 30px; box-shadow: 5px 5px 15px rgba(0,0,0,0.1); border-bottom-left-radius: 0; }
+
+/* 23. شكل الورقة (Leaf Curve) */
+.style-23 { background: #fff; border: 4px solid currentColor; border-radius: 50% 10% / 10% 50%; box-shadow: 8px 8px 0 rgba(0,0,0,0.08); }
+
+/* 24. الظلام الأنيق (Elegant Dark) */
+.style-24 { background: #1a1a2e; color: #fff !important; border-radius: 25px; border-right: 10px solid currentColor; border-bottom: 10px solid currentColor; box-shadow: -5px -5px 20px rgba(0,0,0,0.2); }
+
+/* 25. حلقات الهدف (Target Rings) */
+.style-25 { background: #fff; border: none; border-radius: 20px; box-shadow: 0 0 0 5px currentColor, 0 0 0 10px #fff, 0 0 0 15px currentColor; margin: 30px auto; }
+
+/* 26. الملاحظة اللاصقة الممزقة (Torn Sticky) */
+.style-26 { background: #ff9a9e; color: #111 !important; border: none; border-radius: 2px; box-shadow: 5px 15px 20px rgba(0,0,0,0.15); border-bottom: 6px dotted #fff; }
+
+/* 27. صندوق الـ 3D (3D Push Button) */
+.style-27 { background: #fff; border: 4px solid #333; border-radius: 12px; box-shadow: 0 15px 0 #333; transform: translateY(-10px); }
+
+/* 28. النيون المتقطع (Cyber Dashed) */
+.style-28 { background: #0f172a; color: #fff !important; border: 4px dashed currentColor; border-radius: 20px; box-shadow: 0 0 25px currentColor; }
+          /* ─── الستايلات الختامية (تقفيل الـ 30) ─── */
+
+/* 29. البولاروايد الكلاسيكي (Polaroid Classic) */
+.style-29 {
+    background: #fff;
+    border: 2px solid #ddd;
+    /* مساحة واسعة تحت عشان شكل البولاروايد الحقيقي */
+    padding: 40px 40px 100px 40px; 
+    border-radius: 4px;
+    box-shadow: 10px 15px 40px rgba(0,0,0,0.1);
+    transform: rotate(-1deg); /* ميلة بسيطة */
+}
+
+/* 30. التذكرة المثقوبة (Perforated Ticket) - فكرة جديدة جداً */
+.style-30 {
+    background: #fffdf0; /* لون ورقي مصفر */
+    border: 4px solid currentColor;
+    border-style: solid none; /* خطوط فوق وتحت بس، الجوانب ممسوحة */
+    border-radius: 0;
+    padding: 50px;
+    box-shadow: 10px 10px 0 rgba(0,0,0,0.05);
+    position: relative;
+}
+/* عمل الدوائر اللي في الجوانب كأنها مقطوعة (الثقوب) */
+.style-30::before, .style-30::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    /* لازم اللون هنا يكون نفس لون خلفية الفيديو الرئيسية عشان تبان مقطوعة */
+    background: #d8dde6; 
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+.style-30::before { left: -25px; border-right: 4px solid currentColor; }
+.style-30::after { right: -25px; border-left: 4px solid currentColor; }
+
 
 /* ─── الكود ─── */
 .code-block { background: #1a1a2e; color: #a8ff78; font-family: 'Courier New', monospace; font-size: 35px; border-radius: 20px; padding: 30px; width: 100%; text-align: left; direction: ltr; margin-top: 20px; line-height: 1.6; }

@@ -3,13 +3,15 @@ import { MyVideo } from './MyVideo';
 import data from '../public/assets/data.json';
 
 export const RemotionRoot: React.FC = () => {
-  const sceneDuration = 150; // لازم يكون نفس الرقم اللي في MyVideo.tsx
-  const totalDuration = data.length * sceneDuration;
+  const sceneDuration = 150; // 5 ثواني لكل مشهد
+  
+  // السحر هنا: بنضرب عدد المشاهد في وقتها ونزود 30 فريم (ثانية واحدة) تثبيت في الآخر
+  const totalDuration = (data.length * sceneDuration) + 30; 
 
   return (
     <>
       <Composition
-        id="HelloWorld" // لازم نفس الاسم اللي في render.yml
+        id="HelloWorld"
         component={MyVideo}
         durationInFrames={totalDuration}
         fps={30}

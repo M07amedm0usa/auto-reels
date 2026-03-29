@@ -20,7 +20,7 @@ export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition
-        id="HelloWorld"
+        id="ReelAutomationScene"
         component={MyVideo}
         durationInFrames={totalDuration}
         fps={30}

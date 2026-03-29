@@ -1,0 +1,4 @@
+[
+  { "type": "box", "style": "style-8", "color": "c-purple", "title": "تركات فلاتر 🚀", "content": "حاجات محدش هيقولك عليها!" },
+  { "type": "code", "style": "style-5", "color": "c-black", "title": "شكل الكود الصح 💻", "code": "class CleanApp extends StatelessWidget {\n  // Architecture is key\n}" }
+]

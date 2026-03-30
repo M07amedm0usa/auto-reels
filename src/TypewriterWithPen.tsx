@@ -1,4 +1,4 @@
-import React from 'react'; // حرف الـ i بقى سمول
+import React from 'react';
 import { useCurrentFrame, useVideoConfig } from 'remotion';
 
 // رسمة القلم المطورة 🖋️
@@ -15,11 +15,13 @@ export const TypewriterWithPen: React.FC<{ text: string; frameOffset: number }> 
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   
-  /** * حساب سرعة الكتابة الديناميكية (بالمللي):
-   * بنخلي القلم يوزع وقته بحيث يخلص كتابة قبل نهاية المشهد بـ 5 فريمات بس
-   * واستخدمنا (text.length || 1) عشان نحمي الكود لو النص فاضي
+  /**
+   * 🎯 سر الاحتراف هنا:
+   * القلم بيوزع وقته عشان يخلص كتابة النص بالكامل قبل ما المشهد يخلص بـ 45 فريم (ثانية ونص كاملة).
+   * الـ 45 فريم دي هي الوقت اللي المشاهد بيلحق يقرأ فيه الجملة كاملة، والصوت لسه بينطق آخر كلمتين.
    */
-  const availableFrames = Math.max(1, durationInFrames - frameOffset - 5);
+  const END_SAFE_OFFSET = 45; 
+  const availableFrames = Math.max(1, durationInFrames - frameOffset - END_SAFE_OFFSET);
   const typingSpeed = availableFrames / (text.length || 1); 
   
   // حساب عدد الحروف اللي تظهر حالياً

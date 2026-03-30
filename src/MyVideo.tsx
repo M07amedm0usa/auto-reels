@@ -7,7 +7,7 @@ const TYPING_SPEED = 2;
 const READ_BUFFER = 60;
 const ENTRANCE_OFFSET = 20;
 
-// 🎵 مصفوفة الأصوات الـ 6 اللي إنت جمعتهم
+// 🎵 مصفوفة الأصوات الـ 6 للـ Swoosh/Flip
 const FLIP_SOUNDS = ['1.wav', '2.wav', '3.wav', '4.mp3', '5.mp3', '6.mp3'];
 
 const Scene = ({ item, index }: { item: any, index: number }) => {
@@ -15,16 +15,15 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
     const { fps } = useVideoConfig();
     const text = item.content || item.code || "";
     
-    const typingDuration = text.length * TYPING_SPEED;
     const scale = spring({ fps, frame, config: { damping: 12 } });
 
-    // السحر هنا: بيختار صوت مختلف لكل بوكس، ولما يخلص الـ 6 يرجع يعيد من الأول
+    // اختيار صوت مختلف لكل مشهد من الترسانة الصوتية
     const flipSound = FLIP_SOUNDS[index % FLIP_SOUNDS.length];
 
     return (
         <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center' }}>
             
-            {/* 1. صوت تقليب الصفحة / الظهور المتغير */}
+            {/* 1. أصوات الـ Transition (Swoosh/Flip) */}
             <Sequence from={0} durationInFrames={ENTRANCE_OFFSET}>
                 <Audio src={staticFile(`assets/sfx/${flipSound}`)} volume={0.7} />
             </Sequence>
@@ -36,14 +35,7 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
                      style={{ direction: item.type === 'code' ? 'ltr' : 'rtl' }}>
                     
                     {frame > 15 && (
-                        <>
-                            {/* 2. صوت شخبطة القلم (تم تفعيله وتحديث مساره لـ sfx) */}
-                            <Sequence from={15} durationInFrames={typingDuration}>
-                                <Audio src={staticFile("assets/sfx/writing.mp3")} volume={0.8} loop />
-                            </Sequence>
-                            
-                            <TypewriterWithPen text={text} frameOffset={15} />
-                        </>
+                        <TypewriterWithPen text={text} frameOffset={15} />
                     )}
                 </div>
             </div>
@@ -61,7 +53,7 @@ export const MyVideo = () => {
             backgroundSize: '30px 30px'
         }}>
             
-            {/* 🚨 ملحوظة: لو مجبتش ملف music.mp3 خليه معمول كدة Comment عشان السيرفر ميضربش Error */}
+            {/* 🎵 موسيقى الخلفية (اختياري - لو موجودة فك عنها الـ Comment) */}
             {/* <Audio src={staticFile("assets/music.mp3")} volume={0.1} loop /> */}
 
             {data.map((item, index) => {
@@ -72,7 +64,6 @@ export const MyVideo = () => {
 
                 return (
                     <Sequence key={index} from={startFrom} durationInFrames={sceneDuration}>
-                        {/* تمرير الـ index للـ Scene عشان يعرف يختار انهي صوت */}
                         <Scene item={item} index={index} />
                     </Sequence>
                 );
@@ -80,4 +71,3 @@ export const MyVideo = () => {
         </AbsoluteFill>
     );
 };
-                                

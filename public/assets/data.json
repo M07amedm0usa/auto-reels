@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "title": "يا برنس شاشتك بتقفل على الكيبورد وبتخلي اليوزر ميتضايق؟ خلاص مفيش تكسير شاشات تاني!",
+    "content": "Scaffold(\n  body: TextField(), // هنا الكيبورد بيغطي التيكست فيلد وبتبقى مشكلة\n);",
+    "code": "Scaffold(\n  body: TextField(), // هنا الكيبورد بيغطي التيكست فيلد وبتبقى مشكلة\n);",
+    "style": "style-11",
+    "color": "c-red",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 45,
+    "type": "code"
+  },
+  {
+    "title": "أول خطوة: خلي الاسكافولد بتاعك يحس بالكيبورد ويضبط نفسه تلقائي",
+    "content": "Scaffold(\n  resizeToAvoidBottomInset: true, // عشان الاسكافولد يعرف حجم الكيبورد الجديد\n  body: TextField(),\n);",
+    "code": "Scaffold(\n  resizeToAvoidBottomInset: true, // عشان الاسكافولد يعرف حجم الكيبورد الجديد\n  body: TextField(),\n);",
+    "style": "style-5",
+    "color": "c-blue",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 45,
+    "type": "code"
+  },
+  {
+    "title": "لو لسه في عك بسيط، استخدم الـ SingleChildScrollView عشان الدنيا متنشفش",
+    "content": "Scaffold(\n  resizeToAvoidBottomInset: true,\n  body: SingleChildScrollView( // عشان الشاشة تعرف تعمل سكرول لو المحتوى كبر\n    child: Column(children: [TextField(), TextField()]),\n  ),\n);",
+    "code": "Scaffold(\n  resizeToAvoidBottomInset: true,\n  body: SingleChildScrollView( // عشان الشاشة تعرف تعمل سكرول لو المحتوى كبر\n    child: Column(children: [TextField(), TextField()]),\n  ),\n);",
+    "style": "style-5",
+    "color": "c-blue",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 45,
+    "type": "code"
+  },
+  {
+    "title": "الخلاصة والسر الصغير: سطرين كود يحلوا أكبر أزمة بتواجه المبرمجين مع الكيبورد",
+    "content": "Scaffold(\n  resizeToAvoidBottomInset: true, // دا بيخلي الاسكافولد يتضبط مع الكيبورد\n  body: SingleChildScrollView( // ودا بيخلي الشاشة تعرف تسكرول لو المحتوى زاد\n    child: Column(children: [TextField()]),\n  ),\n);",
+    "code": "Scaffold(\n  resizeToAvoidBottomInset: true, // دا بيخلي الاسكافولد يتضبط مع الكيبورد\n  body: SingleChildScrollView( // ودا بيخلي الشاشة تعرف تسكرول لو المحتوى زاد\n    child: Column(children: [TextField()]),\n  ),\n);",
+    "style": "style-5",
+    "color": "c-blue",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 45,
+    "type": "code"
+  },
+  {
+    "title": "خلاص مفيش تكسير شاشات، والأبلكيشن بتاعك بقى محترف! تابعنا لزتونة أكتر",
+    "content": "// FlutterByMousa\nfollowForMore();",
+    "code": "// FlutterByMousa\nfollowForMore();",
+    "style": "style-20",
+    "color": "c-purple",
+    "voiceFile": "scene_4.mp3",
+    "voiceDuration": 45,
+    "type": "code"
+  }
+]

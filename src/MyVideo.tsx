@@ -55,8 +55,6 @@ export const MyVideo = () => {
 
     return (
         <AbsoluteFill style={{ backgroundColor: '#d8dde6' }}>
-            {/* موسيقى هادية جداً في الخلفية */}
-            <Audio src={staticFile("assets/music.mp3")} volume={0.05} loop />
 
             {data.map((item, index) => {
                 const text = item.content || item.code || "";

@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "title": "أنيميشن سلس وبسيط!",
+    "type": "box",
+    "content": "بتتعب عشان تعمل أنيميشن سلس في Flutter؟ بتلاقي الكود كتير ومعقد؟\nالـ Widget دي هتغير حياتك!",
+    "style": "style-12",
+    "color": "c-blue",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 368
+  },
+  {
+    "title": "تكوين الأداة السحرية",
+    "type": "code",
+    "content": "TweenAnimationBuilder<\n  double\n>(\n  tween: Tween<double>(begin: 0.0, end: 1.0),\n  duration: const Duration(seconds: 1),\n  builder: (context, value, child) {\n    // ... استخدم value هنا ...\n  },\n)",
+    "style": "style-25",
+    "color": "c-green",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 392
+  },
+  {
+    "title": "طبق أنيميشن رائع!",
+    "type": "code",
+    "content": "TweenAnimationBuilder<\n  double\n>(\n  tween: Tween<double>(begin: 0.0, end: 1.0),\n  duration: const Duration(seconds: 1),\n  builder: (context, value, child) {\n    return Opacity(opacity: value,\n      child: const Text('FlutterByMousa!'),\n    );\n  },\n)",
+    "style": "style-7",
+    "color": "c-red",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 464
+  },
+  {
+    "title": "تحكم ديناميكي أسهل",
+    "type": "code",
+    "content": "double _targetOpacity = 1.0;\n// ... داخل الـ build method ...\nTweenAnimationBuilder(\n  tween: Tween<double>(begin: 0.0, end: _targetOpacity),\n  duration: const Duration(seconds: 1),\n  builder: (context, value, child) {\n    return Opacity(opacity: value, child: child);\n  },\n  child: const Icon(Icons.star, size: 50),\n)",
+    "style": "style-18",
+    "color": "c-purple",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 416
+  },
+  {
+    "title": "وفر وقتك ومجهودك!",
+    "type": "box",
+    "content": "الـ TweenAnimationBuilder بتبسط الأنيميشن المعقدة وبتوفر وقتك.\nلازم تجربها في مشروعك الجاي!\n#FlutterByMousa",
+    "style": "style-3",
+    "color": "c-orange",
+    "voiceFile": "scene_4.mp3",
+    "voiceDuration": 404
+  }
+]

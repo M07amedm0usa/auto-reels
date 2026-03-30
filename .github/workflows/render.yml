@@ -1,4 +1,4 @@
-Name: Render Video
+name: Render Video
 
 on:
   push:

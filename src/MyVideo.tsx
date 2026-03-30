@@ -1,6 +1,5 @@
 import { AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig, Audio, staticFile } from 'remotion';
 import { TypewriterWithPen } from './TypewriterWithPen';
-import data from '../public/assets/data.json';
 import './style.css';
 
 const ENTRANCE_OFFSET = 20;
@@ -11,10 +10,7 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
     const { fps } = useVideoConfig();
     const text = item.content || item.code || "";
     
-    // حساب سرعة القلم عشان يخلص بالظبط مع نهاية الصوت
-    const totalSceneFrames = (item.voiceDuration || text.length * 2) + 60;
-    const typingDuration = totalSceneFrames - 40; 
-    
+    // شيلنا الحسابات اليدوية من هنا لأن Root.tsx بقى بيبعت الوقت محسوب جاهز
     const scale = spring({ fps, frame, config: { damping: 12 } });
     const flipSound = FLIP_SOUNDS[index % FLIP_SOUNDS.length];
 
@@ -26,7 +22,7 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
                 <Audio src={staticFile(`assets/sfx/${flipSound}`)} volume={0.6} />
             </Sequence>
 
-            {/* 🎤 2. التعليق الصوتي (Voiceover) - بيقرأ من الفولدر الجديد */}
+            {/* 🎤 2. التعليق الصوتي (Voiceover) */}
             {item.voiceFile && (
                 <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} volume={1} />
             )}
@@ -41,7 +37,6 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
                         <TypewriterWithPen 
                             text={text} 
                             frameOffset={15} 
-                            // تعديل بسيط في المكون ده عشان نتحكم في السرعة بناءً على طول الصوت
                         />
                     )}
                 </div>
@@ -50,16 +45,18 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
     );
 };
 
-export const MyVideo = () => {
+// 🎯 التعديل الأساسي هنا: بنستقبل scenes من Root بدال ما نقرا ملف json
+export const MyVideo = ({ scenes }: { scenes: any[] }) => {
     let currentFrameOffset = 0;
 
     return (
         <AbsoluteFill style={{ backgroundColor: '#d8dde6' }}>
 
-            {data.map((item, index) => {
-                const text = item.content || item.code || "";
-                const sceneDuration = Math.max(item.voiceDuration || 0, text.length * 2) + 80;
+            {scenes.map((item, index) => {
+                // 🎯 بناخد الوقت بالمللي ثانية اللي Root.tsx حسبه من ملف الصوت الفعلي
+                const sceneDuration = item.calculatedDuration; 
                 const startFrom = currentFrameOffset;
+                
                 currentFrameOffset += sceneDuration;
 
                 return (
@@ -71,4 +68,4 @@ export const MyVideo = () => {
         </AbsoluteFill>
     );
 };
-        
+                            

@@ -1,9 +1,9 @@
 import React from 'react';
-import { useCurrentFrame } from 'remotion';
+import { useCurrentFrame, useVideoConfig } from 'remotion';
 
-// رسمة القلم 
+// رسمة القلم المطورة 🖋️
 const Pen = () => (
-  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 120, height: 120 }}>
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 80, height: 80 }}>
     <rect x="22" y="3" width="18" height="40" rx="5" fill="#222831" stroke="#111" strokeWidth="1.5"/>
     <rect x="22" y="3" width="18" height="10" rx="4" fill="#e74c3c" stroke="#c0392b" strokeWidth="1.2"/>
     <path d="M22,43 L40,43 L33,57 L29,57 Z" fill="#e8dcc8" stroke="#888" strokeWidth="1.2"/>
@@ -13,43 +13,53 @@ const Pen = () => (
 
 export const TypewriterWithPen: React.FC<{ text: string; frameOffset: number }> = ({ text, frameOffset }) => {
   const frame = useCurrentFrame();
-  const typingSpeed = 2; // سرعة الكتابة 
+  const { durationInFrames } = useVideoConfig();
   
-  // حساب عدد الحروف اللي المفروض تظهر في الفريم الحالي
+  /** * حساب سرعة الكتابة الديناميكية:
+   * بنخلي القلم يوزع وقته بحيث يخلص كتابة قبل نهاية المشهد بـ 40 فريم (للتثبيت)
+   */
+  const availableFrames = durationInFrames - frameOffset - 40;
+  const typingSpeed = Math.max(1.5, availableFrames / text.length); 
+  
+  // حساب عدد الحروف اللي تظهر حالياً
   const activeCharIndex = Math.max(0, Math.floor((frame - frameOffset) / typingSpeed));
 
-  // هزة القلم
-  const wiggle = Math.sin(frame) * 10 - 15; 
+  // هزة القلم الطبيعية أثناء الكتابة
+  const wiggle = Math.sin(frame * 0.8) * 8 - 12; 
   
-  // السحر هنا: بنعرض النص ككتلة واحدة عشان المتصفح ميتلخبطش في الإنجليزي والعربي
   const visibleText = text.substring(0, activeCharIndex);
   const hiddenText = text.substring(activeCharIndex);
   
-  // هل القلم لسه بيكتب؟
   const isTyping = activeCharIndex < text.length && frame > frameOffset;
 
   return (
-    <span style={{ whiteSpace: 'pre-wrap', unicodeBidi: 'plaintext' }}>
-      {/* الجزء اللي اتكتب */}
+    <span style={{ 
+      whiteSpace: 'pre-wrap', 
+      unicodeBidi: 'plaintext', 
+      position: 'relative',
+      display: 'inline-block' 
+    }}>
+      {/* النص المكتوب */}
       <span>{visibleText}</span>
       
-      {/* القلم بيترسم بالضبط في الفاصل بين اللي اتكتب واللي لسه مخفي */}
+      {/* القلم الذكي: بيتحرك مع الحروف */}
       {isTyping && (
-        <span style={{ position: 'relative' }}>
+        <span style={{ position: 'relative', display: 'inline-block', width: 0 }}>
           <div style={{
             position: 'absolute',
-            top: -80,
-            right: -20, // تظبيط مكان السن عشان يمشي مع العربي صح
+            top: -65,
+            right: -10, 
             zIndex: 100,
             transform: `rotate(${wiggle}deg)`, 
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            transition: 'all 0.1s linear'
           }}>
             <Pen />
           </div>
         </span>
       )}
       
-      {/* الجزء اللي لسه هيتكتب (مخفي عشان يحافظ على أبعاد البوكس) */}
+      {/* النص المخفي (للحفاظ على المساحة) */}
       <span style={{ opacity: 0 }}>{hiddenText}</span>
     </span>
   );

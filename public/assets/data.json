@@ -1,40 +1,65 @@
-{
-  "title": "FlutterByMousa",
-  "content": {
-    "name": "scene_5.mp3",
-    "path": "public/assets/Elevsound/scene_5.mp3",
-    "sha": "f36eba316e99a193ef5e788d5c3d5ddbec4a4c3c",
-    "size": 308497,
-    "url": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_5.mp3?ref=main",
-    "html_url": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_5.mp3",
-    "git_url": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/f36eba316e99a193ef5e788d5c3d5ddbec4a4c3c",
-    "download_url": "https://raw.githubusercontent.com/M07amedm0usa/auto-reels/main/public/assets/Elevsound/scene_5.mp3",
-    "type": "file",
-    "_links": {
-      "self": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_5.mp3?ref=main",
-      "git": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/f36eba316e99a193ef5e788d5c3d5ddbec4a4c3c",
-      "html": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_5.mp3"
-    }
+[
+  {
+    "title": "Flutter Tips",
+    "content": "",
+    "code": "",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 50,
+    "style": "style-1",
+    "color": "c-blue"
   },
-  "code": {
-    "name": "scene_5.mp3",
-    "path": "public/assets/Elevsound/scene_5.mp3",
-    "sha": "f36eba316e99a193ef5e788d5c3d5ddbec4a4c3c",
-    "size": 308497,
-    "url": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_5.mp3?ref=main",
-    "html_url": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_5.mp3",
-    "git_url": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/f36eba316e99a193ef5e788d5c3d5ddbec4a4c3c",
-    "download_url": "https://raw.githubusercontent.com/M07amedm0usa/auto-reels/main/public/assets/Elevsound/scene_5.mp3",
-    "type": "file",
-    "_links": {
-      "self": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_5.mp3?ref=main",
-      "git": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/f36eba316e99a193ef5e788d5c3d5ddbec4a4c3c",
-      "html": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_5.mp3"
-    }
+  {
+    "title": "Flutter Tips",
+    "content": "",
+    "code": "",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 50,
+    "style": "style-1",
+    "color": "c-blue"
   },
-  "style": "style-1",
-  "color": "c-blue",
-  "voiceFile": "scene_5.mp3",
-  "voiceDuration": 300,
-  "type": "code"
-}
+  {
+    "title": "Flutter Tips",
+    "content": "",
+    "code": "",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 50,
+    "style": "style-1",
+    "color": "c-blue"
+  },
+  {
+    "title": "Flutter Tips",
+    "content": "",
+    "code": "",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 50,
+    "style": "style-1",
+    "color": "c-blue"
+  },
+  {
+    "title": "Flutter Tips",
+    "content": "",
+    "code": "",
+    "voiceFile": "scene_4.mp3",
+    "voiceDuration": 50,
+    "style": "style-1",
+    "color": "c-blue"
+  },
+  {
+    "title": "Flutter Tips",
+    "content": "",
+    "code": "",
+    "voiceFile": "scene_5.mp3",
+    "voiceDuration": 50,
+    "style": "style-1",
+    "color": "c-blue"
+  },
+  {
+    "title": "Flutter Tips",
+    "content": "",
+    "code": "",
+    "voiceFile": "scene_6.mp3",
+    "voiceDuration": 50,
+    "style": "style-1",
+    "color": "c-blue"
+  }
+]

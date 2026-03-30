@@ -1,4 +1,4 @@
-name: Render Video
+Name: Render Video
 
 on:
   push:
@@ -34,19 +34,23 @@ jobs:
           --pixel-format yuv420p \
           --audio-codec mp3
 
-      - name: Reset Data & Save Video
+      - name: Reset Data, Clean Audio & Save Video
         run: |
           git config --global user.name "Reel-Bot"
           git config --global user.email "bot@github.com"
 
-          # 1. تصفير محتوى الملف تماماً (بدل المسح عشان الكود ميعلقش)
+          # 1. تصفير محتوى ملف الداتا تماماً
           echo "[]" > public/assets/data.json
 
-          # 2. إضافة الفيديو للمستودع وتحديث الداتا المصفرة
+          # 2. مسح كل ملفات الصوت mp3 من فولدر Elevsound
+          rm -f public/assets/Elevsound/*.mp3 || echo "No audio files found to delete"
+
+          # 3. إضافة التغييرات (الفيديو الجديد + تصفير الداتا + حذف الصوت)
           git add -f output/video.mp4
           git add public/assets/data.json
+          git add public/assets/Elevsound/*.mp3 || echo "Nothing to add in Elevsound"
 
-          # 3. الرفع مع تجاوز التشغيل التلقائي
-          git commit -m "Video Generated & Data Reset for n8n [skip ci]" || echo "No changes"
+          # 4. الرفع النهائي مع تجاوز التشغيل التلقائي [skip ci]
+          git commit -m "Video Generated, Audio Cleaned & Data Reset [skip ci]" || echo "No changes to commit"
           git push
           

@@ -1,140 +1,64 @@
-[
-  {
-    "Title": "FlutterByMousa",
-    "Content": {
-      "name": "scene_0.mp3",
-      "path": "public/assets/Elevsound/scene_0.mp3",
-      "sha": "470dd6080d8b510794ac060a6aba66676d48be0c",
-      "size": 188125,
-      "url": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_0.mp3?ref=main",
-      "html_url": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_0.mp3",
-      "git_url": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/470dd6080d8b510794ac060a6aba66676d48be0c",
-      "download_url": "https://raw.githubusercontent.com/M07amedm0usa/auto-reels/main/public/assets/Elevsound/scene_0.mp3",
-      "type": "file",
-      "_links": {
-        "self": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_0.mp3?ref=main",
-        "git": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/470dd6080d8b510794ac060a6aba66676d48be0c",
-        "html": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_0.mp3"
-      }
+{
+  "scenes": [
+    {
+      "title": "FlutterByMousa",
+      "content": "",
+      "code": "",
+      "style": "style-1",
+      "color": "c-blue",
+      "voiceFile": "scene_0.mp3",
+      "voiceDuration": 300,
+      "type": "code"
     },
-    "Voiceover Script": "",
-    "style": "style-1",
-    "color": "c-blue",
-    "voiceDuration": 300
-  },
-  {
-    "Title": "FlutterByMousa",
-    "Content": {
-      "name": "scene_1.mp3",
-      "path": "public/assets/Elevsound/scene_1.mp3",
-      "sha": "c71bd4e0a037a1ee967529c62658081368dce293",
-      "size": 186035,
-      "url": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_1.mp3?ref=main",
-      "html_url": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_1.mp3",
-      "git_url": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/c71bd4e0a037a1ee967529c62658081368dce293",
-      "download_url": "https://raw.githubusercontent.com/M07amedm0usa/auto-reels/main/public/assets/Elevsound/scene_1.mp3",
-      "type": "file",
-      "_links": {
-        "self": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_1.mp3?ref=main",
-        "git": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/c71bd4e0a037a1ee967529c62658081368dce293",
-        "html": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_1.mp3"
-      }
+    {
+      "title": "FlutterByMousa",
+      "content": "",
+      "code": "",
+      "style": "style-1",
+      "color": "c-blue",
+      "voiceFile": "scene_1.mp3",
+      "voiceDuration": 300,
+      "type": "code"
     },
-    "Voiceover Script": "",
-    "style": "style-1",
-    "color": "c-blue",
-    "voiceDuration": 300
-  },
-  {
-    "Title": "FlutterByMousa",
-    "Content": {
-      "name": "scene_2.mp3",
-      "path": "public/assets/Elevsound/scene_2.mp3",
-      "sha": "5dfcb6c0c4d14f5adba7e25009669b62f6a99f54",
-      "size": 220308,
-      "url": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_2.mp3?ref=main",
-      "html_url": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_2.mp3",
-      "git_url": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/5dfcb6c0c4d14f5adba7e25009669b62f6a99f54",
-      "download_url": "https://raw.githubusercontent.com/M07amedm0usa/auto-reels/main/public/assets/Elevsound/scene_2.mp3",
-      "type": "file",
-      "_links": {
-        "self": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_2.mp3?ref=main",
-        "git": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/5dfcb6c0c4d14f5adba7e25009669b62f6a99f54",
-        "html": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_2.mp3"
-      }
+    {
+      "title": "FlutterByMousa",
+      "content": "",
+      "code": "",
+      "style": "style-1",
+      "color": "c-blue",
+      "voiceFile": "scene_2.mp3",
+      "voiceDuration": 300,
+      "type": "code"
     },
-    "Voiceover Script": "",
-    "style": "style-1",
-    "color": "c-blue",
-    "voiceDuration": 300
-  },
-  {
-    "Title": "FlutterByMousa",
-    "Content": {
-      "name": "scene_3.mp3",
-      "path": "public/assets/Elevsound/scene_3.mp3",
-      "sha": "60cec3a7cd6695699e93e8a6e8ea92489c4f07f1",
-      "size": 226995,
-      "url": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_3.mp3?ref=main",
-      "html_url": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_3.mp3",
-      "git_url": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/60cec3a7cd6695699e93e8a6e8ea92489c4f07f1",
-      "download_url": "https://raw.githubusercontent.com/M07amedm0usa/auto-reels/main/public/assets/Elevsound/scene_3.mp3",
-      "type": "file",
-      "_links": {
-        "self": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_3.mp3?ref=main",
-        "git": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/60cec3a7cd6695699e93e8a6e8ea92489c4f07f1",
-        "html": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_3.mp3"
-      }
+    {
+      "title": "FlutterByMousa",
+      "content": "",
+      "code": "",
+      "style": "style-1",
+      "color": "c-blue",
+      "voiceFile": "scene_3.mp3",
+      "voiceDuration": 300,
+      "type": "code"
     },
-    "Voiceover Script": "",
-    "style": "style-1",
-    "color": "c-blue",
-    "voiceDuration": 300
-  },
-  {
-    "Title": "FlutterByMousa",
-    "Content": {
-      "name": "scene_4.mp3",
-      "path": "public/assets/Elevsound/scene_4.mp3",
-      "sha": "85f7cfcfb8618020cac1c3fcf695e768cf2eeb80",
-      "size": 223234,
-      "url": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_4.mp3?ref=main",
-      "html_url": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_4.mp3",
-      "git_url": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/85f7cfcfb8618020cac1c3fcf695e768cf2eeb80",
-      "download_url": "https://raw.githubusercontent.com/M07amedm0usa/auto-reels/main/public/assets/Elevsound/scene_4.mp3",
-      "type": "file",
-      "_links": {
-        "self": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_4.mp3?ref=main",
-        "git": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/85f7cfcfb8618020cac1c3fcf695e768cf2eeb80",
-        "html": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_4.mp3"
-      }
+    {
+      "title": "FlutterByMousa",
+      "content": "",
+      "code": "",
+      "style": "style-1",
+      "color": "c-blue",
+      "voiceFile": "scene_4.mp3",
+      "voiceDuration": 300,
+      "type": "code"
     },
-    "Voiceover Script": "",
-    "style": "style-1",
-    "color": "c-blue",
-    "voiceDuration": 300
-  },
-  {
-    "Title": "FlutterByMousa",
-    "Content": {
-      "name": "scene_5.mp3",
-      "path": "public/assets/Elevsound/scene_5.mp3",
-      "sha": "41be8454816e2bde9862880712a4f04714a37e87",
-      "size": 253745,
-      "url": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_5.mp3?ref=main",
-      "html_url": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_5.mp3",
-      "git_url": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/41be8454816e2bde9862880712a4f04714a37e87",
-      "download_url": "https://raw.githubusercontent.com/M07amedm0usa/auto-reels/main/public/assets/Elevsound/scene_5.mp3",
-      "type": "file",
-      "_links": {
-        "self": "https://api.github.com/repos/M07amedm0usa/auto-reels/contents/public/assets/Elevsound/scene_5.mp3?ref=main",
-        "git": "https://api.github.com/repos/M07amedm0usa/auto-reels/git/blobs/41be8454816e2bde9862880712a4f04714a37e87",
-        "html": "https://github.com/M07amedm0usa/auto-reels/blob/main/public/assets/Elevsound/scene_5.mp3"
-      }
-    },
-    "Voiceover Script": "",
-    "style": "style-1",
-    "color": "c-blue",
-    "voiceDuration": 300
-  }
-]
+    {
+      "title": "FlutterByMousa",
+      "content": "",
+      "code": "",
+      "style": "style-1",
+      "color": "c-blue",
+      "voiceFile": "scene_5.mp3",
+      "voiceDuration": 300,
+      "type": "code"
+    }
+  ]
+}

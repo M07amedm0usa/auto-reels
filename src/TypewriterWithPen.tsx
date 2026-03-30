@@ -19,7 +19,7 @@ export const TypewriterWithPen: React.FC<{ text: string; frameOffset: number }> 
    * بنخلي القلم يوزع وقته بحيث يخلص كتابة قبل نهاية المشهد بـ 40 فريم (للتثبيت)
    */
   const availableFrames = durationInFrames - frameOffset - 40;
-  const typingSpeed = Math.max(1.5, availableFrames / text.length); 
+  const typingSpeed = availableFrames / text.length; 
   
   // حساب عدد الحروف اللي تظهر حالياً
   const activeCharIndex = Math.max(0, Math.floor((frame - frameOffset) / typingSpeed));

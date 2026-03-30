@@ -1,65 +1,62 @@
 [
   {
-    "title": "Flutter Tips",
-    "content": "",
-    "code": "",
+    "title": "كودك بقى Spaghetti؟",
+    "content": "dart\n// main_screen.dart: bad practice\nclass _MyScreenState extends State<MyScreen> {\n  Future<void> _loadItems() async {\n    final response = await HttpClient().get('/items'); // API call\n    setState(() => _items = response.data.map((e) => Item(e)).toList()); // UI logic\n  }\n}\n\nالشرح: كود ملخبط بيجمع كل حاجة في مكان واحد؟ مشكلة كبيرة!",
+    "code": "dart\n// main_screen.dart: bad practice\nclass _MyScreenState extends State<MyScreen> {\n  Future<void> _loadItems() async {\n    final response = await HttpClient().get('/items'); // API call\n    setState(() => _items = response.data.map((e) => Item(e)).toList()); // UI logic\n  }\n}\n\nالشرح: كود ملخبط بيجمع كل حاجة في مكان واحد؟ مشكلة كبيرة!",
+    "style": "style-17",
+    "color": "c-blue",
     "voiceFile": "scene_0.mp3",
-    "voiceDuration": 50,
-    "style": "style-1",
-    "color": "c-blue"
+    "voiceDuration": 410,
+    "type": "code"
   },
   {
-    "title": "Flutter Tips",
-    "content": "",
-    "code": "",
+    "title": "الحل: Clean Architecture",
+    "content": "dart\n// domain/entities/user.dart\nclass User {\n  final String id;\n  final String name;\n  User({required this.id, required this.name});\n}\n\nالشرح: بنبدأ بطبقة الـ Domain، دي قلب التطبيق، فيها الـ Entities والـ Use Cases.",
+    "code": "dart\n// domain/entities/user.dart\nclass User {\n  final String id;\n  final String name;\n  User({required this.id, required this.name});\n}\n\nالشرح: بنبدأ بطبقة الـ Domain، دي قلب التطبيق، فيها الـ Entities والـ Use Cases.",
+    "style": "style-5",
+    "color": "c-green",
     "voiceFile": "scene_1.mp3",
-    "voiceDuration": 50,
-    "style": "style-1",
-    "color": "c-blue"
+    "voiceDuration": 420,
+    "type": "code"
   },
   {
-    "title": "Flutter Tips",
-    "content": "",
-    "code": "",
+    "title": "طبقة البيانات: Data",
+    "content": "dart\n// data/repositories/user_repository_impl.dart\nclass UserRepositoryImpl implements UserRepository {\n  @override\n  Future<User> getUser(String id) async {\n    final userModel = await UserRemoteDataSource().fetchUser(id);\n    return userModel.toEntity();\n  }\n}\n\nالشرح: الـ Data Layer بتتعامل مع الـ API والـ Local Storage وتحولها لـ Entities.",
+    "code": "dart\n// data/repositories/user_repository_impl.dart\nclass UserRepositoryImpl implements UserRepository {\n  @override\n  Future<User> getUser(String id) async {\n    final userModel = await UserRemoteDataSource().fetchUser(id);\n    return userModel.toEntity();\n  }\n}\n\nالشرح: الـ Data Layer بتتعامل مع الـ API والـ Local Storage وتحولها لـ Entities.",
+    "style": "style-22",
+    "color": "c-purple",
     "voiceFile": "scene_2.mp3",
-    "voiceDuration": 50,
-    "style": "style-1",
-    "color": "c-blue"
+    "voiceDuration": 388,
+    "type": "code"
   },
   {
-    "title": "Flutter Tips",
-    "content": "",
-    "code": "",
+    "title": "منطق التطبيق: Use Cases",
+    "content": "dart\n// domain/usecases/get_user.dart\nclass GetUserUseCase {\n  final UserRepository _repository;\n  GetUserUseCase(this._repository);\n  Future<User> call(String id) => _repository.getUser(id);\n}\n\nالشرح: الـ Use Cases هي الـ Business Logic الفعلي اللي الـ Presentation بتنادي عليه.",
+    "code": "dart\n// domain/usecases/get_user.dart\nclass GetUserUseCase {\n  final UserRepository _repository;\n  GetUserUseCase(this._repository);\n  Future<User> call(String id) => _repository.getUser(id);\n}\n\nالشرح: الـ Use Cases هي الـ Business Logic الفعلي اللي الـ Presentation بتنادي عليه.",
+    "style": "style-9",
+    "color": "c-red",
     "voiceFile": "scene_3.mp3",
-    "voiceDuration": 50,
-    "style": "style-1",
-    "color": "c-blue"
+    "voiceDuration": 378,
+    "type": "code"
   },
   {
-    "title": "Flutter Tips",
-    "content": "",
-    "code": "",
+    "title": "واجهة المستخدم: Presentation",
+    "content": "dart\n// presentation/bloc/user_bloc.dart\n// Inside UserBloc's constructor or `on` method:\non<GetUserEvent>((event, emit) async {\n  emit(UserLoading());\n  final user = await _getUserUseCase(event.id);\n  emit(UserLoaded(user));\n});\n\nالشرح: الـ UI بتتكلم مع الـ BLoC أو الـ Provider اللي بينادي الـ Use Cases.",
+    "code": "dart\n// presentation/bloc/user_bloc.dart\n// Inside UserBloc's constructor or `on` method:\non<GetUserEvent>((event, emit) async {\n  emit(UserLoading());\n  final user = await _getUserUseCase(event.id);\n  emit(UserLoaded(user));\n});\n\nالشرح: الـ UI بتتكلم مع الـ BLoC أو الـ Provider اللي بينادي الـ Use Cases.",
+    "style": "style-14",
+    "color": "c-teal",
     "voiceFile": "scene_4.mp3",
-    "voiceDuration": 50,
-    "style": "style-1",
-    "color": "c-blue"
+    "voiceDuration": 356,
+    "type": "code"
   },
   {
-    "title": "Flutter Tips",
-    "content": "",
-    "code": "",
+    "title": "النتيجة: كود محترف!",
+    "content": "dart\n// Clean Architecture Benefits:\n// 1. Easy to test each layer independently.\n// 2. Simple to modify or extend features.\n// 3. Adapts well to growing project complexity.\n\nالشرح: كودك بقى أسهل في الاختبار والصيانة والتوسع!",
+    "code": "dart\n// Clean Architecture Benefits:\n// 1. Easy to test each layer independently.\n// 2. Simple to modify or extend features.\n// 3. Adapts well to growing project complexity.\n\nالشرح: كودك بقى أسهل في الاختبار والصيانة والتوسع!",
+    "style": "style-28",
+    "color": "c-black",
     "voiceFile": "scene_5.mp3",
-    "voiceDuration": 50,
-    "style": "style-1",
-    "color": "c-blue"
-  },
-  {
-    "title": "Flutter Tips",
-    "content": "",
-    "code": "",
-    "voiceFile": "scene_6.mp3",
-    "voiceDuration": 50,
-    "style": "style-1",
-    "color": "c-blue"
+    "voiceDuration": 410,
+    "type": "code"
   }
 ]

@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "title": "تصميم متجاوب؟",
+    "type": "box",
+    "content": "هل بتعاني من مشاكل \n في تصميم شاشاتك \n على أحجام مختلفة؟",
+    "style": "style-17",
+    "color": "c-blue",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 330
+  },
+  {
+    "title": "الحل السحري",
+    "type": "box",
+    "content": "LayoutBuilder \n بيفهمك حجم \n الشاشة الحالي",
+    "style": "style-2",
+    "color": "c-green",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 317
+  },
+  {
+    "title": "استخدمه إزاي؟",
+    "type": "box",
+    "content": "بناء الواجهة \n حسب العرض المتاح \n (constraints)",
+    "style": "style-25",
+    "color": "c-purple",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 358
+  },
+  {
+    "title": "وداعاً للمشاكل",
+    "type": "box",
+    "content": "تصميم مرن \n واحترافي لكل \n الأجهزة!",
+    "style": "style-9",
+    "color": "c-orange",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 445
+  }
+]

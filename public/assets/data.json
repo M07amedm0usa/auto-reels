@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "title": "تجنب إعادة البناء!",
+    "type": "box",
+    "content": "تحديث جزء صغير فقط",
+    "style": "style-17",
+    "color": "c-red",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 344
+  },
+  {
+    "title": "المنقذ: ValueListenableBuilder",
+    "type": "box",
+    "content": "تحديث ذكي وموفر",
+    "style": "style-9",
+    "color": "c-blue",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 249
+  },
+  {
+    "title": "أداء خرافي!",
+    "type": "box",
+    "content": "بناء حسب الحاجة",
+    "style": "style-22",
+    "color": "c-green",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 303
+  },
+  {
+    "title": "خليك محترف!",
+    "type": "box",
+    "content": "وفر وقت، حسن أداء",
+    "style": "style-3",
+    "color": "c-purple",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 336
+  }
+]

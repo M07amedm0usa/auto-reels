@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "title": "وداعاً IF/ELSE",
+    "type": "box",
+    "content": "تعقيد الـ Conditional Logic؟",
+    "style": "style-17",
+    "color": "c-red",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 426
+  },
+  {
+    "title": "قوة الـ Pattern",
+    "type": "box",
+    "content": "Dart 3. Pattern Matching.",
+    "style": "style-9",
+    "color": "c-blue",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 385
+  },
+  {
+    "title": "فك الأوبجكت بذكاء",
+    "type": "box",
+    "content": "فك محتوى الـ Object. أسهل وأوضح.",
+    "style": "style-23",
+    "color": "c-teal",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 480
+  },
+  {
+    "title": "جربها دلوقتي!",
+    "type": "box",
+    "content": "كود أنظف وأذكى.",
+    "style": "style-30",
+    "color": "c-magenta",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 445
+  }
+]

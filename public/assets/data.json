@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "title": "مشكلة الـ Return؟",
+    "type": "box",
+    "content": "إرجاع قيم متعددة؟ كلاسات كتير؟",
+    "style": "style-15",
+    "color": "c-blue",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 399
+  },
+  {
+    "title": "الحل: Dart Records!",
+    "type": "box",
+    "content": "سهلة، مرنة، أسرع.",
+    "style": "style-22",
+    "color": "c-green",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 358
+  },
+  {
+    "title": "شكلها عامل إزاي؟",
+    "type": "box",
+    "content": "(String, int) دالة ترجع كذا!",
+    "style": "style-7",
+    "color": "c-purple",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 371
+  },
+  {
+    "title": "ليه هي قوية؟",
+    "type": "box",
+    "content": "كود أنظف، أداء أفضل، مرونة.",
+    "style": "style-11",
+    "color": "c-orange",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 399
+  },
+  {
+    "title": "إزاي تطبقها؟",
+    "type": "box",
+    "content": "جربها! #FlutterByMousa",
+    "style": "style-3",
+    "color": "c-red",
+    "voiceFile": "scene_4.mp3",
+    "voiceDuration": 459
+  }
+]

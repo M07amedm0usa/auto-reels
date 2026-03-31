@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "title": "إرجع كذا قيمة!",
+    "type": "box",
+    "content": "مشكلة القيم المتعددة",
+    "style": "style-10",
+    "color": "c-blue",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 453
+  },
+  {
+    "title": "إيه هي Records؟",
+    "type": "box",
+    "content": "تجميع قيم مختلفة",
+    "style": "style-22",
+    "color": "c-green",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 412
+  },
+  {
+    "title": "بساطة في Dart",
+    "type": "box",
+    "content": "(int, String)",
+    "style": "style-5",
+    "color": "c-purple",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 371
+  },
+  {
+    "title": "كود أنضف!",
+    "type": "box",
+    "content": "توفير وقت وجهد",
+    "style": "style-18",
+    "color": "c-orange",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 418
+  }
+]

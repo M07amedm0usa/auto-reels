@@ -128,7 +128,10 @@
 .style-30::before { left: -25px; border-right: 4px solid currentColor; }
 .style-30::after { right: -25px; border-left: 4px solid currentColor; }
 
-
-/* ─── الكود ─── */
-.code-block { background: #1a1a2e; color: #a8ff78; font-family: 'Courier New', monospace; font-size: 35px; border-radius: 20px; padding: 30px; width: 100%; text-align: left; direction: ltr; margin-top: 20px; line-height: 1.6; }
-                  
+/* ─── الكود (النسخة الجديدة) ─── */
+.code-block-container { 
+    width: 100%; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* ظل قوي بيدي إحساس إن الكود بارز */
+    border-radius: 15px;
+    overflow: hidden; /* عشان زوايا التلوين تفضل دائرية */
+}

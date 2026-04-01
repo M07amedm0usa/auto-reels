@@ -1,48 +1,47 @@
 [
   {
-    "title": "مشكلة الأداء",
+    "title": "مستحيل!",
     "type": "box",
-    "content": "أداء كارثي!",
-    "style": "style-17",
-    "color": "c-red",
+    "content": "كود زيادة؟",
+    "style": "style-15",
+    "color": "c-magenta",
     "voiceFile": "scene_0.mp3",
-    "voiceDuration": 126
+    "voiceDuration": 99
   },
   {
-    "title": "الرسم الزائد",
+    "title": "إيه ده بالظبط؟",
     "type": "box",
-    "content": [
-      "تغيير بسيط",
-      "يرسم الـ Ancestors كلهم",
-      "إهدار موارد GPU"
-    ],
-    "style": "style-5",
+    "content": "InteractiveViewer:\nPan و Zoom لأي Widget",
+    "style": "style-03",
     "color": "c-blue",
     "voiceFile": "scene_1.mp3",
-    "voiceDuration": 167
+    "voiceDuration": 112
   },
   {
-    "title": "RepaintBoundary السحرية",
+    "title": "استخدامات رهيبة",
     "type": "box",
-    "content": [
-      "يعزل الـ Subtree",
-      "يمنع إعادة رسم الـ Parents"
-    ],
+    "content": "خرائط، صور عالية، Charts\nسهولة غير عادية",
     "style": "style-22",
     "color": "c-green",
     "voiceFile": "scene_2.mp3",
-    "voiceDuration": 153
+    "voiceDuration": 112
+  },
+  {
+    "title": "تحكمك الكامل",
+    "type": "box",
+    "content": "حدود الـ Zoom\nومود الـ Behavior",
+    "style": "style-10",
+    "color": "c-purple",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 112
   },
   {
     "title": "نصيحة ذهبية",
     "type": "box",
-    "content": [
-      "استخدمها بحكمة",
-      "تابع @FlutterByMousa"
-    ],
-    "style": "style-9",
-    "color": "c-purple",
-    "voiceFile": "scene_3.mp3",
-    "voiceDuration": 131
+    "content": "وفر وقتك\nتابع FlutterByMousa",
+    "style": "style-28",
+    "color": "c-cyan",
+    "voiceFile": "scene_4.mp3",
+    "voiceDuration": 145
   }
 ]

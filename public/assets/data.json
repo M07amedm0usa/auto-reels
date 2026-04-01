@@ -1,1 +1,48 @@
-[]
+[
+  {
+    "title": "مشكلة الأداء",
+    "type": "box",
+    "content": "أداء كارثي!",
+    "style": "style-17",
+    "color": "c-red",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 126
+  },
+  {
+    "title": "الرسم الزائد",
+    "type": "box",
+    "content": [
+      "تغيير بسيط",
+      "يرسم الـ Ancestors كلهم",
+      "إهدار موارد GPU"
+    ],
+    "style": "style-5",
+    "color": "c-blue",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 167
+  },
+  {
+    "title": "RepaintBoundary السحرية",
+    "type": "box",
+    "content": [
+      "يعزل الـ Subtree",
+      "يمنع إعادة رسم الـ Parents"
+    ],
+    "style": "style-22",
+    "color": "c-green",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 153
+  },
+  {
+    "title": "نصيحة ذهبية",
+    "type": "box",
+    "content": [
+      "استخدمها بحكمة",
+      "تابع @FlutterByMousa"
+    ],
+    "style": "style-9",
+    "color": "c-purple",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 131
+  }
+]

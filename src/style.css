@@ -249,13 +249,5 @@ body {
 .corner-bl { bottom: 20px; left: 20px; border-bottom: 2px solid var(--accent); border-left: 2px solid var(--accent); }
 .corner-br { bottom: 20px; right: 20px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); }
 
-/* ══════════════════════════════════════
-   LEGACY CLEANUP
-══════════════════════════════════════ */
-.sketch-box, .box-title, .box-body,
-.style-1,.style-2,.style-3,.style-4,
-.style-5,.style-6,.style-7,.style-8,
-.modern-tech-card, .window-header {
-  all: unset;
-  display: none !important;
-              }
+
+                    

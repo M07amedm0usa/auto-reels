@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "title": "إعادة بناء غير ضرورية!",
+    "type": "box",
+    "content": "كودك بيعمل rebuild للمشهد كله بلا سبب!",
+    "style": "style-7",
+    "color": "c-red",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 180
+  },
+  {
+    "title": "الحل السحري!",
+    "type": "box",
+    "content": "ValueListenableBuilder بتبني جزء معين فقط من الـ UI.",
+    "style": "style-19",
+    "color": "c-blue",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 317
+  },
+  {
+    "title": "كيف تعمل؟",
+    "type": "box",
+    "content": "تربط Widget بـ ValueNotifier وتحديثات فورية.",
+    "style": "style-4",
+    "color": "c-green",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 235
+  },
+  {
+    "title": "أداء خارق!",
+    "type": "box",
+    "content": "قلل الـ rebuilds، زد سرعة تطبيقك بشكل ملحوظ.",
+    "style": "style-11",
+    "color": "c-purple",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 262
+  },
+  {
+    "title": "نصيحة ذهبية!",
+    "type": "box",
+    "content": "استخدمها مع State Management الخفيف للمرونة والأداء.",
+    "style": "style-23",
+    "color": "c-orange",
+    "voiceFile": "scene_4.mp3",
+    "voiceDuration": 309
+  }
+]

@@ -1,16 +1,14 @@
 import React from 'react';
 import { useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
 
-// مؤشر نيون (Neon Cursor) بيتحرك مع الكتابة
 const Cursor = ({ color }: { color?: string }) => (
   <span style={{
     width: '4px',
     height: '1.2em', 
     backgroundColor: color || '#00B4D8',
-    boxShadow: `0 0 10px ${color || '#00B4D8'}`,
+    boxShadow: `0 0 12px ${color || '#00B4D8'}`,
     borderRadius: '2px',
-    marginLeft: '6px', 
-    marginRight: '2px',
+    marginLeft: '8px', 
     display: 'inline-block',
     verticalAlign: 'text-bottom', 
   }} />
@@ -20,14 +18,13 @@ export const TypewriterWithPen: React.FC<{ text: string; frameOffset: number; co
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   
-  const END_SAFE_OFFSET = 30; 
+  // تقليل الأوفست لضمان استمرار الكتابة لنهاية المشهد تقريباً
+  const END_SAFE_OFFSET = 15; 
   const availableFrames = Math.max(1, durationInFrames - frameOffset - END_SAFE_OFFSET);
   
-  // سرعة كتابة ديناميكية
   const typingSpeed = availableFrames / (text.length || 1); 
   const activeCharIndex = Math.max(0, Math.floor((frame - frameOffset) / typingSpeed));
 
-  // تأثير "النبض" للمؤشر
   const cursorOpacity = interpolate(
     (frame % 20),
     [0, 10, 20],
@@ -40,7 +37,6 @@ export const TypewriterWithPen: React.FC<{ text: string; frameOffset: number; co
   const isFinished = activeCharIndex >= text.length;
 
   return (
-    // الحاوية الثابتة لمنع رقصة النص
     <div style={{ 
       whiteSpace: 'pre-wrap', 
       position: 'relative',
@@ -48,10 +44,11 @@ export const TypewriterWithPen: React.FC<{ text: string; frameOffset: number; co
       width: '100%',    
       textAlign: 'right', 
       direction: 'rtl',   
-      lineHeight: '1.6',  
-      fontSize: '32px'    
+      lineHeight: '1.5',  
+      fontSize: '46px', // تكبير الخط ليناسب شاشة الموبايل
+      fontWeight: 'bold'
     }}>
-      <span style={{ color: '#fff', textShadow: '0 0 5px rgba(255,255,255,0.2)' }}>
+      <span style={{ color: '#fff', textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
         {visibleText}
       </span>
       
@@ -59,17 +56,17 @@ export const TypewriterWithPen: React.FC<{ text: string; frameOffset: number; co
         <span style={{ 
             opacity: isTyping ? 1 : cursorOpacity, 
             display: 'inline-block',
-            transition: 'opacity 0.1s ease',
             whiteSpace: 'nowrap' 
         }}>
           <Cursor color={color} />
         </span>
       )}
       
-      {/* نص مخفي للحفاظ على أبعاد الحاوية */}
+      {/* نص مخفي للحفاظ على أبعاد الحاوية ومنع الـ Layout Shift */}
       <span style={{ opacity: 0, pointerEvents: 'none' }}>
         {text.substring(activeCharIndex)}
       </span>
     </div>
   );
 };
+    

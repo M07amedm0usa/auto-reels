@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "title": "Flutter Tips",
+    "type": "box",
+    "content": "",
+    "code": "",
+    "style": "modern-tech-card",
+    "color": "c-blue",
+    "voiceFile": "scene_0.mp3",
+    "calculatedDuration": 150
+  },
+  {
+    "title": "Flutter Tips",
+    "type": "box",
+    "content": "",
+    "code": "",
+    "style": "modern-tech-card",
+    "color": "c-blue",
+    "voiceFile": "scene_1.mp3",
+    "calculatedDuration": 150
+  },
+  {
+    "title": "Flutter Tips",
+    "type": "box",
+    "content": "",
+    "code": "",
+    "style": "modern-tech-card",
+    "color": "c-blue",
+    "voiceFile": "scene_2.mp3",
+    "calculatedDuration": 150
+  },
+  {
+    "title": "Flutter Tips",
+    "type": "box",
+    "content": "",
+    "code": "",
+    "style": "modern-tech-card",
+    "color": "c-blue",
+    "voiceFile": "scene_3.mp3",
+    "calculatedDuration": 150
+  },
+  {
+    "title": "Flutter Tips",
+    "type": "box",
+    "content": "",
+    "code": "",
+    "style": "modern-tech-card",
+    "color": "c-blue",
+    "voiceFile": "scene_4.mp3",
+    "calculatedDuration": 210
+  }
+]

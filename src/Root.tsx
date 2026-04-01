@@ -31,7 +31,7 @@ export const RemotionRoot: React.FC = () => {
                 const seconds = await getAudioDurationInSeconds(staticFile(`assets/Elevsound/${item.voiceFile}`));
                 audioFrames = Math.ceil(seconds * fps) + 15;
               }
-            } catch (e) { console.log(e); }
+            } catch (e) { console.log("Audio not found"); }
 
             const text = item.content || item.code || "";
             const textFrames = index === 0 ? 45 : (text.length * 1.6) + 60;
@@ -43,7 +43,7 @@ export const RemotionRoot: React.FC = () => {
         const total = enrichedScenes.reduce((acc, s) => acc + s.calculatedDuration, 0) + 30;
 
         return {
-          durationInFrames: Math.max(total, 30),
+          durationInFrames: Math.max(total, 60),
           props: { scenes: enrichedScenes }
         };
       }}
@@ -51,4 +51,3 @@ export const RemotionRoot: React.FC = () => {
     />
   );
 };
-                    

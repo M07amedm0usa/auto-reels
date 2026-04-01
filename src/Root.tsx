@@ -25,21 +25,25 @@ export const RemotionRoot: React.FC = () => {
         const fps = 30;
         const enrichedScenes = await Promise.all(
           props.scenes.map(async (item: any, index: number) => {
-            let audioFrames = 150;
+            // نعتمد على الحسبة اللي جاية من n8n كقيمة مبدئية
+            let finalDuration = item.calculatedDuration || 150; 
+            
             try {
               if (item.voiceFile) {
+                // لو فيه صوت، مدة المشهد هتكون مدة الصوت بالظبط + نص ثانية أمان
                 const seconds = await getAudioDurationInSeconds(staticFile(`assets/Elevsound/${item.voiceFile}`));
-                audioFrames = Math.ceil(seconds * fps) + 15;
+                finalDuration = Math.ceil(seconds * fps) + 15;
               }
-            } catch (e) { console.log("Audio not found"); }
+            } catch (e) { 
+              console.log("Audio not found", e); 
+            }
 
-            const text = item.content || item.code || "";
-            const textFrames = index === 0 ? 45 : (text.length * 1.6) + 60;
-            
-            return { ...item, calculatedDuration: Math.max(audioFrames, textFrames) };
+            // لغينا حسبة الحروف عشان Typewriter بقى ذكي وبيسرع نفسه أوتوماتيك
+            return { ...item, calculatedDuration: finalDuration };
           })
         );
 
+        // تجميع وقت المشاهد كلها + ثانية أمان في النهاية
         const total = enrichedScenes.reduce((acc, s) => acc + s.calculatedDuration, 0) + 30;
 
         return {

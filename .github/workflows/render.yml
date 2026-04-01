@@ -29,10 +29,12 @@ jobs:
       - name: Render Video
         run: |
           npx remotion render ReelAutomationScene output/video.mp4 \
+          --props=public/assets/data.json \
           --codec h264 \
           --crf 16 \
           --pixel-format yuv420p \
           --audio-codec mp3
+
 
       - name: Reset Data, Clean Audio & Save Video
         run: |

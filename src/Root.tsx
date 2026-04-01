@@ -6,7 +6,6 @@ import fallbackData from '../public/assets/data.json';
 export const RemotionRoot: React.FC = () => {
   const inputProps = getInputProps() as any;
 
-  // استخراج الداتا بذكاء لتفادي الشاشة السودة
   const parsedPropsScenes = (Array.isArray(inputProps) && inputProps.length > 0) 
     ? inputProps 
     : inputProps.scenes;
@@ -21,53 +20,35 @@ export const RemotionRoot: React.FC = () => {
     <Composition
       id="ReelAutomationScene"
       component={MyVideo}
-      defaultProps={{
-        scenes: defaultData as any[],
-      }}
+      defaultProps={{ scenes: defaultData as any[] }}
       calculateMetadata={async ({ props }) => {
         const fps = 30;
-        let totalDuration = 0;
-
         const enrichedScenes = await Promise.all(
           props.scenes.map(async (item: any, index: number) => {
-            let voiceDurationFrames = 150; 
-            
+            let audioFrames = 150;
             try {
               if (item.voiceFile) {
-                const durationInSeconds = await getAudioDurationInSeconds(
-                  staticFile(`assets/Elevsound/${item.voiceFile}`)
-                );
-                voiceDurationFrames = Math.ceil(durationInSeconds * fps) + 10;
+                const seconds = await getAudioDurationInSeconds(staticFile(`assets/Elevsound/${item.voiceFile}`));
+                audioFrames = Math.ceil(seconds * fps) + 15;
               }
-            } catch (err) {
-              console.log(`⚠️ ملف الصوت غير موجود: ${item.voiceFile}`);
-            }
+            } catch (e) { console.log(e); }
 
             const text = item.content || item.code || "";
-            const textDurationFrames = index === 0 ? 45 : (text.length * 1.5) + 60;
-            const finalSceneDuration = Math.max(voiceDurationFrames, textDurationFrames);
-
-            return {
-              ...item,
-              calculatedDuration: finalSceneDuration 
-            };
+            const textFrames = index === 0 ? 45 : (text.length * 1.6) + 60;
+            
+            return { ...item, calculatedDuration: Math.max(audioFrames, textFrames) };
           })
         );
 
-        totalDuration = enrichedScenes.reduce((acc, scene) => acc + scene.calculatedDuration, 0);
-        totalDuration += 30; // 30 فريم أمان في النهاية
+        const total = enrichedScenes.reduce((acc, s) => acc + s.calculatedDuration, 0) + 30;
 
         return {
-          durationInFrames: Math.max(totalDuration, 30),
-          props: {
-            scenes: enrichedScenes 
-          }
+          durationInFrames: Math.max(total, 30),
+          props: { scenes: enrichedScenes }
         };
       }}
-      fps={30}
-      width={1080}
-      height={1920}
+      fps={30} width={1080} height={1920}
     />
   );
 };
-                  
+            

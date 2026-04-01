@@ -4,7 +4,6 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import './style.css';
 
-const ENTRANCE_OFFSET = 20;
 const containsArabic = (str: string) => /[\u0600-\u06FF]/.test(str);
 
 const getNeonColor = (colorClass: string) => {
@@ -20,10 +19,10 @@ const getNeonColor = (colorClass: string) => {
 const Scene = ({ item, index }: { item: any, index: number }) => {
     const frame = useCurrentFrame();
     const { fps, durationInFrames } = useVideoConfig();
-    const text = item.content || item.code || "";
-    const neonColor = getNeonColor(item.color);
     
-    // اكتشاف اللغة لتحديد الاتجاه
+    // 🎯 التعديل الجوهري: اختيار الحقل الصحيح بناءً على نوع المشهد
+    const text = item.type === 'code' ? (item.code || "") : (item.content || "");
+    const neonColor = getNeonColor(item.color);
     const isRTL = containsArabic(text);
 
     const scale = spring({ fps, frame, config: { damping: 12 } });
@@ -49,8 +48,8 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
                     display: 'flex',
                     flexDirection: 'column',
                     width: '90%',         
-                    minHeight: '450px',
-                    boxShadow: `0 20px 50px rgba(0,0,0,0.5), 0 0 30px ${neonColor}33`
+                    minHeight: '480px',
+                    boxShadow: `0 20px 50px rgba(0,0,0,0.5), 0 0 30px ${neonColor}44`
                 }}
             >
                 <div className="window-header">
@@ -72,11 +71,13 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
                     {item.type !== 'code' ? (
                         <TypewriterWithPen text={text} frameOffset={10} color={neonColor} />
                     ) : (
-                        <div style={{ direction: isRTL ? 'rtl' : 'ltr', textAlign: isRTL ? 'right' : 'left' }}>
+                        <div className="modern-code-wrapper" style={{ direction: isRTL ? 'rtl' : 'ltr', textAlign: isRTL ? 'right' : 'left' }}>
                             <SyntaxHighlighter 
                                 language="dart" 
                                 style={vscDarkPlus}
-                                customStyle={{ background: 'transparent', fontSize: '32px', padding: 0 }}
+                                // 🎯 إجبار الخط على التكبير داخل الـ Component
+                                codeTagProps={{ style: { fontSize: '38px', lineHeight: '1.6', fontFamily: 'monospace' } }}
+                                customStyle={{ background: 'transparent', padding: 0, margin: 0 }}
                             >
                                 {text}
                             </SyntaxHighlighter>
@@ -88,7 +89,7 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
             <div className="video-progress-bar" style={{ 
                 width: `${(frame / durationInFrames) * 100}%`,
                 backgroundColor: neonColor,
-                boxShadow: `0 0 15px ${neonColor}`
+                boxShadow: `0 0 20px ${neonColor}`
             }} />
         </AbsoluteFill>
     );
@@ -113,4 +114,3 @@ export const MyVideo = ({ scenes }: { scenes: any[] }) => {
         </AbsoluteFill>
     );
 };
-        

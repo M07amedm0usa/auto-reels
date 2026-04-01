@@ -1,1 +1,54 @@
-[]
+{
+  "scenes": [
+    {
+      "title": "layouts صعبة؟",
+      "type": "box",
+      "content": "تعبت من قيود الـ Row والـ Column والـ Wrap في Flutter؟",
+      "code": "",
+      "style": "modern-tech-card",
+      "color": "c-purple",
+      "voiceFile": "scene_0.mp3",
+      "calculatedDuration": 249
+    },
+    {
+      "title": "قوة الـ Flow",
+      "type": "box",
+      "content": "الـ Flow Widget بيسمحلك ترسم Widgets بحرية تامة وبكفاءة عالية جداً.",
+      "code": "",
+      "style": "modern-tech-card",
+      "color": "c-purple",
+      "voiceFile": "scene_1.mp3",
+      "calculatedDuration": 453
+    },
+    {
+      "title": "الكود السحري",
+      "type": "code",
+      "content": "مثال بسيط لـ Flow مع CustomFlowDelegate للتحكم الكامل في الـ positioning.",
+      "code": "Flow(\n  delegate: CustomFlowDelegate(), // Implement your logic\n  children: <Widget>[\n    // Your Widgets here\n    Container(width: 50, height: 50, color: Colors.red),\n    Container(width: 70, height: 70, color: Colors.blue),\n  ],\n)",
+      "style": "modern-tech-card",
+      "color": "c-purple",
+      "voiceFile": "scene_2.mp3",
+      "calculatedDuration": 453
+    },
+    {
+      "title": "أداء خرافي",
+      "type": "box",
+      "content": "مميز في الـ performance لأنه بيعيد رسم العناصر اللي اتغيرت بس.",
+      "code": "",
+      "style": "modern-tech-card",
+      "color": "c-purple",
+      "voiceFile": "scene_3.mp3",
+      "calculatedDuration": 440
+    },
+    {
+      "title": "نصيحة مهمة",
+      "type": "box",
+      "content": "استخدم Flow للمنيوهات الدائرية، الـ Tags، أو أي تصميم فريد.",
+      "code": "",
+      "style": "modern-tech-card",
+      "color": "c-purple",
+      "voiceFile": "scene_4.mp3",
+      "calculatedDuration": 595
+    }
+  ]
+}

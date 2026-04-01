@@ -1,57 +1,68 @@
+import React from 'react';
 import { Composition, staticFile, getInputProps } from 'remotion';
-import { MyVideo } from './MyVideo';
+import { MyVideo, SceneItem } from './MyVideo';
 import { getAudioDurationInSeconds } from '@remotion/media-utils';
 import fallbackData from '../public/assets/data.json';
+
+const FPS = 30;
 
 export const RemotionRoot: React.FC = () => {
   const inputProps = getInputProps() as any;
 
-  const parsedPropsScenes = (Array.isArray(inputProps) && inputProps.length > 0) 
-    ? inputProps 
-    : inputProps.scenes;
+  const parsedPropsScenes = (Array.isArray(inputProps) && inputProps.length > 0)
+    ? inputProps
+    : inputProps?.scenes;
 
-  const parsedFallbackScenes = Array.isArray(fallbackData) 
-    ? fallbackData 
+  const parsedFallbackScenes = Array.isArray(fallbackData)
+    ? fallbackData
     : (fallbackData as any).scenes;
 
-  const defaultData = parsedPropsScenes || parsedFallbackScenes || [];
+  const defaultData: SceneItem[] = parsedPropsScenes || parsedFallbackScenes || [];
 
   return (
     <Composition
       id="ReelAutomationScene"
       component={MyVideo}
-      defaultProps={{ scenes: defaultData as any[] }}
+      defaultProps={{ scenes: defaultData }}
       calculateMetadata={async ({ props }) => {
-        const fps = 30;
         const enrichedScenes = await Promise.all(
-          props.scenes.map(async (item: any, index: number) => {
-            // نعتمد على الحسبة اللي جاية من n8n كقيمة مبدئية
-            let finalDuration = item.calculatedDuration || 150; 
-            
+          props.scenes.map(async (item: SceneItem, index: number) => {
+            let audioFrames = 150;
             try {
               if (item.voiceFile) {
-                // لو فيه صوت، مدة المشهد هتكون مدة الصوت بالظبط + نص ثانية أمان
-                const seconds = await getAudioDurationInSeconds(staticFile(`assets/Elevsound/${item.voiceFile}`));
-                finalDuration = Math.ceil(seconds * fps) + 15;
+                const seconds = await getAudioDurationInSeconds(
+                  staticFile(`assets/Elevsound/${item.voiceFile}`)
+                );
+                audioFrames = Math.ceil(seconds * FPS) + 15;
               }
-            } catch (e) { 
-              console.log("Audio not found", e); 
+            } catch (e) {
+              console.warn(`[Scene ${index}] Audio error:`, e);
             }
 
-            // لغينا حسبة الحروف عشان Typewriter بقى ذكي وبيسرع نفسه أوتوماتيك
-            return { ...item, calculatedDuration: finalDuration };
+            const text = item.content || item.code || '';
+            // Intro scenes are shorter; other scenes scale with text length
+            const textFrames = item.type === 'intro'
+              ? 90
+              : Math.ceil(text.length * 1.6) + 60;
+
+            return {
+              ...item,
+              calculatedDuration: Math.max(audioFrames, textFrames),
+            };
           })
         );
 
-        // تجميع وقت المشاهد كلها + ثانية أمان في النهاية
-        const total = enrichedScenes.reduce((acc, s) => acc + s.calculatedDuration, 0) + 30;
+        const total = enrichedScenes.reduce((acc, s) => acc + (s.calculatedDuration ?? 0), 0) + 30;
 
         return {
-          durationInFrames: Math.max(total, 60),
-          props: { scenes: enrichedScenes }
+          fps: FPS,
+          durationInFrames: Math.max(total, 30),
+          props: { scenes: enrichedScenes },
         };
       }}
-      fps={30} width={1080} height={1920}
+      fps={FPS}
+      width={1080}
+      height={1920}
     />
   );
 };

@@ -1,15 +1,12 @@
 import { Composition, staticFile, getInputProps } from 'remotion';
 import { MyVideo } from './MyVideo';
 import { getAudioDurationInSeconds } from '@remotion/media-utils';
-
-// 1️⃣ استيراد ملف الداتا مباشرة عشان لو الـ props مجاتش من سطر الأوامر
 import fallbackData from '../public/assets/data.json';
 
 export const RemotionRoot: React.FC = () => {
   const inputProps = getInputProps() as any;
 
-  // 2️⃣ 🚨 الحل السحري للشاشة السودة 🚨
-  // بنشيك: هل الداتا جاية Array مباشر؟ لو لأ، هل جاية جواها scenes؟
+  // استخراج الداتا بذكاء لتفادي الشاشة السودة
   const parsedPropsScenes = (Array.isArray(inputProps) && inputProps.length > 0) 
     ? inputProps 
     : inputProps.scenes;
@@ -18,7 +15,6 @@ export const RemotionRoot: React.FC = () => {
     ? fallbackData 
     : (fallbackData as any).scenes;
 
-  // لو ملقاش الداتا في الـ props، هياخدها من الملف مباشرة
   const defaultData = parsedPropsScenes || parsedFallbackScenes || [];
 
   return (
@@ -34,27 +30,21 @@ export const RemotionRoot: React.FC = () => {
 
         const enrichedScenes = await Promise.all(
           props.scenes.map(async (item: any, index: number) => {
-            let voiceDurationFrames = 150; // افتراضي 5 ثواني لو مفيش صوت
+            let voiceDurationFrames = 150; 
             
             try {
               if (item.voiceFile) {
-                // حساب طول الصوت الحقيقي من ملفات ElevenLabs
                 const durationInSeconds = await getAudioDurationInSeconds(
                   staticFile(`assets/Elevsound/${item.voiceFile}`)
                 );
-                // تحويل الثواني لفريمات مع إضافة هامش بسيط (10 فريمات)
                 voiceDurationFrames = Math.ceil(durationInSeconds * fps) + 10;
               }
             } catch (err) {
-              console.log(`⚠️ ملف الصوت غير موجود أو فيه مشكلة: ${item.voiceFile}`);
+              console.log(`⚠️ ملف الصوت غير موجود: ${item.voiceFile}`);
             }
 
             const text = item.content || item.code || "";
-            
-            // حساب سرعة الكتابة (كل حرف بياخد 1.5 فريم + 60 فريم أمان)
             const textDurationFrames = index === 0 ? 45 : (text.length * 1.5) + 60;
-            
-            // بنختار الوقت الأطول بين الكتابة والصوت عشان نضمن إن مفيش حاجة تتقص
             const finalSceneDuration = Math.max(voiceDurationFrames, textDurationFrames);
 
             return {
@@ -64,11 +54,8 @@ export const RemotionRoot: React.FC = () => {
           })
         );
 
-        // جمع كل الفريمات لكل المشاهد
         totalDuration = enrichedScenes.reduce((acc, scene) => acc + scene.calculatedDuration, 0);
-
-        // إضافة ثانية أمان (30 فريم) في نهاية الفيديو بالكامل
-        totalDuration += 30;
+        totalDuration += 30; // 30 فريم أمان في النهاية
 
         return {
           durationInFrames: Math.max(totalDuration, 30),
@@ -83,4 +70,4 @@ export const RemotionRoot: React.FC = () => {
     />
   );
 };
-                                  
+                  

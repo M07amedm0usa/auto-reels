@@ -1,103 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Fira+Code:wght@400;500&display=swap');
+:root {
+  --neon-blue: #00b4d8;
+  --neon-green: #00ff00;
+  --neon-purple: #b026ff;
+}
 
-/* ─── الأساسيات (Modern Look) ─── */
 body {
-    background-color: #0a0a0a;
-    margin: 0;
-    padding: 0;
+  background-color: #0a0a0a;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .modern-tech-card {
-    width: 85%;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 32px;
-    padding: 40px;
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
-    position: relative;
-    overflow: hidden;
-    font-family: 'Inter', sans-serif;
+  background: rgba(25, 25, 35, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
 }
 
-/* شريط النافذة (Mac Style) */
 .window-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 30px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding-bottom: 15px;
+  display: flex;
+  align-items: center;
+  padding: 18px 25px;
+  background: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.window-dots {
-    display: flex;
-    gap: 10px;
-}
-
-.dot {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-}
-.red { background: #ff5f56; }
-.yellow { background: #ffbd2e; }
-.green { background: #27c93f; }
+.window-dots { display: flex; gap: 10px; }
+.dot { width: 14px; height: 14px; border-radius: 50%; }
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27c93f; }
 
 .window-title {
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 1px;
+  margin-left: auto;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 20px;
+  font-family: monospace;
 }
 
-/* ─── النصوص والكود ─── */
-.card-body-content {
-    width: 100%;
-}
-
-.modern-text-body {
-    font-size: 45px;
-    line-height: 1.4;
-    color: #fff;
-    font-weight: 700;
-    text-align: center;
-}
-
-.modern-code-wrapper {
-    background: #000;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
-    font-family: 'Fira Code', monospace;
-}
-
-/* ─── نظام الألوان النيون (Neon Colors) ─── */
-/* دي اللي بتتحكم في لون العنوان والـ Progress Bar والمؤشر */
-.c-blue { color: #00B4D8; --glow: rgba(0, 180, 216, 0.5); }
-.c-green { color: #2ecc71; --glow: rgba(46, 204, 113, 0.5); }
-.c-purple { color: #9b59b6; --glow: rgba(155, 89, 182, 0.5); }
-.c-orange { color: #e67e22; --glow: rgba(230, 126, 34, 0.5); }
-.c-magenta { color: #e84393; --glow: rgba(232, 67, 147, 0.5); }
-
-/* ─── عناصر إضافية للـ Viral Effect ─── */
 .video-progress-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 8px;
-    background: linear-gradient(90deg, #00B4D8, #48cae4);
-    box-shadow: 0 0 15px #00B4D8;
-    transition: width 0.1s linear;
+  height: 8px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: width 0.1s linear;
 }
 
-/* تأثير التوهج للنصوص المهمة */
-.glow-text {
-    text-shadow: 0 0 15px var(--glow);
-}
-
-/* إلغاء الستايلات القديمة تماماً لضمان عدم التداخل */
-.sketch-box, .box-title, .box-body, .style-1, .style-2, .style-3, .style-4, .style-5, .style-6, .style-7, .style-8 {
-    all: unset;
-    display: none;
-}
+/* ألوان الثيمات */
+.c-blue { border-left: 5px solid var(--neon-blue); }
+.c-green { border-left: 5px solid var(--neon-green); }
+.c-purple { border-left: 5px solid var(--neon-purple); }

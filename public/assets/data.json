@@ -1,1 +1,48 @@
-
+{
+  "scenes": [
+    {
+      "type": "intro",
+      "color": "c-blue",
+      "voiceFile": "scene_0.mp3",
+      "calculatedDuration": 137,
+      "content": "أوفرلاي ثابت مع InteractiveViewer؟\nمش مجرد Stack!",
+      "badge": "Flutter Tip"
+    },
+    {
+      "type": "text",
+      "color": "c-blue",
+      "voiceFile": "scene_1.mp3",
+      "calculatedDuration": 537,
+      "title": "FlutterByMousa",
+      "badge": "فين المشكلة؟",
+      "content": "لو حطيت Overlay جوه الـInteractiveViewer مباشرة، هيعمل Scale معاك!"
+    },
+    {
+      "type": "text",
+      "color": "c-blue",
+      "voiceFile": "scene_2.mp3",
+      "calculatedDuration": 437,
+      "title": "FlutterByMousa",
+      "badge": "الحل السحري",
+      "content": "الأوفرلاي لازم يبقى *بره* الـInteractiveViewer كـ Child منفصل في Stack."
+    },
+    {
+      "type": "code",
+      "color": "c-blue",
+      "voiceFile": "scene_3.mp3",
+      "calculatedDuration": 604,
+      "title": "lib/main.dart",
+      "badge": "الكود",
+      "code": "Stack(\n  children: [\n    InteractiveViewer(\n      maxScale: 4, minScale: 0.5,\n      child: Image.asset('assets/map.png'),\n    ),\n    Positioned( // ده مش هيعمل Zoom\n      bottom: 20, right: 20,\n      child: FloatingActionButton(\n        onPressed: () {},\n        child: Icon(Icons.add_location),\n      ),\n    ),\n  ],\n)"
+    },
+    {
+      "type": "text",
+      "color": "c-blue",
+      "voiceFile": "scene_4.mp3",
+      "calculatedDuration": 630,
+      "title": "FlutterByMousa",
+      "badge": "نصيحة ذهبية ✨",
+      "content": "الـInteractiveViewer بيأثر على الـchild المباشر فقط! استغل الـStack صح."
+    }
+  ]
+}

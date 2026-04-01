@@ -40,10 +40,10 @@ export const RemotionRoot: React.FC = () => {
             }
 
             const text = item.content || item.code || '';
-            // Intro scenes are shorter; other scenes scale with text length
+            const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
             const textFrames = item.type === 'intro'
               ? 90
-              : Math.ceil(text.length * 1.6) + 60;
+              : Math.ceil((wordCount / 1.8) * FPS) + 20;
 
             return {
               ...item,
@@ -66,3 +66,4 @@ export const RemotionRoot: React.FC = () => {
     />
   );
 };
+                           

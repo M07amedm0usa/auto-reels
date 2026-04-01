@@ -1,137 +1,103 @@
-@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Fira+Code:wght@400;500&display=swap');
 
-.sketch-box {
-    width: 80%;
+/* ─── الأساسيات (Modern Look) ─── */
+body {
+    background-color: #0a0a0a;
+    margin: 0;
+    padding: 0;
+}
+
+.modern-tech-card {
+    width: 85%;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 32px;
     padding: 40px;
-    text-align: center; 
-    font-weight: 700;
-    font-family: 'Kalam', cursive;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
     position: relative;
-    margin: 20px auto;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
 }
 
-.box-title { font-size: 50px; margin-bottom: 20px; }
-.box-body { font-size: 40px; line-height: 1.6; }
-
-/* ─── الألوان ─── */
-.c-black   { color: #1a1a2e; } .c-red     { color: #c0392b; }
-.c-blue    { color: #1a6bb5; } .c-green   { color: #1e8449; }
-.c-purple  { color: #8e44ad; } .c-orange  { color: #e67e22; }
-.c-teal    { color: #16a085; } .c-magenta { color: #e84393; }
-
-/* ─── الستايلات ─── */
-.style-1 { background: #fff; border: 6px solid currentColor; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; box-shadow: 8px 8px 0 rgba(0,0,0,0.09); }
-.style-2 { background: #fff9c4; border: 4px solid #f39c12; color: #1a1a2e !important; border-radius: 4px 30px 4px 30px; box-shadow: 12px 16px 0 rgba(243, 156, 18, 0.2); transform: rotate(-2deg); }
-.style-3 { background: #f8f9fa; border: 8px dashed currentColor; border-radius: 40px; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
-.style-4 { background: #2c3e50; border: 6px solid #34495e; color: #ecf0f1 !important; border-radius: 30px 225px 30px 255px / 255px 30px 225px 30px; box-shadow: 8px 8px 0 rgba(44, 62, 80, 0.4); transform: rotate(1deg); }
-.style-5 { background: #282a36; color: #f8f8f2 !important; border-radius: 24px; padding-top: 70px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); border: 2px solid #444; }
-.style-5::before { content: ''; position: absolute; top: 24px; left: 30px; width: 24px; height: 24px; border-radius: 50%; background: #ff5f56; box-shadow: 35px 0 0 #ffbd2e, 70px 0 0 #27c93f; }
-.style-6 { background: transparent; border: none; border-right: 12px solid currentColor; border-left: 12px solid currentColor; border-radius: 50px; padding: 40px 60px; }
-.style-7 { background: rgba(0,0,0,0.04); border: none; border-bottom: 10px solid currentColor; border-radius: 10px 10px 0 0; transform: skewX(-5deg); }
-.style-8 { background: #fff; border: 6px solid currentColor; border-radius: 20px 255px 20px 255px / 255px 20px 255px 20px; box-shadow: 10px 10px 0 rgba(0,0,0,0.05), -4px -4px 0 currentColor; }
-/* ─── الترسانة الجديدة (20 ستايل احترافي) ─── */
-
-/* 9. نيو-بروتاليزم (Neo-Brutalism) تريند جداً */
-.style-9 { background: #fff; border: 8px solid #000; box-shadow: 15px 15px 0 #000; border-radius: 0; }
-
-/* 10. التوهج النيون (Cyberpunk Glow) */
-.style-10 { background: #111; color: #fff !important; border: 2px solid currentColor; box-shadow: 0 0 20px currentColor, inset 0 0 15px currentColor; border-radius: 15px; }
-
-/* 11. الزجاج المغبش (Glassmorphism) */
-.style-11 { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.5); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border-radius: 24px; }
-
-/* 12. تدرج الانستجرام (Gradient Pop) */
-.style-12 { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #fff !important; border: none; border-radius: 20px; box-shadow: 0 15px 35px rgba(220, 39, 67, 0.4); }
-
-/* 13. الخط الجانبي العريض (Minimal Accent) */
-.style-13 { background: #fff; border: none; border-right: 20px solid currentColor; border-radius: 10px; box-shadow: -5px 10px 25px rgba(0,0,0,0.06); }
-
-/* 14. الورقة المطوية (Folded Corner) */
-.style-14 { background: #fdfbfb; border: 2px solid #ddd; border-radius: 0 40px 0 40px; box-shadow: inset 0 0 20px rgba(0,0,0,0.02), 8px 8px 0 currentColor; }
-
-/* 15. شاشة الهاكر (Matrix Terminal) */
-.style-15 { background: #0a0a0a; color: #0f0 !important; border: 2px solid #0f0; border-radius: 8px; font-family: 'Courier New', monospace; box-shadow: 6px 6px 0 rgba(0, 255, 0, 0.3); }
-
-/* 16. الإطار المزدوج (Double Outline) */
-.style-16 { background: transparent; border: 4px solid currentColor; outline: 4px solid currentColor; outline-offset: 12px; border-radius: 15px; margin: 40px auto; }
-
-/* 17. الظل الداخلي (Inset Depth) */
-.style-17 { background: #f0f3f5; border: none; border-radius: 25px; box-shadow: inset 10px 10px 20px rgba(0,0,0,0.05), inset -10px -10px 20px #fff; }
-
-/* 18. ورقة الكوميكس (Comic Alert) */
-.style-18 { background: #ffeb3b; border: 5px solid #000; color: #000 !important; border-radius: 0; transform: rotate(3deg); box-shadow: -10px 10px 0 #000; }
-
-/* 19. الخطوط المخططة (Striped Background) */
-.style-19 { background: repeating-linear-gradient(45deg, rgba(0,0,0,0.02), rgba(0,0,0,0.02) 15px, #fff 15px, #fff 30px); border: 5px solid currentColor; border-radius: 20px; }
-
-/* 20. الأقواس العكسية (Inverted Brackets) */
-.style-20 { background: #fff; border-top: 8px solid currentColor; border-bottom: 8px solid currentColor; border-radius: 0; padding: 50px 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-
-/* 21. الظل الملون (Color Drop Shadow) */
-.style-21 { background: #fff; border: 3px solid #111; box-shadow: 15px 15px 0 currentColor; border-radius: 0 30px 0 30px; }
-
-/* 22. الفقاعة (Speech Bubble) */
-.style-22 { background: #fff; border: 4px solid currentColor; border-radius: 30px; box-shadow: 5px 5px 15px rgba(0,0,0,0.1); border-bottom-left-radius: 0; }
-
-/* 23. شكل الورقة (Leaf Curve) */
-.style-23 { background: #fff; border: 4px solid currentColor; border-radius: 50% 10% / 10% 50%; box-shadow: 8px 8px 0 rgba(0,0,0,0.08); }
-
-/* 24. الظلام الأنيق (Elegant Dark) */
-.style-24 { background: #1a1a2e; color: #fff !important; border-radius: 25px; border-right: 10px solid currentColor; border-bottom: 10px solid currentColor; box-shadow: -5px -5px 20px rgba(0,0,0,0.2); }
-
-/* 25. حلقات الهدف (Target Rings) */
-.style-25 { background: #fff; border: none; border-radius: 20px; box-shadow: 0 0 0 5px currentColor, 0 0 0 10px #fff, 0 0 0 15px currentColor; margin: 30px auto; }
-
-/* 26. الملاحظة اللاصقة الممزقة (Torn Sticky) */
-.style-26 { background: #ff9a9e; color: #111 !important; border: none; border-radius: 2px; box-shadow: 5px 15px 20px rgba(0,0,0,0.15); border-bottom: 6px dotted #fff; }
-
-/* 27. صندوق الـ 3D (3D Push Button) */
-.style-27 { background: #fff; border: 4px solid #333; border-radius: 12px; box-shadow: 0 15px 0 #333; transform: translateY(-10px); }
-
-/* 28. النيون المتقطع (Cyber Dashed) */
-.style-28 { background: #0f172a; color: #fff !important; border: 4px dashed currentColor; border-radius: 20px; box-shadow: 0 0 25px currentColor; }
-          /* ─── الستايلات الختامية (تقفيل الـ 30) ─── */
-
-/* 29. البولاروايد الكلاسيكي (Polaroid Classic) */
-.style-29 {
-    background: #fff;
-    border: 2px solid #ddd;
-    /* مساحة واسعة تحت عشان شكل البولاروايد الحقيقي */
-    padding: 40px 40px 100px 40px; 
-    border-radius: 4px;
-    box-shadow: 10px 15px 40px rgba(0,0,0,0.1);
-    transform: rotate(-1deg); /* ميلة بسيطة */
+/* شريط النافذة (Mac Style) */
+.window-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 15px;
 }
 
-/* 30. التذكرة المثقوبة (Perforated Ticket) - فكرة جديدة جداً */
-.style-30 {
-    background: #fffdf0; /* لون ورقي مصفر */
-    border: 4px solid currentColor;
-    border-style: solid none; /* خطوط فوق وتحت بس، الجوانب ممسوحة */
-    border-radius: 0;
-    padding: 50px;
-    box-shadow: 10px 10px 0 rgba(0,0,0,0.05);
-    position: relative;
+.window-dots {
+    display: flex;
+    gap: 10px;
 }
-/* عمل الدوائر اللي في الجوانب كأنها مقطوعة (الثقوب) */
-.style-30::before, .style-30::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 40px;
-    height: 40px;
-    /* لازم اللون هنا يكون نفس لون خلفية الفيديو الرئيسية عشان تبان مقطوعة */
-    background: #d8dde6; 
+
+.dot {
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
-    transform: translateY(-50%);
 }
-.style-30::before { left: -25px; border-right: 4px solid currentColor; }
-.style-30::after { right: -25px; border-left: 4px solid currentColor; }
+.red { background: #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green { background: #27c93f; }
 
-/* ─── الكود (النسخة الجديدة) ─── */
-.code-block-container { 
-    width: 100%; 
-    box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* ظل قوي بيدي إحساس إن الكود بارز */
-    border-radius: 15px;
-    overflow: hidden; /* عشان زوايا التلوين تفضل دائرية */
+.window-title {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* ─── النصوص والكود ─── */
+.card-body-content {
+    width: 100%;
+}
+
+.modern-text-body {
+    font-size: 45px;
+    line-height: 1.4;
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+}
+
+.modern-code-wrapper {
+    background: #000;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    font-family: 'Fira Code', monospace;
+}
+
+/* ─── نظام الألوان النيون (Neon Colors) ─── */
+/* دي اللي بتتحكم في لون العنوان والـ Progress Bar والمؤشر */
+.c-blue { color: #00B4D8; --glow: rgba(0, 180, 216, 0.5); }
+.c-green { color: #2ecc71; --glow: rgba(46, 204, 113, 0.5); }
+.c-purple { color: #9b59b6; --glow: rgba(155, 89, 182, 0.5); }
+.c-orange { color: #e67e22; --glow: rgba(230, 126, 34, 0.5); }
+.c-magenta { color: #e84393; --glow: rgba(232, 67, 147, 0.5); }
+
+/* ─── عناصر إضافية للـ Viral Effect ─── */
+.video-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 8px;
+    background: linear-gradient(90deg, #00B4D8, #48cae4);
+    box-shadow: 0 0 15px #00B4D8;
+    transition: width 0.1s linear;
+}
+
+/* تأثير التوهج للنصوص المهمة */
+.glow-text {
+    text-shadow: 0 0 15px var(--glow);
+}
+
+/* إلغاء الستايلات القديمة تماماً لضمان عدم التداخل */
+.sketch-box, .box-title, .box-body, .style-1, .style-2, .style-3, .style-4, .style-5, .style-6, .style-7, .style-8 {
+    all: unset;
+    display: none;
 }

@@ -1,23 +1,24 @@
 import React from 'react';
 import { useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
 
-// 💡 استبدلنا القلم بـ "مؤشر نيون" (Neon Cursor) بيتحرك مع الكتابة
+// 💡 مؤشر نيون (Neon Cursor) بيتحرك مع الكتابة
 const Cursor = ({ color }: { color?: string }) => (
-  <div style={{
+  <span style={{
     width: '4px',
-    height: '40px',
-    backgroundColor: color || '#00B4D8', // لون فلاتر المميز
+    height: '1.2em', // مرتبط بحجم الخط بدل قيمة ثابتة 40px
+    backgroundColor: color || '#00B4D8',
     boxShadow: `0 0 10px ${color || '#00B4D8'}`,
     borderRadius: '2px',
-    marginLeft: '4px',
+    marginLeft: '6px', // مسافة أكبر شوية
+    marginRight: '2px',
     display: 'inline-block',
-    verticalAlign: 'middle',
+    verticalAlign: 'text-bottom', // يتماشى مع السطر بشكل أفضل
   }} />
 );
 
 export const TypewriterWithPen: React.FC<{ text: string; frameOffset: number; color?: string }> = ({ text, frameOffset, color }) => {
   const frame = useCurrentFrame();
-  const { fps, durationInFrames } = useVideoConfig();
+  const { durationInFrames } = useVideoConfig();
   
   // 🎯 تقليل الـ Offset لزيادة سرعة القراءة
   const END_SAFE_OFFSET = 30; 
@@ -40,31 +41,42 @@ export const TypewriterWithPen: React.FC<{ text: string; frameOffset: number; co
   const isFinished = activeCharIndex >= text.length;
 
   return (
-    <span style={{ 
+    // 1️⃣ استخدام div بدل span مع تحديد الاتجاه والمحاذاة
+    <div style={{ 
       whiteSpace: 'pre-wrap', 
-      unicodeBidi: 'plaintext', 
       position: 'relative',
-      display: 'inline-block',
-      lineHeight: '1.4'
+      display: 'block', // Block بدل inline-block
+      width: '100%',    // يأخذ عرض الحاوية بالكامل
+      textAlign: 'right', // إجبار المحاذاة لليمين
+      direction: 'rtl',   // إجبار الاتجاه لليمين
+      lineHeight: '1.6',  // تباعد أسطر أريح للعين
+      fontSize: '32px'    // تكبير الخط قليلاً لملء المساحة
     }}>
       {/* النص الظاهر حالياً */}
       <span style={{ color: '#fff', textShadow: '0 0 5px rgba(255,255,255,0.2)' }}>
         {visibleText}
       </span>
       
-      {/* المؤشر الذكي: يظهر أثناء الكتابة ويستمر في النبض بعد النهاية */}
+      {/* المؤشر الذكي */}
       {(isTyping || isFinished) && (
         <span style={{ 
             opacity: isTyping ? 1 : cursorOpacity, 
             display: 'inline-block',
-            transition: 'opacity 0.1s ease'
+            transition: 'opacity 0.1s ease',
+            // منع المؤشر من النزول لسطر جديد وحده
+            whiteSpace: 'nowrap' 
         }}>
           <Cursor color={color} />
         </span>
       )}
       
-      {/* نص مخفي للحفاظ على أبعاد الحاوية (Container) ومنع الـ Layout Shift */}
-      <span style={{ opacity: 0 }}>{text.substring(activeCharIndex)}</span>
-    </span>
+      {/* 2️⃣ النص المخفي (مهم جداً أن يكون له نفس الـ styling بالضبط) */}
+      <span style={{ 
+        opacity: 0,
+        pointerEvents: 'none' // تأكيد على عدم التفاعل معه
+      }}>
+        {text.substring(activeCharIndex)}
+      </span>
+    </div>
   );
 };

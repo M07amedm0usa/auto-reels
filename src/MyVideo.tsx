@@ -9,16 +9,16 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import './style.css';
 
 // ─── Types ───────────────────────────────────────────────
-export interface SceneItem {
-  type?: 'intro' | 'text' | 'code';
-  content?: string;
-  code?: string;
-  title?: string;
-  badge?: string;
+type BaseScene = {
   color?: string;
   voiceFile?: string;
   calculatedDuration?: number;
-}
+};
+
+export type SceneItem =
+  | (BaseScene & { type: 'intro'; content?: string; title?: string; badge?: string; code?: never })
+  | (BaseScene & { type: 'text';  content: string;  title?: string; badge: string;  code?: never })
+  | (BaseScene & { type: 'code';  code: string;     title?: string; badge?: string; content?: string });
 
 // ─── Color System ────────────────────────────────────────
 const PALETTE: Record<string, { accent: string; bg: string; glow: string }> = {
@@ -63,18 +63,17 @@ const Background: React.FC<{ glow: string }> = ({ glow }) => {
 
   return (
     <div className="bg-grid" style={{ position: 'absolute', inset: 0 }}>
-      {/* ambient glow blob */}
+      {/* ambient glow blob — radial-gradient بدل blur(120px) لتجنب render bottleneck */}
       <div style={{
         position: 'absolute',
-        width: '600px',
-        height: '600px',
+        width: '700px',
+        height: '700px',
         borderRadius: '50%',
-        background: glow,
-        filter: 'blur(120px)',
+        background: `radial-gradient(circle, ${glow} 0%, transparent 70%)`,
         top: '20%',
         left: '50%',
         transform: `translate(-50%, ${drift}px)`,
-        opacity: 0.6,
+        opacity: 0.7,
         pointerEvents: 'none',
       }} />
     </div>
@@ -313,6 +312,9 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
         offset += duration;
         return (
           <Sequence key={`${index}-${item.title ?? ''}`} from={start} durationInFrames={duration}>
+            {item.voiceFile && (
+              <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} volume={1} />
+            )}
             <Scene item={item} index={index} total={scenes.length} />
           </Sequence>
         );
@@ -320,4 +322,4 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
     </AbsoluteFill>
   );
 };
-              
+  

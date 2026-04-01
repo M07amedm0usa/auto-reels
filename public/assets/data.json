@@ -1,47 +1,52 @@
 [
   {
-    "title": "إعادة بناء غير ضرورية!",
+    "title": "Flutter Tips",
     "type": "box",
-    "content": "كودك بيعمل rebuild للمشهد كله بلا سبب!",
-    "style": "style-7",
-    "color": "c-red",
+    "content": "",
+    "code": "",
+    "style": "modern-tech-card",
+    "color": "c-blue",
     "voiceFile": "scene_0.mp3",
-    "voiceDuration": 180
+    "calculatedDuration": 150
   },
   {
-    "title": "الحل السحري!",
+    "title": "Flutter Tips",
     "type": "box",
-    "content": "ValueListenableBuilder بتبني جزء معين فقط من الـ UI.",
-    "style": "style-19",
+    "content": "",
+    "code": "",
+    "style": "modern-tech-card",
     "color": "c-blue",
     "voiceFile": "scene_1.mp3",
-    "voiceDuration": 317
+    "calculatedDuration": 150
   },
   {
-    "title": "كيف تعمل؟",
+    "title": "Flutter Tips",
     "type": "box",
-    "content": "تربط Widget بـ ValueNotifier وتحديثات فورية.",
-    "style": "style-4",
-    "color": "c-green",
+    "content": "",
+    "code": "",
+    "style": "modern-tech-card",
+    "color": "c-blue",
     "voiceFile": "scene_2.mp3",
-    "voiceDuration": 235
+    "calculatedDuration": 150
   },
   {
-    "title": "أداء خارق!",
+    "title": "Flutter Tips",
     "type": "box",
-    "content": "قلل الـ rebuilds، زد سرعة تطبيقك بشكل ملحوظ.",
-    "style": "style-11",
-    "color": "c-purple",
+    "content": "",
+    "code": "",
+    "style": "modern-tech-card",
+    "color": "c-blue",
     "voiceFile": "scene_3.mp3",
-    "voiceDuration": 262
+    "calculatedDuration": 150
   },
   {
-    "title": "نصيحة ذهبية!",
+    "title": "Flutter Tips",
     "type": "box",
-    "content": "استخدمها مع State Management الخفيف للمرونة والأداء.",
-    "style": "style-23",
-    "color": "c-orange",
+    "content": "",
+    "code": "",
+    "style": "modern-tech-card",
+    "color": "c-blue",
     "voiceFile": "scene_4.mp3",
-    "voiceDuration": 309
+    "calculatedDuration": 210
   }
 ]

@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "title": "الـ Dialog بيضايقك؟",
+    "type": "box",
+    "content": "تعبت من الـ Dialog اللي بيقفل الشاشة؟ عايز Tooltip احترافي؟",
+    "style": "style-17",
+    "color": "c-red",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 140
+  },
+  {
+    "title": "المشكلة الكبيرة",
+    "type": "box",
+    "content": "الـ showDialog بيحتل الشاشة وبيمنع التفاعل مع الـ UI اللي تحته.",
+    "style": "style-3",
+    "color": "c-teal",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 371
+  },
+  {
+    "title": "إيه هو الـ Overlay؟",
+    "type": "box",
+    "content": "الـ Overlay بيسمحلك تعرض Widgets فوق أي حاجة في التطبيق، بحرية.",
+    "style": "style-22",
+    "color": "c-blue",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 344
+  },
+  {
+    "title": "سر الـ OverlayEntry",
+    "type": "code",
+    "content": "بـ OverlayEntry، بتتحكم في كل تفاصيل الـ Widget ومكانها ووقتها.",
+    "style": "style-9",
+    "color": "c-magenta",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 344
+  },
+  {
+    "title": "إمكانيات لا نهائية!",
+    "type": "box",
+    "content": "اعمل Context Menus، Tooltips، أو رسائل سريعة بأداء عالي. جربها!",
+    "style": "style-28",
+    "color": "c-green",
+    "voiceFile": "scene_4.mp3",
+    "voiceDuration": 445
+  }
+]

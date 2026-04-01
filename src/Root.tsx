@@ -1,70 +1,65 @@
-import { Composition, staticFile } from 'remotion';
+import { Composition, staticFile, getInputProps } from 'remotion';
 import { MyVideo } from './MyVideo';
-import data from '../public/assets/data.json';
 import { getAudioDurationInSeconds } from '@remotion/media-utils';
 
 export const RemotionRoot: React.FC = () => {
+  // بنقرأ الداتا اللي جاية من n8n أو الملف الافتراضي
+  const inputProps = getInputProps();
+  const defaultData = inputProps.scenes || [];
+
   return (
     <Composition
       id="ReelAutomationScene"
       component={MyVideo}
-      // بنمرر الداتا الأصلية كـ props مبدئية
       defaultProps={{
-        scenes: data as any[],
+        scenes: defaultData as any[],
       }}
-      // السحر هنا: الدالة دي بتشتغل قبل الرندر عشان تقرأ ملفات الصوت وتحسب الوقت الحقيقي
       calculateMetadata={async ({ props }) => {
         const fps = 30;
         let totalDuration = 0;
 
-        // بنعمل لوب على كل المشاهد ونقرأ طول ملف الصوت الفعلي
         const enrichedScenes = await Promise.all(
-          props.scenes.map(async (item: any, index: number) => { // 🎯 ضفنا الـ index هنا
-            let voiceDurationFrames = item.voiceDuration || 150; 
+          props.scenes.map(async (item: any, index: number) => {
+            let voiceDurationFrames = 150; // افتراضي 5 ثواني
             
             try {
               if (item.voiceFile) {
-                // بيقيس مدة الصوت بالثواني والمللي ثانية
+                [span_1](start_span)// حساب دقيق لطول صوت ElevenLabs[span_1](end_span)
                 const durationInSeconds = await getAudioDurationInSeconds(
                   staticFile(`assets/Elevsound/${item.voiceFile}`)
                 );
-                
-                // بنحول الثواني لفريمات + بنزود 15 فريم أمان عشان نهاية الكلام
-                voiceDurationFrames = Math.round(durationInSeconds * fps) + 15;
+                [span_2](start_span)// بنزود 10 فريمات أمان فقط عشان السرعة[span_2](end_span)
+                voiceDurationFrames = Math.ceil(durationInSeconds * fps) + 10;
               }
             } catch (err) {
-              console.log(`⚠️ مش قادر أقرأ ملف الصوت: ${item.voiceFile}`, err);
+              console.log(`⚠️ ملف الصوت غير موجود: ${item.voiceFile}`);
             }
 
-            // 🎯 التعديل الجديد: دمج حسابات وقت النص عشان القلم ميكروتش الكتابة
             const text = item.content || item.code || "";
             
-            // المشهد الأول بيظهر فوراً فمش محتاج وقت كتابة طويل (60 فريم كافية)
-            // باقي المشاهد بنحسب وقت الكتابة الفعلي (كل حرف بياخد فريمين + 80 فريم أمان)
-            const textDurationFrames = index === 0 ? 60 : (text.length * 2) + 80;
+            // تعديل سرعة الكتابة: المتابعين مبيحبوش البطء
+            [span_3](start_span)// المشهد الأول (الخطاف) بنخليه سريع جداً (45 فريم) عشان يلحقوا يشوفوه[span_3](end_span)
+            const textDurationFrames = index === 0 ? 45 : (text.length * 1.5) + 60;
             
-            // 🎯 بنختار الأطول: وقت الصوت الحقيقي ولا وقت الكتابة؟
             const finalSceneDuration = Math.max(voiceDurationFrames, textDurationFrames);
-
-            totalDuration += finalSceneDuration;
 
             return {
               ...item,
-              calculatedDuration: finalSceneDuration // ده الوقت الدقيق والأكيد اللي المشهد هياخده
+              calculatedDuration: finalSceneDuration 
             };
           })
         );
 
-        // إضافة ثانيتين (60 فريم) للمشهد الأخير عشان يقفل براحته
-        if (enrichedScenes.length > 0) {
-          enrichedScenes[enrichedScenes.length - 1].calculatedDuration += 60;
-          totalDuration += 60;
-        }
+        [span_4](start_span)// حساب إجمالي وقت الفيديو بناءً على المشاهد[span_4](end_span)
+        totalDuration = enrichedScenes.reduce((acc, scene) => acc + scene.calculatedDuration, 0);
+
+        [span_5](start_span)// إضافة ثانية واحدة (30 فريم) في الآخر للـ Outro[span_5](end_span)
+        totalDuration += 30;
 
         return {
-          durationInFrames: Math.max(totalDuration, 30), // إجمالي وقت الفيديو الفعلي
+          durationInFrames: Math.max(totalDuration, 30),
           props: {
-            scenes: enrichedScenes // بنبعت الداتا الجديدة المحسوبة لـ MyVideo
+            scenes: enrichedScenes 
           }
         };
       }}
@@ -74,3 +69,4 @@ export const RemotionRoot: React.FC = () => {
     />
   );
 };
+                  

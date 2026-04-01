@@ -1,69 +1,70 @@
 import React from 'react';
-import { useCurrentFrame, useVideoConfig } from 'remotion';
+import { useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
 
-// رسمة القلم المطورة 🖋️
-const Pen = () => (
-  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 80, height: 80 }}>
-    <rect x="22" y="3" width="18" height="40" rx="5" fill="#222831" stroke="#111" strokeWidth="1.5"/>
-    <rect x="22" y="3" width="18" height="10" rx="4" fill="#e74c3c" stroke="#c0392b" strokeWidth="1.2"/>
-    <path d="M22,43 L40,43 L33,57 L29,57 Z" fill="#e8dcc8" stroke="#888" strokeWidth="1.2"/>
-    <rect x="28" y="55" width="6" height="5" rx="1" fill="#111"/>
-  </svg>
+// 💡 استبدلنا القلم بـ "مؤشر نيون" (Neon Cursor) بيتحرك مع الكتابة
+const Cursor = ({ color }: { color?: string }) => (
+  <div style={{
+    width: '4px',
+    height: '40px',
+    backgroundColor: color || '#00B4D8', // لون فلاتر المميز
+    boxShadow: `0 0 10px ${color || '#00B4D8'}`,
+    borderRadius: '2px',
+    marginLeft: '4px',
+    display: 'inline-block',
+    verticalAlign: 'middle',
+  }} />
 );
 
-export const TypewriterWithPen: React.FC<{ text: string; frameOffset: number }> = ({ text, frameOffset }) => {
+export const TypewriterWithPen: React.FC<{ text: string; frameOffset: number; color?: string }> = ({ text, frameOffset, color }) => {
   const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
+  const { fps, durationInFrames } = useVideoConfig();
   
-  /**
-   * 🎯 سر الاحتراف هنا:
-   * القلم بيوزع وقته عشان يخلص كتابة النص بالكامل قبل ما المشهد يخلص بـ 45 فريم (ثانية ونص كاملة).
-   * الـ 45 فريم دي هي الوقت اللي المشاهد بيلحق يقرأ فيه الجملة كاملة، والصوت لسه بينطق آخر كلمتين.
-   */
-  const END_SAFE_OFFSET = 45; 
+  // 🎯 تقليل الـ Offset لزيادة سرعة القراءة
+  const END_SAFE_OFFSET = 30; 
   const availableFrames = Math.max(1, durationInFrames - frameOffset - END_SAFE_OFFSET);
-  const typingSpeed = availableFrames / (text.length || 1); 
   
-  // حساب عدد الحروف اللي تظهر حالياً
+  // سرعة كتابة ديناميكية تجعل النص يظهر بسلاسة مع الصوت
+  const typingSpeed = availableFrames / (text.length || 1); 
   const activeCharIndex = Math.max(0, Math.floor((frame - frameOffset) / typingSpeed));
 
-  // هزة القلم الطبيعية أثناء الكتابة
-  const wiggle = Math.sin(frame * 0.8) * 8 - 12; 
+  // تأثير "النبض" للمؤشر (Blinking effect)
+  const cursorOpacity = interpolate(
+    (frame % 20),
+    [0, 10, 20],
+    [1, 0, 1],
+    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
+  );
   
   const visibleText = text.substring(0, activeCharIndex);
-  const hiddenText = text.substring(activeCharIndex);
-  
   const isTyping = activeCharIndex < text.length && frame > frameOffset;
+  const isFinished = activeCharIndex >= text.length;
 
   return (
     <span style={{ 
       whiteSpace: 'pre-wrap', 
       unicodeBidi: 'plaintext', 
       position: 'relative',
-      display: 'inline-block' 
+      display: 'inline-block',
+      lineHeight: '1.4'
     }}>
-      {/* النص المكتوب */}
-      <span>{visibleText}</span>
+      {/* النص الظاهر حالياً */}
+      <span style={{ color: '#fff', textShadow: '0 0 5px rgba(255,255,255,0.2)' }}>
+        {visibleText}
+      </span>
       
-      {/* القلم الذكي: بيتحرك مع الحروف */}
-      {isTyping && (
-        <span style={{ position: 'relative', display: 'inline-block', width: 0 }}>
-          <div style={{
-            position: 'absolute',
-            top: -65,
-            right: -10, 
-            zIndex: 100,
-            transform: `rotate(${wiggle}deg)`, 
-            pointerEvents: 'none',
-            transition: 'all 0.1s linear'
-          }}>
-            <Pen />
-          </div>
+      {/* المؤشر الذكي: يظهر أثناء الكتابة ويستمر في النبض بعد النهاية */}
+      {(isTyping || isFinished) && (
+        <span style={{ 
+            opacity: isTyping ? 1 : cursorOpacity, 
+            display: 'inline-block',
+            transition: 'opacity 0.1s ease'
+        }}>
+          <Cursor color={color} />
         </span>
       )}
       
-      {/* النص المخفي (للحفاظ على المساحة) */}
-      <span style={{ opacity: 0 }}>{hiddenText}</span>
+      {/* نص مخفي للحفاظ على أبعاد الحاوية (Container) ومنع الـ Layout Shift */}
+      <span style={{ opacity: 0 }}>{text.substring(activeCharIndex)}</span>
     </span>
   );
 };

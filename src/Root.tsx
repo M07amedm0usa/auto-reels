@@ -2,10 +2,24 @@ import { Composition, staticFile, getInputProps } from 'remotion';
 import { MyVideo } from './MyVideo';
 import { getAudioDurationInSeconds } from '@remotion/media-utils';
 
+// 1️⃣ استيراد ملف الداتا مباشرة عشان لو الـ props مجاتش من سطر الأوامر
+import fallbackData from '../public/assets/data.json';
+
 export const RemotionRoot: React.FC = () => {
-  // قراءة الداتا من n8n أو الـ Props الممررة
-  const inputProps = getInputProps();
-  const defaultData = inputProps.scenes || [];
+  const inputProps = getInputProps() as any;
+
+  // 2️⃣ 🚨 الحل السحري للشاشة السودة 🚨
+  // بنشيك: هل الداتا جاية Array مباشر؟ لو لأ، هل جاية جواها scenes؟
+  const parsedPropsScenes = (Array.isArray(inputProps) && inputProps.length > 0) 
+    ? inputProps 
+    : inputProps.scenes;
+
+  const parsedFallbackScenes = Array.isArray(fallbackData) 
+    ? fallbackData 
+    : (fallbackData as any).scenes;
+
+  // لو ملقاش الداتا في الـ props، هياخدها من الملف مباشرة
+  const defaultData = parsedPropsScenes || parsedFallbackScenes || [];
 
   return (
     <Composition
@@ -38,7 +52,6 @@ export const RemotionRoot: React.FC = () => {
             const text = item.content || item.code || "";
             
             // حساب سرعة الكتابة (كل حرف بياخد 1.5 فريم + 60 فريم أمان)
-            // المشهد الأول دايماً أسرع (45 فريم) عشان الـ Hook
             const textDurationFrames = index === 0 ? 45 : (text.length * 1.5) + 60;
             
             // بنختار الوقت الأطول بين الكتابة والصوت عشان نضمن إن مفيش حاجة تتقص
@@ -70,3 +83,4 @@ export const RemotionRoot: React.FC = () => {
     />
   );
 };
+                                  

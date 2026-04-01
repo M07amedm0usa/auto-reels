@@ -1,1 +1,54 @@
-[]
+{
+  "scenes": [
+    {
+      "title": "زووم يدوي؟ كفاية!",
+      "type": "box",
+      "content": "تعبت من الزووم والبانج اليدوي؟ عاوز تتحكم فيه برمجياً؟",
+      "code": "",
+      "style": "modern-tech-card",
+      "color": "c-purple",
+      "voiceFile": "scene_0.mp3",
+      "calculatedDuration": 249
+    },
+    {
+      "title": "المفتاح: Controller",
+      "type": "box",
+      "content": "TransformationController هو سر التحكم الكامل في InteractiveViewer",
+      "code": "",
+      "style": "modern-tech-card",
+      "color": "c-purple",
+      "voiceFile": "scene_1.mp3",
+      "calculatedDuration": 249
+    },
+    {
+      "title": "الكود بيتكلم!",
+      "type": "code",
+      "content": "إزاي تتحكم في View بـ TransformationController",
+      "code": "class _MyState extends State<MyScreen> {\n  final _controller = TransformationController();\n\n  void _resetView() {\n    _controller.value = Matrix4.identity();\n  }\n\n  // ... build method ...\n  InteractiveViewer(\n    transformationController: _controller,\n    child: Text('Content')\n  );\n}",
+      "style": "modern-tech-card",
+      "color": "c-purple",
+      "voiceFile": "scene_2.mp3",
+      "calculatedDuration": 412
+    },
+    {
+      "title": "تريك احترافية!",
+      "type": "box",
+      "content": "استخدم Controller للـ Fit أو الـ Zoom لـ Widget معين",
+      "code": "",
+      "style": "modern-tech-card",
+      "color": "c-purple",
+      "voiceFile": "scene_3.mp3",
+      "calculatedDuration": 453
+    },
+    {
+      "title": "استغل قوة Flutter!",
+      "type": "box",
+      "content": "احفظ الفيديو، علّق بسؤالك، وتابع FlutterByMousa للمزيد!",
+      "code": "",
+      "style": "modern-tech-card",
+      "color": "c-purple",
+      "voiceFile": "scene_4.mp3",
+      "calculatedDuration": 445
+    }
+  ]
+}

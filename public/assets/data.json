@@ -1,1 +1,54 @@
-[]
+{
+  "scenes": [
+    {
+      "title": "زوم و بان؟",
+      "type": "box",
+      "content": "مشكلة الزوم والبان يدويًا في Flutter؟ بتضيع وقتك!",
+      "code": "",
+      "style": "modern-tech-card",
+      "color": "c-blue",
+      "voiceFile": "scene_0.mp3",
+      "calculatedDuration": 385
+    },
+    {
+      "title": "الحل السحري",
+      "type": "box",
+      "content": "InteractiveViewer: أسهل طريقة للتحكم في عرض المحتوى بأقل كود.",
+      "code": "",
+      "style": "modern-tech-card",
+      "color": "c-blue",
+      "voiceFile": "scene_1.mp3",
+      "calculatedDuration": 399
+    },
+    {
+      "title": "كود بسيط",
+      "type": "code",
+      "content": "أي Widget تقدر تعملها zoom و pan بسهولة، مش صور بس!",
+      "code": "InteractiveViewer(\n  constrained: false, // مهم جداً!\n  boundaryMargin: EdgeInsets.all(20.0),\n  minScale: 0.5,\n  maxScale: 4.0,\n  child: Column( // أو أي Widget معقدة\n    children: [\n      Text('محتوى قابل للتحريك'),\n      FlutterLogo(size: 100),\n    ],\n  ),\n)",
+      "style": "modern-tech-card",
+      "color": "c-blue",
+      "voiceFile": "scene_2.mp3",
+      "calculatedDuration": 440
+    },
+    {
+      "title": "السر الخطير",
+      "type": "box",
+      "content": "استخدم constrained: false للمحتوى اللي حجمه متغير دايمًا.",
+      "code": "",
+      "style": "modern-tech-card",
+      "color": "c-blue",
+      "voiceFile": "scene_3.mp3",
+      "calculatedDuration": 440
+    },
+    {
+      "title": "نصيحة ذهبية",
+      "type": "box",
+      "content": "وفر وقتك ومجهودك باستخدام الـ Widget القوية دي.",
+      "code": "",
+      "style": "modern-tech-card",
+      "color": "c-blue",
+      "voiceFile": "scene_4.mp3",
+      "calculatedDuration": 527
+    }
+  ]
+}

@@ -12,7 +12,7 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
     const { fps } = useVideoConfig();
     const text = item.content || item.code || "";
     
-    // شيلنا الحسابات اليدوية من هنا لأن Root.tsx بقى بيبعت الوقت محسوب جاهز
+    // حركة سلسة للظهور
     const scale = spring({ fps, frame, config: { damping: 12 } });
     const flipSound = FLIP_SOUNDS[index % FLIP_SOUNDS.length];
 
@@ -32,7 +32,6 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
             <div className={`sketch-box ${item.style} ${item.color}`} style={{ transform: `scale(${scale})` }}>
                 <div className="box-title" dir="rtl" style={{ unicodeBidi: 'plaintext' }}>{item.title}</div>
                 
-                {/* تم تغيير الكلاس هنا عشان ميحصلش تعارض مع مكتبة تلوين الكود */}
                 <div className={item.type === 'box' ? 'box-body' : 'code-block-container'} 
                      style={{ direction: item.type === 'code' ? 'ltr' : 'rtl', width: '100%' }}>
                     
@@ -49,7 +48,7 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
                         />
                     )}
 
-                    {/* مشهد الكود: تلوين حقيقي زي VS Code */}
+                    {/* مشهد الكود: تلوين حقيقي زي ثيم VS Code */}
                     {item.type === 'code' && (
                         <div style={{ textAlign: 'left', direction: 'ltr', fontSize: '32px', marginTop: '15px' }}>
                             <SyntaxHighlighter 
@@ -68,7 +67,6 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
     );
 };
 
-// 🎯 التعديل الأساسي هنا: بنستقبل scenes من Root بدال ما نقرا ملف json
 export const MyVideo = ({ scenes }: { scenes: any[] }) => {
     let currentFrameOffset = 0;
 
@@ -76,10 +74,12 @@ export const MyVideo = ({ scenes }: { scenes: any[] }) => {
         <AbsoluteFill style={{ backgroundColor: '#d8dde6' }}>
 
             {scenes.map((item, index) => {
-                // 🎯 بناخد الوقت بالمللي ثانية اللي Root.tsx حسبه من ملف الصوت الفعلي
-                const sceneDuration = item.calculatedDuration; 
-                const startFrom = currentFrameOffset;
+                // 🎯 التأكد إن المدة المبعوتة عبارة عن "رقم صحيح" يمثل عدد الفريمات
+                // لو Root.tsx بيبعت القيمة بالمللي ثانية، لازم تغير السطر ده لـ: 
+                // Math.ceil((item.calculatedDuration / 1000) * 30);
+                const sceneDuration = Math.ceil(item.calculatedDuration); 
                 
+                const startFrom = currentFrameOffset;
                 currentFrameOffset += sceneDuration;
 
                 return (
@@ -91,4 +91,4 @@ export const MyVideo = ({ scenes }: { scenes: any[] }) => {
         </AbsoluteFill>
     );
 };
-                        
+                                              

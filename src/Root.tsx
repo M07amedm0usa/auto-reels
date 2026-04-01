@@ -12,15 +12,14 @@ export const RemotionRoot: React.FC = () => {
       defaultProps={{
         scenes: data as any[],
       }}
-      // السحر هنا: الدالة دي بتشتغل قبل الرندر عشان تقرأ ملفات الـ MP3 وتحسب الوقت الحقيقي
+      // السحر هنا: الدالة دي بتشتغل قبل الرندر عشان تقرأ ملفات الصوت وتحسب الوقت الحقيقي
       calculateMetadata={async ({ props }) => {
         const fps = 30;
         let totalDuration = 0;
 
         // بنعمل لوب على كل المشاهد ونقرأ طول ملف الصوت الفعلي
         const enrichedScenes = await Promise.all(
-          props.scenes.map(async (item: any) => {
-            // لو مفيش صوت لسبب ما، هياخد القيمة اللي جاية من n8n كاحتياطي
+          props.scenes.map(async (item: any, index: number) => { // 🎯 ضفنا الـ index هنا
             let voiceDurationFrames = item.voiceDuration || 150; 
             
             try {
@@ -30,18 +29,28 @@ export const RemotionRoot: React.FC = () => {
                   staticFile(`assets/Elevsound/${item.voiceFile}`)
                 );
                 
-                // بنحول الثواني لفريمات + بنزود 15 فريم (نص ثانية تقريباً) أمان عشان نهاية الكلام
+                // بنحول الثواني لفريمات + بنزود 15 فريم أمان عشان نهاية الكلام
                 voiceDurationFrames = Math.round(durationInSeconds * fps) + 15;
               }
             } catch (err) {
               console.log(`⚠️ مش قادر أقرأ ملف الصوت: ${item.voiceFile}`, err);
             }
 
-            totalDuration += voiceDurationFrames;
+            // 🎯 التعديل الجديد: دمج حسابات وقت النص عشان القلم ميكروتش الكتابة
+            const text = item.content || item.code || "";
+            
+            // المشهد الأول بيظهر فوراً فمش محتاج وقت كتابة طويل (60 فريم كافية)
+            // باقي المشاهد بنحسب وقت الكتابة الفعلي (كل حرف بياخد فريمين + 80 فريم أمان)
+            const textDurationFrames = index === 0 ? 60 : (text.length * 2) + 80;
+            
+            // 🎯 بنختار الأطول: وقت الصوت الحقيقي ولا وقت الكتابة؟
+            const finalSceneDuration = Math.max(voiceDurationFrames, textDurationFrames);
+
+            totalDuration += finalSceneDuration;
 
             return {
               ...item,
-              calculatedDuration: voiceDurationFrames // ده الوقت الدقيق اللي المشهد هياخده
+              calculatedDuration: finalSceneDuration // ده الوقت الدقيق والأكيد اللي المشهد هياخده
             };
           })
         );

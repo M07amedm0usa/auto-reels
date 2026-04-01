@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "title": "UI بيتقل؟",
+    "type": "box",
+    "content": "أداء بطيء؟",
+    "style": "style-10",
+    "color": "c-red",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 180
+  },
+  {
+    "title": "مشكلة الـ Rebuild",
+    "type": "box",
+    "content": "تحديث غير ضروري",
+    "style": "style-22",
+    "color": "c-blue",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 276
+  },
+  {
+    "title": "RepaintBoundary الحل",
+    "type": "box",
+    "content": "عزل التحديثات",
+    "style": "style-5",
+    "color": "c-green",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 330
+  },
+  {
+    "title": "متى تستخدمه؟",
+    "type": "box",
+    "content": "تحسين الأداء",
+    "style": "style-15",
+    "color": "c-purple",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 344
+  },
+  {
+    "title": "خلاصة سريعة",
+    "type": "box",
+    "content": "أداء أسرع",
+    "style": "style-28",
+    "color": "c-orange",
+    "voiceFile": "scene_4.mp3",
+    "voiceDuration": 322
+  }
+]

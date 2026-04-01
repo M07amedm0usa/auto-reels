@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "title": "كودك بيعاني!",
+    "type": "box",
+    "content": "هل الـ UI كله بيتعمل rebuild عشان تغيير بسيط؟",
+    "style": "style-7",
+    "color": "c-red",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 126
+  },
+  {
+    "title": "سر الأداء الخفي",
+    "type": "box",
+    "content": "الـ ValueListenableBuilder الحل السحري لتحديث جزئي.",
+    "style": "style-15",
+    "color": "c-blue",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 276
+  },
+  {
+    "title": "تجنب الـ Rebuilds",
+    "type": "box",
+    "content": "ركز التحديثات على البيانات المتغيرة فقط لتطبيق أسرع.",
+    "style": "style-22",
+    "color": "c-green",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 303
+  },
+  {
+    "title": "نصيحة ذهبية!",
+    "type": "box",
+    "content": "استخدمه صح ووفر جهد الـ CPU والبطارية.",
+    "style": "style-3",
+    "color": "c-purple",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 322
+  }
+]

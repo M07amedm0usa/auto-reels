@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
 
 const containsArabic = (str: string) => /[\u0600-\u06FF]/.test(str);
@@ -24,7 +24,7 @@ export const TypewriterWithPen: React.FC<{
 }> = ({ text, frameOffset, color = '#00FFD1', fontSize = 48 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
-  const isRTL = containsArabic(text);
+  const isRTL = useMemo(() => containsArabic(text), [text]);
 
   const availableFrames = Math.max(1, durationInFrames - frameOffset - 15);
   const typingSpeed = availableFrames / (text.length || 1);

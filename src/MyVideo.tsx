@@ -1,5 +1,7 @@
 import { AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig, Audio, staticFile } from 'remotion';
 import { TypewriterWithPen } from './TypewriterWithPen';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import './style.css';
 
 const ENTRANCE_OFFSET = 20;
@@ -30,14 +32,35 @@ const Scene = ({ item, index }: { item: any, index: number }) => {
             <div className={`sketch-box ${item.style} ${item.color}`} style={{ transform: `scale(${scale})` }}>
                 <div className="box-title" dir="rtl" style={{ unicodeBidi: 'plaintext' }}>{item.title}</div>
                 
-                <div className={item.type === 'box' ? 'box-body' : 'code-block'} 
-                     style={{ direction: item.type === 'code' ? 'ltr' : 'rtl' }}>
+                {/* تم تغيير الكلاس هنا عشان ميحصلش تعارض مع مكتبة تلوين الكود */}
+                <div className={item.type === 'box' ? 'box-body' : 'code-block-container'} 
+                     style={{ direction: item.type === 'code' ? 'ltr' : 'rtl', width: '100%' }}>
                     
-                    {frame > 15 && (
+                    {/* المشهد الأول (الخطاف): يظهر فوراً بدون القلم لسرعة خطف الانتباه */}
+                    {index === 0 && item.type === 'box' && (
+                        <span>{text}</span>
+                    )}
+
+                    {/* باقي المشاهد النصية العادية: يتم كتابتها بالقلم */}
+                    {index > 0 && item.type === 'box' && frame > 15 && (
                         <TypewriterWithPen 
                             text={text} 
                             frameOffset={15} 
                         />
+                    )}
+
+                    {/* مشهد الكود: تلوين حقيقي زي VS Code */}
+                    {item.type === 'code' && (
+                        <div style={{ textAlign: 'left', direction: 'ltr', fontSize: '32px', marginTop: '15px' }}>
+                            <SyntaxHighlighter 
+                                language="dart" 
+                                style={vscDarkPlus}
+                                customStyle={{ borderRadius: '15px', padding: '25px', margin: '0' }}
+                                wrapLines={true}
+                            >
+                                {text}
+                            </SyntaxHighlighter>
+                        </div>
                     )}
                 </div>
             </div>
@@ -68,4 +91,4 @@ export const MyVideo = ({ scenes }: { scenes: any[] }) => {
         </AbsoluteFill>
     );
 };
-                            
+                        

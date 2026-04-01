@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "title": "تطبيقك بطيء؟",
+    "type": "box",
+    "content": "كودك بيعمل rebuild مئات المرات بدون داعي وأنت مش عارف!",
+    "style": "style-15",
+    "color": "c-red",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 385
+  },
+  {
+    "title": "مشكلة setState",
+    "type": "box",
+    "content": "استخدام setState بيعيد بناء الـ Widget tree كله، حتى الأجزاء الثابتة.",
+    "style": "style-22",
+    "color": "c-blue",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 385
+  },
+  {
+    "title": "الحل السحري",
+    "type": "box",
+    "content": "ValueListenableBuilder: الـ Widget اللي بيسمع للتغييرات بس في جزء محدد!",
+    "style": "style-7",
+    "color": "c-green",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 344
+  },
+  {
+    "title": "الكفاءة والأداء",
+    "type": "box",
+    "content": "بيركز على rebuild الأجزاء المتغيرة فقط لتحسين أداء الـ App بشكل كبير.",
+    "style": "style-3",
+    "color": "c-purple",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 358
+  },
+  {
+    "title": "نصيحة ذهبية!",
+    "type": "box",
+    "content": "استخدم ValueListenableBuilder بحكمة لأداء أفضل وUI سلس.",
+    "style": "style-28",
+    "color": "c-orange",
+    "voiceFile": "scene_4.mp3",
+    "voiceDuration": 500
+  }
+]

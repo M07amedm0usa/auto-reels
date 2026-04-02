@@ -1,28 +1,38 @@
-import React from 'react';
+import React from 'react'; // [FIX CRITICAL] حرف i سمول
 import { Composition, staticFile, getInputProps } from 'remotion';
 import { MyVideo, type SceneItem } from './MyVideo';
 import { getAudioDurationInSeconds } from '@remotion/media-utils';
 import fallbackData from '../public/assets/data.json';
 
-// [FIX CONSISTENCY] FPS constant — مش متكررة في الملف
+// [FIX LOGIC] تحميل الخطوط برمجياً عشان تظهر في GitHub Actions (Headless)
+import { loadFont as loadCairo } from '@remotion/google-fonts/Cairo';
+import { loadFont as loadJetBrains } from '@remotion/google-fonts/JetBrainsMono';
+
+loadCairo();
+loadJetBrains();
+
+// [FIX CONSISTENCY] FPS constant
 const FPS  = 30;
 const TAIL = 20; // frames بعد انتهاء الصوت
 const MIN  = 60; // أقل مشهد = ثانيتين
 
-// ── معادلة المدة الصح للنص العربي ──────────────────
+// ── معادلة المدة الصح للنص العربي مع الـ Guardrails ────────
 function calcTextFrames(item: SceneItem): number {
   const text = item.content ?? '';
-  const code = item.code ?? '';
+  // [FIX CRITICAL] fallback لـ content لو الـ code مش مبعوت
+  const code = item.code ?? item.content ?? '';
 
   if (item.type === 'intro') return 150;
 
   if (item.type === 'code') {
-    const lines = code.split('\n').length;
+    // [FIX CRITICAL] حماية: أقصى حاجة 20 سطر عشان الـ Render مايضربش
+    const lines = Math.min(code.split('\n').length, 20);
     return lines * 22 + 60;
   }
 
-  // text فقط — أي نوع تاني يُعامَل كـ text (tip/fact ملغيان)
-  const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+  // text فقط
+  // [FIX CRITICAL] حماية: أقصى حاجة 60 كلمة للمشهد
+  const wordCount = Math.min(text.trim().split(/\s+/).filter(Boolean).length, 60);
   const base = Math.ceil((wordCount / 1.8) * FPS) + TAIL;
 
   // templates زيادة 30 frame عشان الـ animation بتاعتها أطول
@@ -34,7 +44,6 @@ function calcTextFrames(item: SceneItem): number {
 }
 
 export const RemotionRoot: React.FC = () => {
-  // getInputProps() بيرجع الـ --props اللي ممرها لـ remotion render
   const inputProps = getInputProps() as Record<string, unknown>;
 
   const parsedInput: SceneItem[] | null =
@@ -77,7 +86,6 @@ export const RemotionRoot: React.FC = () => {
 
             const textFrames = calcTextFrames(item);
 
-            // لو في صوت: خد الأطول منهم، لو ماكنش: خد textFrames
             const calculatedDuration = Math.max(
               MIN,
               audioFrames > 0 ? Math.max(audioFrames, textFrames) : textFrames
@@ -87,16 +95,24 @@ export const RemotionRoot: React.FC = () => {
           })
         );
 
-        // [FIX CONSISTENCY] استخدام FPS بدل الرقم 30 الـ hardcoded
+        // [FIX CONSISTENCY] استخدام FPS بدل 30
         const total =
           enriched.reduce(
             (acc, s) => acc + (s.calculatedDuration ?? MIN),
             0
-          ) + FPS; // ثانية extra في الآخر
+          ) + FPS;
+
+        // [FIX CRITICAL] حماية إجمالي مدة الفيديو (أقصى حاجة 90 ثانية)
+        const MAX_REEL_FRAMES = 90 * FPS;
+        const finalDuration = Math.min(Math.max(total, FPS), MAX_REEL_FRAMES);
+
+        if (total > MAX_REEL_FRAMES) {
+          console.warn(`🚨 [WARNING] Video too long (${total} frames). Capped to ${MAX_REEL_FRAMES}! Check n8n payload.`);
+        }
 
         return {
           fps: FPS,
-          durationInFrames: Math.max(total, FPS),
+          durationInFrames: finalDuration,
           props: { scenes: enriched },
         };
       }}

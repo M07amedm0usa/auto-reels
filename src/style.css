@@ -1,0 +1,16 @@
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=JetBrains+Mono:wght@400;700;800&family=Caveat:wght@700&family=Bebas+Neue&display=swap');
+
+/* ── Reset داخل Remotion ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── تأكد إن direction: ltr على code دايماً ── */
+pre, code, .syntax-block {
+  direction: ltr !important;
+  unicode-bidi: plaintext;
+  font-family: 'JetBrains Mono', monospace;
+}

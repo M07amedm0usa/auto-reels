@@ -1,1 +1,48 @@
-[]
+{
+  "scenes": [
+    {
+      "type": "intro",
+      "color": "c-blue",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 170,
+      "content": "تحكم كامل\nفي InteractiveViewer",
+      "badge": "Flutter Tip"
+    },
+    {
+      "type": "text",
+      "color": "c-blue",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 604,
+      "title": "FlutterByMousa",
+      "badge": "المشكلة الكبيرة",
+      "content": "InteractiveViewer عظيم، بس التحكم فيه صعب برمجياً."
+    },
+    {
+      "type": "text",
+      "color": "c-blue",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 504,
+      "title": "FlutterByMousa",
+      "badge": "الحل السحري",
+      "content": "TransformationController هو مفتاحك للتحكم الكامل."
+    },
+    {
+      "type": "code",
+      "color": "c-blue",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 437,
+      "title": "main.dart",
+      "badge": "طبق الكود",
+      "code": "class _MyWidgetState extends State<MyWidget> {\n  final TransformationController _controller = TransformationController();\n\n  void _resetView() {\n    _controller.value = Matrix4.identity();\n  }\n\n  @override\n  Widget build(BuildContext context) {\n    return InteractiveViewer(\n      transformationController: _controller,\n      child: Image.network('your_image_url'),\n    );\n  }\n}"
+    },
+    {
+      "type": "text",
+      "color": "c-blue",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 747,
+      "title": "FlutterByMousa",
+      "badge": "نصيحة ذهبية ✨",
+      "content": "استخدم TransformationController للتحكم الكامل في InteractiveViewer."
+    }
+  ]
+}

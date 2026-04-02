@@ -3,7 +3,22 @@
 // ─────────────────────────────────────────────────
 
 export type SceneType  = 'intro' | 'text' | 'code';
-export type TemplateId = 'terminal' | 'notebook' | 'cinematic' | 'splitview';
+export type TemplateId =
+  | 'terminal'    // 1 — VS Code terminal dark
+  | 'splitview'   // 2 — split two-panel comparison
+  | 'notebook'    // 3 — neon notebook / graph paper
+  | 'cinematic'   // 4 — cinematic letterbox
+  | 'hologram'    // 5 — hologram hex ring glow
+  | 'blueprint'   // 6 — engineering blueprint grid
+  | 'glass'       // 7 — glassmorphism frosted card
+  | 'retrocrt'    // 8 — retro CRT phosphor screen
+  | 'neonsign'    // 9 — neon sign flicker
+  | 'newspaper'   // 10 — newspaper broadsheet
+  | 'darkminimal' // 11 — dark minimal accent line
+  | 'cardstack'   // 12 — stacked cards gradient border
+  | 'vaporwave'   // 13 — retrowave sun / grid
+  | 'infographic' // 14 — stats + checklist infographic
+  | 'comic';      // 15 — comic panel speech bubble
 
 interface BaseScene {
   template?:           TemplateId;

@@ -71,7 +71,7 @@ export const NotebookScene: React.FC<{ item: SceneItem; index: number; total: nu
         ) : (
           <div style={{ direction:'ltr' }}>
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background:'transparent', fontSize:24, padding:0, margin:0, lineHeight:'1.7', direction:'ltr' }}>
+              customStyle={{ background:'transparent', fontSize:38, padding:0, margin:0, lineHeight:'1.65', direction:'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>

@@ -24,10 +24,11 @@ function calcTextFrames(item: SceneItem): number {
   const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
   const base = Math.ceil((wordCount / 1.8) * FPS) + TAIL;
 
-  // templates زيادة 30 frame عشان الـ animation بتاعتها أطول
-  if (item.template === 'notebook' || item.template === 'cinematic') {
-    return base + 30;
-  }
+  // templates: زيادة frames حسب مدى تعقيد animation كل تمبلت
+  const heavyAnims = ['notebook','cinematic','hologram','vaporwave','neonsign'];
+  const mediumAnims = ['glass','cardstack','blueprint','infographic','comic'];
+  if (item.template && heavyAnims.includes(item.template))  return base + 40;
+  if (item.template && mediumAnims.includes(item.template)) return base + 20;
 
   return base;
 }
@@ -76,10 +77,13 @@ export const RemotionRoot: React.FC = () => {
 
             const textFrames = calcTextFrames(item);
 
-            // لو في صوت: خد الأطول منهم، لو ماكنش: خد textFrames
+            // ── قاعدة المدة ─────────────────────────────────────
+            // في صوت  → المشهد يخلص مع الصوت تماماً (+ TAIL صغير)
+            //            textFrames بيُتجاهل عشان الصوت هو المرجع
+            // مفيش صوت → استخدم textFrames عشان يكفي القراءة
             const calculatedDuration = Math.max(
               MIN,
-              audioFrames > 0 ? Math.max(audioFrames, textFrames) : textFrames
+              audioFrames > 0 ? audioFrames : textFrames
             );
 
             return { ...item, calculatedDuration };

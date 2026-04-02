@@ -1,7 +1,19 @@
-node_modules
-dist
-.DS_Store
-.env
+node_modules/
+output/
+.remotion/
+dist/
+*.mp4
+*.mov
+*.webm
 
-# Ignore the output video from Git but not videos you import into src/.
-out
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Env
+.env
+.env.local

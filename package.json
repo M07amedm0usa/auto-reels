@@ -1,30 +1,27 @@
 {
-  "name": "flutter-reels-automation",
+  "name": "auto-reels",
   "version": "1.0.0",
-  "description": "Remotion video automation for FlutterByMousa",
+  "description": "FlutterByMousa — Automated Reels with Remotion",
   "scripts": {
     "start": "remotion studio",
-    "build": "remotion render",
-    "upgrade": "remotion upgrade",
-    "test": "eslint src --ext ts,tsx,js,jsx"
+    "build": "remotion render src/index.ts ReelAutomationScene output/reel.mp4",
+    "render": "remotion render src/index.ts ReelAutomationScene",
+    "preview": "remotion studio"
   },
   "dependencies": {
-    "@remotion/google-fonts": "^4.0.0",
-    "@remotion/media-utils": "^4.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "@remotion/media-utils": "4.0.290",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-syntax-highlighter": "^15.5.0",
-    "remotion": "^4.0.0"
+    "remotion": "4.0.290"
   },
   "devDependencies": {
-    "@remotion/cli": "^4.0.0",
-    "@remotion/eslint-config": "^4.0.0",
-    "@types/react": "^18.0.0",
+    "@remotion/cli": "4.0.290",
+    "@types/react": "^18.3.1",
     "@types/react-syntax-highlighter": "^15.5.13",
-    "@types/web": "^0.0.115",
-    "eslint": "^8.0.0",
-    "prettier": "^3.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.4.5"
   },
-  "packageManager": "npm@9.0.0"
+  "remotion": {
+    "entryPoint": "src/index.ts"
+  }
 }

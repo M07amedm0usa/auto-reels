@@ -4,6 +4,7 @@ import { MyVideo, type SceneItem } from './MyVideo';
 import { getAudioDurationInSeconds } from '@remotion/media-utils';
 import fallbackData from '../public/assets/data.json';
 
+// [FIX CONSISTENCY] FPS constant — مش متكررة في الملف
 const FPS  = 30;
 const TAIL = 20; // frames بعد انتهاء الصوت
 const MIN  = 60; // أقل مشهد = ثانيتين
@@ -20,7 +21,7 @@ function calcTextFrames(item: SceneItem): number {
     return lines * 22 + 60;
   }
 
-  // text | tip | fact — معادلة الكلمات
+  // text فقط — أي نوع تاني يُعامَل كـ text (tip/fact ملغيان)
   const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
   const base = Math.ceil((wordCount / 1.8) * FPS) + TAIL;
 
@@ -86,15 +87,16 @@ export const RemotionRoot: React.FC = () => {
           })
         );
 
+        // [FIX CONSISTENCY] استخدام FPS بدل الرقم 30 الـ hardcoded
         const total =
           enriched.reduce(
             (acc, s) => acc + (s.calculatedDuration ?? MIN),
             0
-          ) + 30; // 1 ثانية extra في الآخر
+          ) + FPS; // ثانية extra في الآخر
 
         return {
           fps: FPS,
-          durationInFrames: Math.max(total, 30),
+          durationInFrames: Math.max(total, FPS),
           props: { scenes: enriched },
         };
       }}

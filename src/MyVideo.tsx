@@ -11,28 +11,39 @@ import './style.css';
 // ─────────────────────────────────────────────────
 // TYPES
 // ─────────────────────────────────────────────────
+// [FIX CONSISTENCY] حذف 'tip' و'fact' — أنواع ملغية
+export type SceneType  = 'intro' | 'text' | 'code';
 export type TemplateId = 'terminal' | 'notebook' | 'cinematic' | 'splitview';
-export type SceneType  = 'intro' | 'text' | 'code' | 'tip' | 'fact';
 
-export interface SceneItem {
-  type?:               SceneType;
+// [FIX CONSISTENCY] Discriminated Union — badge إجباري في text، اختياري في الباقي
+interface BaseScene {
   template?:           TemplateId;
   content?:            string;
   code?:               string;
   title?:              string;
-  badge?:              string;
   color?:              string;
-  stat?:               string;
-  statLabel?:          string;
   checkItems?:         { text: string; done: boolean }[];
   stats?:              { value: string; label: string }[];
+  stat?:               string;
+  statLabel?:          string;
   voiceFile?:          string;
   calculatedDuration?: number;
 }
+export interface TextScene  extends BaseScene { type: 'text';   badge: string;  }
+export interface IntroScene extends BaseScene { type?: 'intro'; badge?: string; }
+export interface CodeScene  extends BaseScene { type: 'code';   badge?: string; }
+export type SceneItem = TextScene | IntroScene | CodeScene;
+
+// ─────────────────────────────────────────────────
+// CONSTANTS
+// ─────────────────────────────────────────────────
+// [FIX LOGIC] توحيد الـ floor مع Root.tsx (MIN = 60)
+const SCENE_MIN = 60;
 
 // ─────────────────────────────────────────────────
 // PALETTE
 // ─────────────────────────────────────────────────
+// [FIX CONSISTENCY] حذف c-teal و c-amber — خارج البراند
 const PALETTE: Record<string, { accent: string; glow: string; dim: string }> = {
   'c-cyan':   { accent: '#00FFB2', glow: 'rgba(0,255,178,0.22)',   dim: 'rgba(0,255,178,0.08)'   },
   'c-purple': { accent: '#A78BFA', glow: 'rgba(167,139,250,0.22)', dim: 'rgba(167,139,250,0.08)' },
@@ -40,8 +51,6 @@ const PALETTE: Record<string, { accent: string; glow: string; dim: string }> = {
   'c-orange': { accent: '#F59E0B', glow: 'rgba(245,158,11,0.22)',  dim: 'rgba(245,158,11,0.08)'  },
   'c-pink':   { accent: '#FF4D8D', glow: 'rgba(255,77,141,0.22)',  dim: 'rgba(255,77,141,0.08)'  },
   'c-blue':   { accent: '#00C8FF', glow: 'rgba(0,200,255,0.22)',   dim: 'rgba(0,200,255,0.08)'   },
-  'c-teal':   { accent: '#34D399', glow: 'rgba(52,211,153,0.22)',  dim: 'rgba(52,211,153,0.08)'  },
-  'c-amber':  { accent: '#FBBF24', glow: 'rgba(251,191,36,0.22)',  dim: 'rgba(251,191,36,0.08)'  },
 };
 const getP = (c?: string) => PALETTE[c ?? 'c-cyan'] ?? (PALETTE['c-cyan'] as NonNullable<typeof PALETTE[string]>);
 
@@ -68,10 +77,10 @@ const GraphPaper: React.FC = () => (
   }} />
 );
 
-const RadialGlow: React.FC<{ glow: string; top?: string }> = ({ glow, top = '30%' }) => {
+// [FIX CRITICAL] RadialGlow يستقبل duration من الخارج بدل useVideoConfig().durationInFrames
+const RadialGlow: React.FC<{ glow: string; top?: string; duration: number }> = ({ glow, top = '30%', duration }) => {
   const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
-  const drift = interpolate(frame, [0, durationInFrames], [-20, 20]);
+  const drift = interpolate(frame, [0, Math.max(1, duration)], [-20, 20]);
   return (
     <div style={{
       position:'absolute', inset:0, pointerEvents:'none', zIndex:0,
@@ -103,28 +112,34 @@ const Letterbox: React.FC = () => (
   </>
 );
 
-const WinBar: React.FC<{ title: string; right?: React.ReactNode }> = ({ title, right }) => (
-  <div style={{ display:'flex', alignItems:'center', gap:20, padding:'28px 40px',
-    borderBottom:'1px solid rgba(255,255,255,0.06)', background:'rgba(255,255,255,0.015)',
-    flexShrink:0, zIndex:5, position:'relative' }}>
-    <div style={{ display:'flex', gap:10 }}>
-      {(['#ff5f57','#febc2e','#28c840'] as const).map((c,i) => (
-        <div key={i} style={{ width:16, height:16, borderRadius:'50%', background:c }} />
-      ))}
+// [FIX CONSISTENCY] WinBar — letterSpacing:0 للعناوين العربية لحماية الـ Ligatures
+const WinBar: React.FC<{ title: string; right?: React.ReactNode }> = ({ title, right }) => {
+  const isRTL = /[\u0600-\u06FF]/.test(title);
+  return (
+    <div style={{ display:'flex', alignItems:'center', gap:20, padding:'28px 40px',
+      borderBottom:'1px solid rgba(255,255,255,0.06)', background:'rgba(255,255,255,0.015)',
+      flexShrink:0, zIndex:5, position:'relative' }}>
+      <div style={{ display:'flex', gap:10 }}>
+        {(['#ff5f57','#febc2e','#28c840'] as const).map((c,i) => (
+          <div key={i} style={{ width:16, height:16, borderRadius:'50%', background:c }} />
+        ))}
+      </div>
+      <div style={{ flex:1, textAlign:'center', fontSize:20,
+        fontFamily:'JetBrains Mono,monospace',
+        letterSpacing: isRTL ? 0 : 3,
+        direction: isRTL ? 'rtl' : 'ltr',
+        textTransform:'uppercase', color:'rgba(255,255,255,0.3)' }}>
+        {title}
+      </div>
+      <div style={{ minWidth:80 }}>{right}</div>
     </div>
-    <div style={{ flex:1, textAlign:'center', fontSize:20,
-      fontFamily:'JetBrains Mono,monospace', letterSpacing:3,
-      textTransform:'uppercase', color:'rgba(255,255,255,0.3)' }}>
-      {title}
-    </div>
-    <div style={{ minWidth:80 }}>{right}</div>
-  </div>
-);
+  );
+};
 
-const ProgressBar: React.FC<{ accent: string }> = ({ accent }) => {
+// [FIX CRITICAL] ProgressBar يستقبل duration من الخارج — مش من useVideoConfig
+const ProgressBar: React.FC<{ accent: string; duration: number }> = ({ accent, duration }) => {
   const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
-  const pct = durationInFrames > 0 ? frame / durationInFrames : 0; // guard div/0
+  const pct = duration > 0 ? frame / duration : 0;
   return (
     <div style={{ height:4, background:'rgba(255,255,255,0.04)', flexShrink:0 }}>
       <div style={{ height:'100%', width:`${pct * 100}%`,
@@ -158,7 +173,7 @@ const SceneIdx: React.FC<{ index: number; total: number }> = ({ index, total }) 
 // ─────────────────────────────────────────────────
 // GENERIC TEXT SCENE (terminal/default)
 // ─────────────────────────────────────────────────
-const GenericTextScene: React.FC<{ item: SceneItem; index: number; total: number }> = ({ item, index, total }) => {
+const GenericTextScene: React.FC<{ item: SceneItem; index: number; total: number; duration: number }> = ({ item, index, total, duration }) => {
   const { accent, glow, dim } = getP(item.color);
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -168,11 +183,10 @@ const GenericTextScene: React.FC<{ item: SceneItem; index: number; total: number
 
   return (
     <AbsoluteFill style={{ background:'#04040A', justifyContent:'center', alignItems:'center' }}>
-      <DotGrid /><RadialGlow glow={glow} /><SceneIdx index={index} total={total} />
+      <DotGrid /><RadialGlow glow={glow} duration={duration} /><SceneIdx index={index} total={total} />
       <div style={{ width:'90%', background:'rgba(8,8,18,0.97)', borderRadius:32, overflow:'hidden',
         boxShadow:`0 0 0 1px rgba(255,255,255,0.06),0 40px 80px rgba(0,0,0,.7),0 0 80px ${glow}`,
         position:'relative' }}>
-        {/* gradient border */}
         <div style={{ position:'absolute', inset:0, borderRadius:32, padding:1,
           background:`linear-gradient(140deg,${accent}88 0%,transparent 50%)`,
           WebkitMask:'linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0)',
@@ -193,7 +207,7 @@ const GenericTextScene: React.FC<{ item: SceneItem; index: number; total: number
           )}
           <TypewriterWithPen text={text} frameOffset={14} color={accent} fontSize={48} />
         </div>
-        <ProgressBar accent={accent} />
+        <ProgressBar accent={accent} duration={duration} />
       </div>
       {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
@@ -203,11 +217,10 @@ const GenericTextScene: React.FC<{ item: SceneItem; index: number; total: number
 // ─────────────────────────────────────────────────
 // GENERIC CODE SCENE
 // ─────────────────────────────────────────────────
-const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total: number }> = ({ item, index, total }) => {
+const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total: number; duration: number }> = ({ item, index, total, duration }) => {
   const { accent, glow } = getP(item.color);
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  // code له أولوية على content في مشاهد الكود
   const code  = item.code ?? item.content ?? '';
   const lines = code.split('\n');
   const revP  = spring({ frame:Math.max(0,frame-8), fps, config:{ damping:24, stiffness:70 } });
@@ -217,7 +230,7 @@ const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total: number
 
   return (
     <AbsoluteFill style={{ background:'#04040A', justifyContent:'center', alignItems:'center' }}>
-      <DotGrid /><RadialGlow glow={glow} /><SceneIdx index={index} total={total} />
+      <DotGrid /><RadialGlow glow={glow} duration={duration} /><SceneIdx index={index} total={total} />
       <div style={{ width:'92%', background:'rgba(8,8,18,0.97)', borderRadius:32, overflow:'hidden',
         boxShadow:`0 0 0 1px rgba(255,255,255,0.06),0 40px 80px rgba(0,0,0,.7),0 0 60px ${glow}` }}>
         <WinBar title={item.title ?? 'main.dart'}
@@ -225,36 +238,42 @@ const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total: number
         <div style={{ padding:'36px 40px', display:'flex', gap:20, direction:'ltr' }}>
           {/* line numbers */}
           <div style={{ display:'flex', flexDirection:'column', color:'rgba(255,255,255,0.15)',
-            fontFamily:'JetBrains Mono,monospace', fontSize:24, lineHeight:1.68,
+            fontFamily:'JetBrains Mono,monospace', fontSize:34, lineHeight:1.68,
             textAlign:'right', flexShrink:0, borderRight:'1px solid rgba(255,255,255,0.06)',
             paddingRight:20, minWidth:44, userSelect:'none' }}>
             {lines.map((_,i) => (
               <div key={i} style={{ opacity: i<=full ? (i===hl ? 0.6 : 0.2) : 0, color: i===hl ? accent : undefined }}>{i+1}</div>
             ))}
           </div>
-          {/* code lines */}
+          {/* [FIX PERFORMANCE] SyntaxHighlighter واحد للكود كله + wrapLines بدل map + PreTag Fragment */}
           <div style={{ flex:1, overflow:'hidden' }}>
-            {lines.map((line,i) => {
-              const op = i<full ? 1 : i===full ? vis-full : 0;
-              return (
-                <div key={i} style={{ opacity:op,
-                  background: i===hl ? `linear-gradient(90deg,${accent}12,transparent 70%)` : 'transparent',
-                  borderLeft: i===hl ? `2px solid ${accent}` : '2px solid transparent',
-                  paddingLeft:10, marginLeft:-12, direction:'ltr' }}>
-                  <SyntaxHighlighter
-                    language="dart"
-                    style={vscDarkPlus}
-                    customStyle={{ background:'transparent', fontSize:28, padding:0, margin:0, lineHeight:'1.68', display:'inline', direction:'ltr' }}
-                    PreTag={({ children }: { children: React.ReactNode }) => <>{children}</>}
-                  >
-                    {line || ' '}
-                  </SyntaxHighlighter>
-                </div>
-              );
-            })}
+            <SyntaxHighlighter
+              language="dart"
+              style={vscDarkPlus}
+              wrapLines={true}
+              wrapLongLines={false}
+              lineProps={(lineNumber) => {
+                const i = lineNumber - 1;
+                const op = i < full ? 1 : i === full ? vis - full : 0;
+                return {
+                  style: {
+                    opacity: op,
+                    background: i === hl ? `linear-gradient(90deg,${accent}12,transparent 70%)` : 'transparent',
+                    borderLeft: i === hl ? `2px solid ${accent}` : '2px solid transparent',
+                    paddingLeft: 10,
+                    marginLeft: -12,
+                    display: 'block',
+                    direction: 'ltr',
+                  },
+                };
+              }}
+              customStyle={{ background:'transparent', fontSize:34, padding:0, margin:0, lineHeight:'1.68', direction:'ltr' }}
+            >
+              {code || ' '}
+            </SyntaxHighlighter>
           </div>
         </div>
-        <ProgressBar accent={accent} />
+        <ProgressBar accent={accent} duration={duration} />
       </div>
       {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
@@ -264,7 +283,7 @@ const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total: number
 // ─────────────────────────────────────────────────
 // TEMPLATE 1: TERMINAL — INTRO
 // ─────────────────────────────────────────────────
-const TerminalIntro: React.FC<{ item: SceneItem }> = ({ item }) => {
+const TerminalIntro: React.FC<{ item: SceneItem; duration: number }> = ({ item, duration }) => {
   const { accent, glow, dim } = getP(item.color);
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -275,7 +294,7 @@ const TerminalIntro: React.FC<{ item: SceneItem }> = ({ item }) => {
 
   return (
     <AbsoluteFill style={{ background:'#04040A', flexDirection:'column' }}>
-      <DotGrid /><ScanLines /><RadialGlow glow={glow} top="25%" />
+      <DotGrid /><ScanLines /><RadialGlow glow={glow} top="25%" duration={duration} />
 
       {/* Top status bar */}
       <div style={{ padding:'28px 40px', display:'flex', justifyContent:'space-between',
@@ -361,7 +380,7 @@ const TerminalIntro: React.FC<{ item: SceneItem }> = ({ item }) => {
 // ─────────────────────────────────────────────────
 // TEMPLATE 2: SPLIT VIEW
 // ─────────────────────────────────────────────────
-const SplitViewScene: React.FC<{ item: SceneItem; index: number; total: number }> = ({ item, index, total }) => {
+const SplitViewScene: React.FC<{ item: SceneItem; index: number; total: number; duration: number }> = ({ item, index, total, duration }) => {
   const { accent, glow } = getP(item.color ?? 'c-purple');
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -388,7 +407,7 @@ const SplitViewScene: React.FC<{ item: SceneItem; index: number; total: number }
 
   return (
     <AbsoluteFill style={{ background:'#04040A', flexDirection:'column' }}>
-      <DotGrid /><RadialGlow glow={glow} top="25%" />
+      <DotGrid /><RadialGlow glow={glow} top="25%" duration={duration} />
       <SceneIdx index={index} total={total} />
 
       {/* Top half */}
@@ -452,7 +471,7 @@ const SplitViewScene: React.FC<{ item: SceneItem; index: number; total: number }
           );
         })}
       </div>
-      <ProgressBar accent={accent} />
+      <ProgressBar accent={accent} duration={duration} />
       {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
@@ -461,23 +480,25 @@ const SplitViewScene: React.FC<{ item: SceneItem; index: number; total: number }
 // ─────────────────────────────────────────────────
 // TEMPLATE 3: NEON NOTEBOOK
 // ─────────────────────────────────────────────────
-const NotebookScene: React.FC<{ item: SceneItem; index: number; total: number }> = ({ item, index, total }) => {
+const NotebookScene: React.FC<{ item: SceneItem; index: number; total: number; duration: number }> = ({ item, index, total, duration }) => {
   const { accent, glow } = getP(item.color ?? 'c-purple');
   const frame = useCurrentFrame();
-  const { fps, durationInFrames } = useVideoConfig();
+  const { fps } = useVideoConfig();
   const sp = (d: number) => spring({ frame:Math.max(0,frame-d), fps, config:{ damping:22 } });
-  const pct = durationInFrames > 0 ? frame / durationInFrames : 0; // guard div/0
+
+  // [FIX CRITICAL] pct من duration الممرر — مش من durationInFrames الكلي
+  const pct = duration > 0 ? frame / duration : 0;
 
   const isCode = item.type === 'code';
   const text   = item.content ?? '';
   const isRTL  = /[\u0600-\u06FF]/.test(text);
 
-  // footer progress hex — safe version
-  const hexPct = Math.round(pct * 255).toString(16).padStart(2, '0');
+  const hexByte = Math.min(255, Math.max(0, Math.round(pct * 255)));
+  const hexPct  = hexByte.toString(16).padStart(2, '0');
 
   return (
     <AbsoluteFill style={{ background:'#0E0E1A', flexDirection:'column' }}>
-      <GraphPaper /><RadialGlow glow={glow} top="35%" />
+      <GraphPaper /><RadialGlow glow={glow} top="35%" duration={duration} />
 
       {/* Header */}
       <div style={{ padding:'28px 40px 20px', borderBottom:`2px solid ${accent}30`,
@@ -575,24 +596,25 @@ const NotebookScene: React.FC<{ item: SceneItem; index: number; total: number }>
 // ─────────────────────────────────────────────────
 // TEMPLATE 4: CINEMATIC
 // ─────────────────────────────────────────────────
-const CinematicScene: React.FC<{ item: SceneItem; index: number; total: number }> = ({ item, index, total }) => {
+const CinematicScene: React.FC<{ item: SceneItem; index: number; total: number; duration: number }> = ({ item, index, total, duration }) => {
   const { accent, glow } = getP(item.color);
   const frame = useCurrentFrame();
-  const { fps, durationInFrames } = useVideoConfig();
+  const { fps } = useVideoConfig();
   const sp = (d: number) => spring({ frame:Math.max(0,frame-d), fps, config:{ damping:22 } });
-  const pct = durationInFrames > 0 ? frame / durationInFrames : 0;
 
-  const isIntro = item.type === 'intro';
+  // [FIX CRITICAL] pct من duration الممرر — مش من durationInFrames الكلي
+  const pct = duration > 0 ? frame / duration : 0;
+
+  const isIntro = item.type === 'intro' || item.type === undefined;
   const isCode  = item.type === 'code';
-  const isFact  = item.type === 'fact';
-
+  // [FIX LOGIC] حذف isFact — النوع ملغي، badge يحل محله
   const words = (item.title ?? item.content?.split('\n')[0] ?? '').split(' ');
   const body  = item.content?.split('\n').slice(1).join(' ') ?? '';
 
   return (
     <AbsoluteFill style={{ background:'#04040A', flexDirection:'column', justifyContent:'center', alignItems:'center' }}>
       <DotGrid op={0.04} /><FilmGrain /><Letterbox />
-      <RadialGlow glow={glow} top="45%" />
+      <RadialGlow glow={glow} top="45%" duration={duration} />
 
       {/* Episode tag */}
       {isIntro && (
@@ -613,22 +635,14 @@ const CinematicScene: React.FC<{ item: SceneItem; index: number; total: number }
 
       {!isIntro && <SceneIdx index={index} total={total} />}
 
-      {/* Big stat bg */}
-      {isFact && item.stat && (
-        <div style={{ position:'absolute', top:'10%', left:0, right:0, textAlign:'center',
-          fontFamily:'Bebas Neue,sans-serif', fontSize:240, lineHeight:1,
-          color:`${accent}06`, letterSpacing:10, userSelect:'none', zIndex:1 }}>
-          {item.stat}
-        </div>
-      )}
-
       {/* Content */}
       <div style={{ position:'absolute', bottom: isIntro ? 100 : undefined,
         left:0, right:0, padding:'0 48px', zIndex:10 }}>
+        {/* [FIX LOGIC] label يعتمد على badge بدل أنواع ملغية */}
         <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:18, letterSpacing:6,
           color:'rgba(255,255,255,0.4)', textTransform:'uppercase', marginBottom:16, direction:'ltr',
           opacity: interpolate(sp(5),[0,1],[0,1]) }}>
-          {isFact ? '// Did you know?' : item.type==='tip' ? '// Pro Tip' : isCode ? (item.title ?? 'main.dart') : '@flutterbymousa presents'}
+          {item.badge ? `// ${item.badge}` : isCode ? (item.title ?? 'main.dart') : '@flutterbymousa presents'}
         </div>
 
         <div style={{ fontFamily:'Cairo,sans-serif', fontWeight:900,
@@ -699,22 +713,22 @@ const CinematicScene: React.FC<{ item: SceneItem; index: number; total: number }
 // ─────────────────────────────────────────────────
 // SCENE ROUTER
 // ─────────────────────────────────────────────────
-const Scene: React.FC<{ item: SceneItem; index: number; total: number }> = ({ item, index, total }) => {
+const Scene: React.FC<{ item: SceneItem; index: number; total: number; duration: number }> = ({ item, index, total, duration }) => {
   const tmpl = item.template ?? 'terminal';
   const type = item.type    ?? 'text';
 
   if (tmpl === 'terminal') {
-    if (type === 'intro') return <TerminalIntro item={item} />;
-    if (type === 'code')  return <Enter><GenericCodeScene item={item} index={index} total={total} /></Enter>;
-    return <Enter><GenericTextScene item={item} index={index} total={total} /></Enter>;
+    if (type === 'intro') return <TerminalIntro item={item} duration={duration} />;
+    if (type === 'code')  return <Enter><GenericCodeScene item={item} index={index} total={total} duration={duration} /></Enter>;
+    return <Enter><GenericTextScene item={item} index={index} total={total} duration={duration} /></Enter>;
   }
-  if (tmpl === 'splitview')  return <SplitViewScene  item={item} index={index} total={total} />;
-  if (tmpl === 'notebook')   return <NotebookScene   item={item} index={index} total={total} />;
-  if (tmpl === 'cinematic')  return <CinematicScene  item={item} index={index} total={total} />;
+  if (tmpl === 'splitview')  return <SplitViewScene  item={item} index={index} total={total} duration={duration} />;
+  if (tmpl === 'notebook')   return <NotebookScene   item={item} index={index} total={total} duration={duration} />;
+  if (tmpl === 'cinematic')  return <CinematicScene  item={item} index={index} total={total} duration={duration} />;
 
   // fallback
-  if (type === 'code') return <Enter><GenericCodeScene item={item} index={index} total={total} /></Enter>;
-  return <Enter><GenericTextScene item={item} index={index} total={total} /></Enter>;
+  if (type === 'code') return <Enter><GenericCodeScene item={item} index={index} total={total} duration={duration} /></Enter>;
+  return <Enter><GenericTextScene item={item} index={index} total={total} duration={duration} /></Enter>;
 };
 
 // ─────────────────────────────────────────────────
@@ -723,16 +737,24 @@ const Scene: React.FC<{ item: SceneItem; index: number; total: number }> = ({ it
 export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
   if (!scenes?.length) return <AbsoluteFill style={{ background:'#04040A' }} />;
 
-  let offset = 0;
+  // [FIX PERFORMANCE + LOGIC] حساب durations و offsets خارج الـ render — بدل mutation داخله
+  const durations = scenes.map(item =>
+    Math.max(SCENE_MIN, Math.ceil(item.calculatedDuration ?? SCENE_MIN))
+  );
+
+  const offsets = durations.reduce<number[]>((acc, _, i) => {
+    if (i === 0) return [0];
+    return [...acc, (acc[i - 1] ?? 0) + (durations[i - 1] ?? 0)];
+  }, []);
+
   return (
     <AbsoluteFill style={{ background:'#04040A' }}>
       {scenes.map((item, index) => {
-        const duration = Math.max(30, Math.ceil(item.calculatedDuration ?? 150));
-        const start    = offset;
-        offset += duration;
+        const duration = durations[index] ?? SCENE_MIN;
+        const start    = offsets[index]   ?? 0;
         return (
           <Sequence key={`scene-${index}`} from={start} durationInFrames={duration}>
-            <Scene item={item} index={index} total={scenes.length} />
+            <Scene item={item} index={index} total={scenes.length} duration={duration} />
           </Sequence>
         );
       })}

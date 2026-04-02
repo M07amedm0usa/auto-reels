@@ -18,8 +18,14 @@ export const TypewriterWithPen: React.FC<Props> = ({
   const { fps } = useVideoConfig();
 
   const isRTL = /[\u0600-\u06FF]/.test(text);
-  const chars  = [...text]; // Unicode-safe split (مهم للعربي)
-  const total  = chars.length;
+
+  // [FIX LOGIC] Intl.Segmenter بدل [...text] — يحمي ZWJ sequences والـ Emojis المركبة
+  // Chromium 123+ (Remotion v4) يدعم Intl.Segmenter — آمن
+  const chars = Array.from(
+    new Intl.Segmenter('ar', { granularity: 'grapheme' }).segment(text),
+    (s) => s.segment
+  );
+  const total = chars.length;
 
   // سرعة الكتابة: حرف كل 1.5 frame
   const revealed = interpolate(

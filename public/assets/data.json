@@ -1,1 +1,48 @@
-[]
+{
+  "scenes": [
+    {
+      "type": "intro",
+      "color": "c-purple",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 120,
+      "content": "تطبيقك بيهنج؟\nالحل في سطر واحد!",
+      "badge": "Flutter Tip"
+    },
+    {
+      "type": "text",
+      "color": "c-purple",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 470,
+      "title": "FlutterByMousa",
+      "badge": "المشكلة الكبيرة",
+      "content": "أحياناً، تغيير بسيط في widget واحد يعيد رسم الشاشة كلها! ليه؟"
+    },
+    {
+      "type": "text",
+      "color": "c-purple",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 504,
+      "title": "FlutterByMousa",
+      "badge": "إيه الحل؟",
+      "content": "`RepaintBoundary` بيعزل الـ rendering لـ widget معين. بيرسمه مرة واحدة!"
+    },
+    {
+      "type": "code",
+      "color": "c-purple",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 637,
+      "title": "complex_widget.dart",
+      "badge": "الكود",
+      "code": "class MyComplexWidget extends StatelessWidget {\n  @override\n  Widget build(BuildContext context) {\n    return RepaintBoundary(\n      child: Column(\n        children: [\n          Image.asset('assets/logo.png'),\n          Text('Performance Boost'),\n        ],\n      ),\n    );\n  }\n}"
+    },
+    {
+      "type": "text",
+      "color": "c-purple",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 680,
+      "title": "FlutterByMousa",
+      "badge": "نصيحة ذهبية ✨",
+      "content": "استخدم `RepaintBoundary` مع الـ widgets المعقدة أو المتحركة لـ performance خيالي!"
+    }
+  ]
+}

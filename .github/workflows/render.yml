@@ -13,7 +13,9 @@ permissions:
 
 jobs:
   render:
-    runs-on: ubuntu-latest
+    # [FIX] تثبيت إصدار أوبونتو على 22.04 لتجنب مشاكل توافق حزم Chromium
+    runs-on: ubuntu-22.04
+    
     # [CRITICAL] منع الـ Infinite Loop
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     timeout-minutes: 40

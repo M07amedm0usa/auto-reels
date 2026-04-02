@@ -14,24 +14,20 @@ permissions:
 jobs:
   render:
     runs-on: ubuntu-latest
-    # منع الـ Infinite Loop لو الكوميت جاي من البوت
+    # [CRITICAL] منع الـ Infinite Loop
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     timeout-minutes: 40
 
     steps:
-      # ── 1. Checkout ────────────────────────────────────────
       - uses: actions/checkout@v4
 
-      # ── 2. Node 20 ─────────────────────────────────────────
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # ── 3. Install deps ────────────────────────────────────
       - name: Install dependencies
         run: npm install
 
-      # ── 4. System deps for Chromium ────────────────────────
       - name: Install Chromium system deps
         run: |
           sudo apt-get update -qq
@@ -41,11 +37,10 @@ jobs:
             libasound2 libpangocairo-1.0-0 libxss1 \
             libgtk-3-0 --no-install-recommends
 
-      # ── 5. Render Video ────────────────────────────────────
       - name: Render video
         run: |
           mkdir -p output
-          # استخدام concurrency=2 لمنع الـ OOM Crash على سيرفرات GitHub
+          # [PERFORMANCE] concurrency=2 لمنع استهلاك الميموري بالكامل
           npx remotion render \
             src/index.ts \
             ReelAutomationScene \
@@ -54,28 +49,26 @@ jobs:
             --gl=swiftshader \
             --log=verbose
 
-      # ── 6. Reset Data, Clean Audio & Save Video ────────────
       - name: Reset Data, Clean Audio & Save Video
         run: |
           git config --global user.name "Reel-Bot"
           git config --global user.email "bot@github.com"
 
-          # 1. تصفير محتوى ملف الداتا تماماً
+          # 1. تصفير الداتا
           echo "[]" > public/assets/data.json
 
-          # 2. مسح كل ملفات الصوت mp3 من فولدر Elevsound
-          rm -f public/assets/Elevsound/*.mp3 || echo "No audio files found to delete"
+          # 2. مسح ملفات الصوت
+          rm -f public/assets/Elevsound/*.mp3 || echo "No audio files found"
 
-          # 3. إضافة التغييرات (الفيديو الجديد + تصفير الداتا + حذف الصوت)
+          # 3. تجهيز الرفع
           git add -f output/video.mp4
           git add public/assets/data.json
-          git add public/assets/Elevsound/*.mp3 || echo "Nothing to add in Elevsound"
+          git add public/assets/Elevsound/*.mp3 || echo "Nothing to add"
 
-          # 4. الرفع النهائي مع تجاوز التشغيل التلقائي [skip ci]
+          # 4. الرفع مع تجاوز التشغيل التلقائي
           git commit -m "Video Generated, Audio Cleaned & Data Reset [skip ci]" || echo "No changes to commit"
           git push
 
-      # ── 7. Upload artifact (7 days) ────────────────────────
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

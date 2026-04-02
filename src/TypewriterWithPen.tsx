@@ -18,13 +18,8 @@ export const TypewriterWithPen: React.FC<Props> = ({
   const { fps } = useVideoConfig();
 
   const isRTL = /[\u0600-\u06FF]/.test(text);
-
-  // [FIX LOGIC] Intl.Segmenter بدل [...text] — يحمي ZWJ sequences والـ Emojis المركبة
-  const chars = Array.from(
-    new Intl.Segmenter('ar', { granularity: 'grapheme' }).segment(text),
-    (s) => s.segment
-  );
-  const total = chars.length;
+  const chars  = [...text]; // Unicode-safe split (مهم للعربي)
+  const total  = chars.length;
 
   // سرعة الكتابة: حرف كل 1.5 frame
   const revealed = interpolate(
@@ -53,11 +48,7 @@ export const TypewriterWithPen: React.FC<Props> = ({
         color: '#fff',
         direction: isRTL ? 'rtl' : 'ltr',
         lineHeight: 1.55,
-        // [FIX LOGIC] حماية الـ opacity من تجاوز القيمة 1 أو النزول تحت 0
-        opacity: interpolate(containerP, [0, 0.4, 1], [0, 0.6, 1], { 
-          extrapolateLeft: 'clamp', 
-          extrapolateRight: 'clamp' 
-        }),
+        opacity: interpolate(containerP, [0, 0.4, 1], [0, 0.6, 1]),
         transform: `translateY(${(1 - containerP) * 30}px)`,
         wordBreak: 'break-word',
       }}
@@ -67,8 +58,7 @@ export const TypewriterWithPen: React.FC<Props> = ({
         <span
           style={{
             color,
-            // [FIX PERFORMANCE] استخدام Modulo بدل Math.sin
-            opacity: Math.floor(frame / 15) % 2 === 0 ? 1 : 0,
+            opacity: Math.sin(frame * 0.35) > 0 ? 1 : 0,
             fontWeight: 900,
             textShadow: `0 0 12px ${color}`,
             marginInlineStart: 4,

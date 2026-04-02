@@ -1,63 +1,72 @@
-import React, { useMemo } from 'react';
-import { useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
+import React from 'react';
+import { useCurrentFrame, useVideoConfig, interpolate, spring } from 'remotion';
 
-const containsArabic = (str: string) => /[\u0600-\u06FF]/.test(str);
-
-const Cursor: React.FC<{ color: string }> = ({ color }) => (
-  <span style={{
-    display: 'inline-block',
-    width: '3px',
-    height: '1em',
-    background: color,
-    borderRadius: '2px',
-    marginLeft: '6px',
-    verticalAlign: 'middle',
-    boxShadow: `0 0 18px ${color}, 0 0 40px ${color}55`,
-  }} />
-);
-
-export const TypewriterWithPen: React.FC<{
+interface Props {
   text: string;
-  frameOffset: number;
+  frameOffset?: number;
   color?: string;
   fontSize?: number;
-}> = ({ text, frameOffset, color = '#00FFD1', fontSize = 48 }) => {
+}
+
+export const TypewriterWithPen: React.FC<Props> = ({
+  text,
+  frameOffset = 0,
+  color = '#00FFB2',
+  fontSize = 48,
+}) => {
   const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
-  const isRTL = useMemo(() => containsArabic(text), [text]);
+  const { fps } = useVideoConfig();
 
-  const availableFrames = Math.max(1, durationInFrames - frameOffset - 15);
-  const typingSpeed = availableFrames / (text.length || 1);
-  const activeCharIndex = Math.max(0, Math.floor((frame - frameOffset) / typingSpeed));
+  const isRTL = /[\u0600-\u06FF]/.test(text);
+  const chars  = [...text]; // Unicode-safe split (مهم للعربي)
+  const total  = chars.length;
 
-  const cursorOpacity = interpolate(frame % 24, [0, 12, 24], [1, 0, 1], {
-    extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
+  // سرعة الكتابة: حرف كل 1.5 frame
+  const revealed = interpolate(
+    Math.max(0, frame - frameOffset),
+    [0, total * 1.5],
+    [0, total],
+    { extrapolateRight: 'clamp' }
+  );
+
+  const visibleChars = Math.floor(revealed);
+  const cursorVisible = revealed < total;
+
+  // spring للـ container كله
+  const containerP = spring({
+    frame: Math.max(0, frame - frameOffset),
+    fps,
+    config: { damping: 24, stiffness: 90, mass: 0.8 },
   });
 
-  const visibleText = text.substring(0, activeCharIndex);
-  const isTyping = activeCharIndex < text.length && frame > frameOffset;
-  const isFinished = activeCharIndex >= text.length;
-
   return (
-    <div style={{
-      whiteSpace: 'pre-wrap',
-      direction: isRTL ? 'rtl' : 'ltr',
-      textAlign: isRTL ? 'right' : 'left',
-      width: '100%',
-      lineHeight: 1.55,
-      fontSize,
-      fontWeight: 700,
-      color: '#FFFFFF',
-      fontFamily: "'IBM Plex Sans Arabic', 'IBM Plex Mono', monospace",
-      letterSpacing: isRTL ? '0' : '-0.5px',
-    }}>
-      <span>{visibleText}</span>
-      {(isTyping || isFinished) && (
-        <span style={{ opacity: isTyping ? 1 : cursorOpacity }}>
-          <Cursor color={color} />
+    <div
+      style={{
+        fontFamily: 'Cairo, sans-serif',
+        fontWeight: 900,
+        fontSize,
+        color: '#fff',
+        direction: isRTL ? 'rtl' : 'ltr',
+        lineHeight: 1.55,
+        opacity: interpolate(containerP, [0, 0.4, 1], [0, 0.6, 1]),
+        transform: `translateY(${(1 - containerP) * 30}px)`,
+        wordBreak: 'break-word',
+      }}
+    >
+      {chars.slice(0, visibleChars).join('')}
+      {cursorVisible && (
+        <span
+          style={{
+            color,
+            opacity: Math.sin(frame * 0.35) > 0 ? 1 : 0,
+            fontWeight: 900,
+            textShadow: `0 0 12px ${color}`,
+            marginInlineStart: 4,
+          }}
+        >
+          |
         </span>
       )}
-      <span style={{ opacity: 0, pointerEvents: 'none' }}>{text.substring(activeCharIndex)}</span>
     </div>
   );
 };

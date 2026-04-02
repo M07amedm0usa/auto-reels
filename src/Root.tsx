@@ -1,69 +1,103 @@
 import React from 'react';
 import { Composition, staticFile, getInputProps } from 'remotion';
-import { MyVideo, SceneItem } from './MyVideo';
+import { MyVideo, type SceneItem } from './MyVideo';
 import { getAudioDurationInSeconds } from '@remotion/media-utils';
 import fallbackData from '../public/assets/data.json';
 
-const FPS = 30;
+const FPS  = 30;
+const TAIL = 20; // frames بعد انتهاء الصوت
+const MIN  = 60; // أقل مشهد = ثانيتين
+
+// ── معادلة المدة الصح للنص العربي ──────────────────
+function calcTextFrames(item: SceneItem): number {
+  const text = item.content ?? '';
+  const code = item.code ?? '';
+
+  if (item.type === 'intro') return 150;
+
+  if (item.type === 'code') {
+    const lines = code.split('\n').length;
+    return lines * 22 + 60;
+  }
+
+  // text | tip | fact — معادلة الكلمات
+  const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+  const base = Math.ceil((wordCount / 1.8) * FPS) + TAIL;
+
+  // templates زيادة 30 frame عشان الـ animation بتاعتها أطول
+  if (item.template === 'notebook' || item.template === 'cinematic') {
+    return base + 30;
+  }
+
+  return base;
+}
 
 export const RemotionRoot: React.FC = () => {
-  const inputProps = getInputProps() as any;
+  // getInputProps() بيرجع الـ --props اللي ممرها لـ remotion render
+  const inputProps = getInputProps() as Record<string, unknown>;
 
-  const parsedPropsScenes = (Array.isArray(inputProps) && inputProps.length > 0)
-    ? inputProps
-    : inputProps?.scenes;
+  const parsedInput: SceneItem[] | null =
+    Array.isArray(inputProps)
+      ? (inputProps as SceneItem[])
+      : Array.isArray((inputProps as { scenes?: unknown }).scenes)
+      ? ((inputProps as { scenes: SceneItem[] }).scenes)
+      : null;
 
-  const parsedFallbackScenes = Array.isArray(fallbackData)
-    ? fallbackData
-    : (fallbackData as any).scenes;
+  const parsedFallback: SceneItem[] =
+    Array.isArray(fallbackData)
+      ? (fallbackData as SceneItem[])
+      : ((fallbackData as { scenes: SceneItem[] }).scenes ?? []);
 
-  const defaultData: SceneItem[] = parsedPropsScenes || parsedFallbackScenes || [];
+  const defaultData: SceneItem[] = parsedInput ?? parsedFallback;
 
   return (
     <Composition
       id="ReelAutomationScene"
       component={MyVideo}
       defaultProps={{ scenes: defaultData }}
+      fps={FPS}
+      width={1080}
+      height={1920}
       calculateMetadata={async ({ props }) => {
-        const enrichedScenes = await Promise.all(
-          props.scenes.map(async (item: SceneItem, index: number) => {
-            let audioFrames = 150;
-            try {
-              if (item.voiceFile) {
-                const seconds = await getAudioDurationInSeconds(
+        const enriched = await Promise.all(
+          props.scenes.map(async (item: SceneItem, i: number) => {
+            let audioFrames = 0;
+
+            if (item.voiceFile) {
+              try {
+                const sec = await getAudioDurationInSeconds(
                   staticFile(`assets/Elevsound/${item.voiceFile}`)
                 );
-                audioFrames = Math.ceil(seconds * FPS) + 15;
+                audioFrames = Math.ceil(sec * FPS) + TAIL;
+              } catch (e) {
+                console.warn(`[Scene ${i}] Audio error:`, e);
               }
-            } catch (e) {
-              console.warn(`[Scene ${index}] Audio error:`, e);
             }
 
-            const text = item.content || item.code || '';
-            const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
-            const textFrames = item.type === 'intro'
-              ? 90
-              : Math.ceil((wordCount / 1.8) * FPS) + 20;
+            const textFrames = calcTextFrames(item);
 
-            return {
-              ...item,
-              calculatedDuration: Math.max(audioFrames, textFrames),
-            };
+            // لو في صوت: خد الأطول منهم، لو ماكنش: خد textFrames
+            const calculatedDuration = Math.max(
+              MIN,
+              audioFrames > 0 ? Math.max(audioFrames, textFrames) : textFrames
+            );
+
+            return { ...item, calculatedDuration };
           })
         );
 
-        const total = enrichedScenes.reduce((acc, s) => acc + (s.calculatedDuration ?? 0), 0) + 30;
+        const total =
+          enriched.reduce(
+            (acc, s) => acc + (s.calculatedDuration ?? MIN),
+            0
+          ) + 30; // 1 ثانية extra في الآخر
 
         return {
           fps: FPS,
           durationInFrames: Math.max(total, 30),
-          props: { scenes: enrichedScenes },
+          props: { scenes: enriched },
         };
       }}
-      fps={FPS}
-      width={1080}
-      height={1920}
     />
   );
 };
-                           

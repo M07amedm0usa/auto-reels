@@ -1,19 +1,21 @@
-name: 🎬 Render Reel
+Name: 🎬 Render Reel
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'public/assets/data.json'
   workflow_dispatch:
-    inputs:
-      template:
-        description: 'Template override (blank = random)'
-        required: false
-        default: ''
+
+permissions:
+  contents: write
 
 jobs:
   render:
     runs-on: ubuntu-latest
+    # منع الـ Infinite Loop لو الكوميت جاي من البوت
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     timeout-minutes: 40
 
     steps:
@@ -24,11 +26,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       # ── 3. Install deps ────────────────────────────────────
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       # ── 4. System deps for Chromium ────────────────────────
       - name: Install Chromium system deps
@@ -40,76 +41,45 @@ jobs:
             libasound2 libpangocairo-1.0-0 libxss1 \
             libgtk-3-0 --no-install-recommends
 
-      # ── 5. Pick random template ────────────────────────────
-      - name: Pick template
-        id: tmpl
-        run: |
-          INPUT="${{ github.event.inputs.template }}"
-          TEMPLATES=("terminal" "notebook" "cinematic" "splitview")
-          if [ -n "$INPUT" ]; then
-            CHOSEN="$INPUT"
-          else
-            IDX=$((RANDOM % ${#TEMPLATES[@]}))
-            CHOSEN="${TEMPLATES[$IDX]}"
-          fi
-          echo "name=$CHOSEN" >> "$GITHUB_OUTPUT"
-          echo "✅ Template: $CHOSEN"
-
-      # ── 6. Inject template into every scene ───────────────
-      - name: Inject template into data.json
-        env:
-          TMPL: ${{ steps.tmpl.outputs.name }}
-        run: |
-          node --input-type=module << 'EOF'
-          import fs from 'fs';
-          const tmpl = process.env.TMPL;
-          const raw  = fs.readFileSync('public/assets/data.json', 'utf8');
-          let data   = JSON.parse(raw);
-          const scenes = Array.isArray(data) ? data : data.scenes;
-          const updated = scenes.map(s => ({
-            ...s,
-            // intro ممكن يفضل template بتاعه المحدد — الباقي كلهم ياخدوا الـ chosen template
-            template: (s.type === 'intro' && s.template) ? s.template : tmpl,
-          }));
-          const out = Array.isArray(data) ? updated : { ...data, scenes: updated };
-          fs.writeFileSync('public/assets/data.json', JSON.stringify(out, null, 2));
-          console.log(`Injected "${tmpl}" into ${updated.length} scenes`);
-          EOF
-
-      # ── 7. Render ──────────────────────────────────────────
+      # ── 5. Render Video ────────────────────────────────────
       - name: Render video
-        env:
-          TMPL: ${{ steps.tmpl.outputs.name }}
         run: |
-          TS=$(date +%Y%m%d_%H%M%S)
-          OUTFILE="output/reel_${TMPL}_${TS}.mp4"
           mkdir -p output
-
+          # استخدام concurrency=2 لمنع الـ OOM Crash على سيرفرات GitHub
           npx remotion render \
             src/index.ts \
             ReelAutomationScene \
-            "$OUTFILE" \
+            output/video.mp4 \
+            --concurrency=2 \
             --gl=swiftshader \
             --log=verbose
 
-          echo "OUT=$OUTFILE" >> "$GITHUB_ENV"
-          echo "✅ Done: $OUTFILE"
+      # ── 6. Reset Data, Clean Audio & Save Video ────────────
+      - name: Reset Data, Clean Audio & Save Video
+        run: |
+          git config --global user.name "Reel-Bot"
+          git config --global user.email "bot@github.com"
 
-      # ── 8. Upload artifact (7 days) ────────────────────────
+          # 1. تصفير محتوى ملف الداتا تماماً
+          echo "[]" > public/assets/data.json
+
+          # 2. مسح كل ملفات الصوت mp3 من فولدر Elevsound
+          rm -f public/assets/Elevsound/*.mp3 || echo "No audio files found to delete"
+
+          # 3. إضافة التغييرات (الفيديو الجديد + تصفير الداتا + حذف الصوت)
+          git add -f output/video.mp4
+          git add public/assets/data.json
+          git add public/assets/Elevsound/*.mp3 || echo "Nothing to add in Elevsound"
+
+          # 4. الرفع النهائي مع تجاوز التشغيل التلقائي [skip ci]
+          git commit -m "Video Generated, Audio Cleaned & Data Reset [skip ci]" || echo "No changes to commit"
+          git push
+
+      # ── 7. Upload artifact (7 days) ────────────────────────
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: reel-${{ steps.tmpl.outputs.name }}-${{ github.run_number }}
-          path: output/*.mp4
+          name: reel-output-${{ github.run_number }}
+          path: output/video.mp4
           retention-days: 7
-
-      # ── 9. (Optional) Upload to Google Drive ──────────────
-      # فعّله لو عندك credentials في Secrets
-      # - name: Upload to Drive
-      #   uses: adityak74/google-drive-upload-git-action@main
-      #   with:
-      #     credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
-      #     filename: ${{ env.OUT }}
-      #     folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
-      #     name: reel_${{ steps.tmpl.outputs.name }}_${{ github.run_number }}.mp4
-      #     overwrite: false
+          

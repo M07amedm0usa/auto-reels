@@ -1,1 +1,48 @@
-[]
+{
+  "scenes": [
+    {
+      "type": "intro",
+      "color": "c-purple",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 137,
+      "content": "قائمة زر دائرية\nبـ Flow Widget",
+      "badge": "Flutter Tip"
+    },
+    {
+      "type": "text",
+      "color": "c-purple",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 487,
+      "title": "FlutterByMousa",
+      "badge": "المشكلة الشائعة",
+      "content": "صعب تعمل Layout ديناميكي ومعقد زي Speed Dial ب Widgets عادية."
+    },
+    {
+      "type": "text",
+      "color": "c-purple",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 570,
+      "title": "FlutterByMousa",
+      "badge": "الحل السحري",
+      "content": "Flow Widget يمنحك تحكم كامل في مكان وعرض كل عنصر."
+    },
+    {
+      "type": "code",
+      "color": "c-purple",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 504,
+      "title": "circular_flow_delegate.dart",
+      "badge": "كود Flow Delegate",
+      "code": "class CircularFlowDelegate extends FlowDelegate {\n  final double progress;\n  CircularFlowDelegate(this.progress);\n\n  @override\n  void paintChildren(FlowPaintingContext context) {\n    final radius = context.size.shortestSide / 2;\n    for (int i = 0; i < context.childCount; i++) {\n      final angle = i * 2 * pi / context.childCount;\n      context.paintChild(i, transform: Matrix4.translationValues(\n        radius * cos(angle) * progress,\n        radius * sin(angle) * progress, 0));\n    }\n  }\n}"
+    },
+    {
+      "type": "text",
+      "color": "c-purple",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 514,
+      "title": "FlutterByMousa",
+      "badge": "نصيحة ذهبية ✨",
+      "content": "استخدم Flow للـ Layouts اللي محتاجة مرونة عالية وتتحكم كامل."
+    }
+  ]
+}

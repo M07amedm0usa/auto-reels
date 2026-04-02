@@ -267,7 +267,7 @@ const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total: number
                   },
                 };
               }}
-              customStyle={{ background:'transparent', fontSize:34, padding:0, margin:0, lineHeight:'1.68', direction:'ltr' }}
+              customStyle={{ background:'transparent', fontSize:42, padding:0, margin:0, lineHeight:'1.6', direction:'ltr' }}
             >
               {code || ' '}
             </SyntaxHighlighter>
@@ -311,8 +311,8 @@ const TerminalIntro: React.FC<{ item: SceneItem; duration: number }> = ({ item, 
       </div>
 
       {/* Boot log */}
-      <div style={{ flex:1, padding:'0 40px', display:'flex', flexDirection:'column',
-        justifyContent:'flex-end', gap:8, zIndex:5, paddingBottom:20 }}>
+      <div style={{ padding:'20px 40px', display:'flex', flexDirection:'column',
+        gap:8, zIndex:5 }}>
         {(
           [['[SYS]','Loading Dart runtime...','OK'],
            ['[FLT]','Widget tree initialized','OK'],
@@ -333,7 +333,7 @@ const TerminalIntro: React.FC<{ item: SceneItem; duration: number }> = ({ item, 
       </div>
 
       {/* Hero */}
-      <div style={{ padding:'0 40px 0', zIndex:8, flexShrink:0 }}>
+      <div style={{ flex:1, display:'flex', flexDirection:'column', justifyContent:'center', padding:'0 40px', zIndex:8, flexShrink:0 }}>
         <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:18, letterSpacing:8,
           color:accent, textTransform:'uppercase', marginBottom:16, direction:'ltr',
           opacity: interpolate(sp(44),[0,1],[0,0.75]) }}>
@@ -541,7 +541,7 @@ const NotebookScene: React.FC<{ item: SceneItem; index: number; total: number; d
         ) : (
           <div style={{ direction:'ltr' }}>
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background:'transparent', fontSize:24, padding:0, margin:0, lineHeight:'1.7', direction:'ltr' }}>
+              customStyle={{ background:'transparent', fontSize:38, padding:0, margin:0, lineHeight:'1.6', direction:'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
@@ -636,7 +636,10 @@ const CinematicScene: React.FC<{ item: SceneItem; index: number; total: number; 
       {!isIntro && <SceneIdx index={index} total={total} />}
 
       {/* Content */}
-      <div style={{ position:'absolute', bottom: isIntro ? 100 : undefined,
+      <div style={{ position:'absolute',
+        top: isIntro ? '45%' : undefined,
+        bottom: isIntro ? undefined : 100,
+        transform: isIntro ? 'translateY(-50%)' : undefined,
         left:0, right:0, padding:'0 48px', zIndex:10 }}>
         {/* [FIX LOGIC] label يعتمد على badge بدل أنواع ملغية */}
         <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:18, letterSpacing:6,
@@ -671,7 +674,7 @@ const CinematicScene: React.FC<{ item: SceneItem; index: number; total: number; 
             opacity: interpolate(sp(15),[0,1],[0,1]), direction:'ltr' }}>
             <div style={{ height:3, background:`linear-gradient(90deg,transparent,${accent},transparent)` }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background:'transparent', fontSize:26, padding:'28px 32px', margin:0, lineHeight:'1.7', direction:'ltr' }}>
+              customStyle={{ background:'transparent', fontSize:38, padding:'28px 32px', margin:0, lineHeight:'1.6', direction:'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
@@ -716,6 +719,11 @@ const CinematicScene: React.FC<{ item: SceneItem; index: number; total: number; 
 const Scene: React.FC<{ item: SceneItem; index: number; total: number; duration: number }> = ({ item, index, total, duration }) => {
   const tmpl = item.template ?? 'terminal';
   const type = item.type    ?? 'text';
+
+  // حماية: لو المشهد كود والتمبلت splitview (الذي لا يدعم الكود)، حوله لـ generic
+  if (type === 'code' && tmpl === 'splitview') {
+    return <Enter><GenericCodeScene item={item} index={index} total={total} duration={duration} /></Enter>;
+  }
 
   if (tmpl === 'terminal') {
     if (type === 'intro') return <TerminalIntro item={item} duration={duration} />;

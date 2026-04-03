@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { AbsoluteFill, Sequence, useCurrentFrame, interpolate } from 'remotion';
+import { AbsoluteFill, Sequence, useCurrentFrame, interpolate, Audio, staticFile } from 'remotion';
 import './style.css';
 
 import { SCENE_MIN, OVERLAP_FRAMES } from './types';
@@ -81,7 +81,7 @@ const Scene: React.FC<{
 }> = ({ item, index, total, duration, tmpl }) => {
   const type = item.type ?? 'text';
 
-  // intro دايمًا terminal
+  // intro دايمًا terminal (حسب تصميمك الثابت للبراند)
   if (type === 'intro') return <TerminalIntro item={item} duration={duration} />;
 
   if (tmpl === 'terminal') {
@@ -117,8 +117,6 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
   if (!scenes?.length) return <AbsoluteFill style={{ background: '#04040A' }} />;
 
   // ── template واحد عشوائي للـ video كلها ──────────
-  // لو الـ data.json بيحدد template في أول مشهد non-intro → استخدمه
-  // غير كده → اختار عشوائي من الـ 15
   const videoTemplate = useMemo<TemplateId>(() => {
     const firstNonIntro = scenes.find(s => (s.type ?? 'text') !== 'intro');
     if (firstNonIntro?.template) return firstNonIntro.template;
@@ -146,12 +144,18 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
         const isFirst = index === 0;
         const isLast  = index === scenes.length - 1;
 
+        // تجهيز مسار الصوت بناءً على المسار المعتمد في Root.tsx
+        const audioSrc = item.voiceFile ? staticFile(`assets/Elevsound/${item.voiceFile}`) : null;
+
         return (
           <Sequence
             key={`scene-${index}`}
             from={start}
             durationInFrames={dur + (isLast ? 15 : OVERLAP_FRAMES)}
           >
+            {/* تشغيل ملف الصوت مركزياً لكل مشهد */}
+            {audioSrc && <Audio src={audioSrc} />}
+            
             <SceneFade duration={dur} isFirst={isFirst} isLast={isLast}>
               <Scene
                 item={item}
@@ -167,3 +171,4 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
     </AbsoluteFill>
   );
 };
+  

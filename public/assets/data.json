@@ -1,62 +1,47 @@
-{
-  "videoConfig": {
-    "template": "glass",
-    "totalScenes": 5,
-    "generatedAt": "2026-04-03T20:56:00.454Z"
+[
+  {
+    "title": "Layouts مستحيلة؟",
+    "type": "box",
+    "content": "هل تعاني من قيود تصميم الـ Layout في Flutter؟",
+    "style": "style-10",
+    "color": "c-red",
+    "voiceFile": "scene_0.mp3",
+    "voiceDuration": 194
   },
-  "scenes": [
-    {
-      "sceneIndex": 0,
-      "type": "intro",
-      "template": "glass",
-      "color": "c-cyan",
-      "voiceFile": "scene_01.mp3",
-      "calculatedDuration": 204,
-      "content": "إيه هو الـ 'Container'؟",
-      "badge": "نصيحة فلاتر"
-    },
-    {
-      "sceneIndex": 1,
-      "type": "text",
-      "template": "glass",
-      "color": "c-cyan",
-      "voiceFile": "scene_02.mp3",
-      "calculatedDuration": 271,
-      "title": "أساسيات الـ Container",
-      "badge": "الشرح",
-      "content": "صندوق بتقدر تحط\nجواه ويدجت تانية\nوتتحكم في مقاسها"
-    },
-    {
-      "sceneIndex": 2,
-      "type": "code",
-      "template": "glass",
-      "color": "c-cyan",
-      "voiceFile": "scene_03.mp3",
-      "calculatedDuration": 154,
-      "title": "main.dart",
-      "badge": "الكود",
-      "code": "Container(\n  width: 200,\n  height: 200,\n  color: Colors.blue,\n)"
-    },
-    {
-      "sceneIndex": 3,
-      "type": "text",
-      "template": "glass",
-      "color": "c-cyan",
-      "voiceFile": "scene_04.mp3",
-      "calculatedDuration": 204,
-      "title": "أساسيات الـ Container",
-      "badge": "نصيحة سريعة 💡",
-      "content": "المقاسات مهمة"
-    },
-    {
-      "sceneIndex": 4,
-      "type": "intro",
-      "template": "glass",
-      "color": "c-cyan",
-      "voiceFile": "scene_05.mp3",
-      "calculatedDuration": 264,
-      "content": "استنى الجزء التاني",
-      "badge": "نصيحة فلاتر"
-    }
-  ]
-}
+  {
+    "title": "كنز التحكم!",
+    "type": "box",
+    "content": "Flow Widget يمنحك تحكماً مطلقاً في موضع وحجم الأطفال.",
+    "style": "style-25",
+    "color": "c-blue",
+    "voiceFile": "scene_1.mp3",
+    "voiceDuration": 330
+  },
+  {
+    "title": "متى تستخدمه؟",
+    "type": "box",
+    "content": "مثالي للـ Radial Menus، الـ Animations المعقدة، والـ Layouts الفريدة.",
+    "style": "style-5",
+    "color": "c-green",
+    "voiceFile": "scene_2.mp3",
+    "voiceDuration": 317
+  },
+  {
+    "title": "سر القوة!",
+    "type": "box",
+    "content": "الـ FlowDelegate هو قلب الـ Flow Widget للتحكم الدقيق.",
+    "style": "style-18",
+    "color": "c-purple",
+    "voiceFile": "scene_3.mp3",
+    "voiceDuration": 303
+  },
+  {
+    "title": "أطلق إبداعك!",
+    "type": "box",
+    "content": "تعلم Flow Widget يفتح آفاقاً جديدة لتصاميمك الجريئة في Flutter.",
+    "style": "style-3",
+    "color": "c-orange",
+    "voiceFile": "scene_4.mp3",
+    "voiceDuration": 390
+  }
+]

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; // تم تصحيح حرف الـ I
 import { Composition, staticFile, getInputProps } from 'remotion';
 import { MyVideo, type SceneItem } from './MyVideo';
 import { getAudioDurationInSeconds } from '@remotion/media-utils';
@@ -6,9 +6,9 @@ import { SCENE_MIN, OVERLAP_FRAMES } from './types';
 import fallbackData from '../public/assets/data.json';
 
 const FPS     = 30;
-const TAIL    = 20;  // frames بعد انتهاء الصوت
+const TAIL    = 20;  // frames بعد انتهاء الصوت كـ Padding
 
-// ── معادلة المدة للنص العربي ──────────────────────
+// ── معادلة المدة للنص العربي في حالة عدم وجود صوت ──────────────────────
 function calcTextFrames(item: SceneItem): number {
   const text = item.content ?? '';
   const code = item.code ?? '';
@@ -33,7 +33,7 @@ function calcTextFrames(item: SceneItem): number {
   return base;
 }
 
-// ── parse scenes من getInputProps أو fallback ──────
+// ── parse scenes من getInputProps (n8n/CLI) أو fallback ──────
 function resolveScenes(): SceneItem[] {
   const inp = getInputProps() as Record<string, unknown>;
   if (Array.isArray((inp as { scenes?: unknown }).scenes)) {
@@ -57,8 +57,7 @@ export const RemotionRoot: React.FC = () => {
       width={1080}
       height={1920}
       calculateMetadata={async ({ props }) => {
-        // calculateMetadata بيستقبل props من defaultProps (اللي بنيناه من getInputProps)
-        // فـ props.scenes دايمًا صح هنا
+        // حساب الـ Metadata بشكل غير متزامن لضمان قراءة الصوت
         const rawScenes: SceneItem[] = Array.isArray(props.scenes)
           ? props.scenes
           : [];
@@ -73,12 +72,13 @@ export const RemotionRoot: React.FC = () => {
 
             if (item.voiceFile) {
               try {
+                // تنبيه: تأكد أن ملفات الصوت تنزل في هذا المسار التابع لـ public
                 const sec = await getAudioDurationInSeconds(
                   staticFile(`assets/Elevsound/${item.voiceFile}`)
                 );
                 audioFrames = Math.ceil(sec * FPS) + TAIL;
               } catch (e) {
-                console.warn(`[Scene ${i}] Audio error:`, e);
+                console.warn(`[Scene ${i}] Audio error (Fallback to text logic):`, e);
               }
             }
 
@@ -96,15 +96,13 @@ export const RemotionRoot: React.FC = () => {
         );
 
         // يطابق منطق cursor في MyVideo.tsx:
-        // كل مشهد يبدأ بعد (dur - OVERLAP_FRAMES) من السابق
-        // الأخير يأخذ dur + 15 كامل
         let total = 0;
         for (let i = 0; i < enriched.length; i++) {
           const dur    = Math.max(SCENE_MIN, Math.ceil(enriched[i]?.calculatedDuration ?? SCENE_MIN));
           const isLast = i === enriched.length - 1;
           total += isLast ? dur + 15 : Math.max(SCENE_MIN / 2, dur - OVERLAP_FRAMES);
         }
-        total += 30; // ثانية extra في الآخر
+        total += 30; // ثانية extra في الآخر للأمان
 
         return {
           fps: FPS,

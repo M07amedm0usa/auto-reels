@@ -36,7 +36,7 @@ jobs:
           sudo apt-get install -y \
             libnss3 libatk1.0-0 libatk-bridge2.0-0 \
             libcups2 libxkbcommon0 libxdamage1 libgbm1 \
-            libasound2t64 libpangocairo-1.0-0 libxss1 \
+            libasound2 libpangocairo-1.0-0 libxss1 \
             libgtk-3-0 --no-install-recommends
 
       - name: Render video
@@ -79,4 +79,5 @@ jobs:
           name: reel-output-${{ github.run_number }}
           path: output/video.mp4
           retention-days: 7
+
           

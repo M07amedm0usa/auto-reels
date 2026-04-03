@@ -42,7 +42,16 @@ jobs:
       - name: Render video
         run: |
           mkdir -p output
-          # jq يبني JSON object صح بغض النظر عن المحتوى
+
+          # تحقق إن data.json فيه scenes فعلية قبل الـ render
+          SCENE_COUNT=$(jq 'length' public/assets/data.json)
+          echo "Scenes to render: $SCENE_COUNT"
+          if [ "$SCENE_COUNT" -eq 0 ]; then
+            echo "ERROR: data.json is empty — aborting render"
+            exit 1
+          fi
+
+          # بناء --props كـ {"scenes":[...]}
           RENDER_PROPS=$(jq -c '{scenes:.}' public/assets/data.json)
           npx remotion render \
             src/index.ts \
@@ -80,4 +89,4 @@ jobs:
           path: output/video.mp4
           retention-days: 7
 
-          
+                    

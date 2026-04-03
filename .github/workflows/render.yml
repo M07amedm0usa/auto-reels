@@ -52,13 +52,12 @@ jobs:
           fi
 
           # Root.tsx بيقرأ data.json عن طريق getInputProps + static import
-          # مش محتاج --props من بره
+          # تم إزالة --gl=swiftshader لمنع الهزة (Jitter) الناتجة عن محاكاة كارت الشاشة
           npx remotion render \
             src/index.ts \
             ReelAutomationScene \
             output/video.mp4 \
             --concurrency=2 \
-            --gl=swiftshader \
             --log=verbose
 
       - name: Reset Data, Clean Audio & Save Video
@@ -87,5 +86,4 @@ jobs:
           name: reel-output-${{ github.run_number }}
           path: output/video.mp4
           retention-days: 7
-
           

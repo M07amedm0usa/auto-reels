@@ -1,1 +1,53 @@
-[]
+{
+  "scenes": [
+    {
+      "type": "intro",
+      "template": "retrocrt",
+      "color": "c-blue",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 170,
+      "content": "نسى Stack و Column\nللـLayouts الصعبة",
+      "badge": "Flutter Tip"
+    },
+    {
+      "type": "text",
+      "template": "retrocrt",
+      "color": "c-blue",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 420,
+      "title": "FlutterByMousa",
+      "badge": "المشكلة فين؟",
+      "content": "مش كل Layout بيتحل بـ Stack أو Column"
+    },
+    {
+      "type": "text",
+      "template": "retrocrt",
+      "color": "c-blue",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 370,
+      "title": "FlutterByMousa",
+      "badge": "الحل السحري!",
+      "content": "CustomMultiChildLayout: تحكم كامل!"
+    },
+    {
+      "type": "code",
+      "template": "retrocrt",
+      "color": "c-blue",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 454,
+      "title": "custom_layout.dart",
+      "badge": "الكود العملي",
+      "code": "class MyLayoutDelegate extends MultiChildLayoutDelegate {\n  @override\n  void performLayout(Size size) {\n    // ID 'header' for top, ID 'content' for bottom\n    final headerSize = layoutChild('header', BoxConstraints.tightFor(height: 50));\n    positionChild('header', Offset.zero);\n\n    layoutChild('content', BoxConstraints.tightFor(width: size.width));\n    positionChild('content', Offset(0, headerSize.height));\n  }\n  @override\n  bool shouldRelayout(covariant MultiChildLayoutDelegate oldDelegate) => false;\n}"
+    },
+    {
+      "type": "text",
+      "template": "retrocrt",
+      "color": "c-blue",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 647,
+      "title": "FlutterByMousa",
+      "badge": "نصيحة ذهبية ✨",
+      "content": "استخدمه للـCustom Complex UIs!"
+    }
+  ]
+}

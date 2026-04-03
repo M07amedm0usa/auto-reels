@@ -33,21 +33,20 @@ function calcTextFrames(item: SceneItem): number {
   return base;
 }
 
+// ── parse scenes من getInputProps أو fallback ──────
+function resolveScenes(): SceneItem[] {
+  const inp = getInputProps() as Record<string, unknown>;
+  if (Array.isArray((inp as { scenes?: unknown }).scenes)) {
+    return (inp as { scenes: SceneItem[] }).scenes;
+  }
+  // fallback: data.json
+  return Array.isArray(fallbackData)
+    ? (fallbackData as SceneItem[])
+    : ((fallbackData as { scenes: SceneItem[] }).scenes ?? []);
+}
+
 export const RemotionRoot: React.FC = () => {
-  // getInputProps() دايمًا بيرجع object — مش array مباشرة
-  const inputProps = getInputProps() as Record<string, unknown>;
-
-  const parsedInput: SceneItem[] | null =
-    Array.isArray((inputProps as { scenes?: unknown }).scenes)
-      ? (inputProps as { scenes: SceneItem[] }).scenes
-      : null;
-
-  const parsedFallback: SceneItem[] =
-    Array.isArray(fallbackData)
-      ? (fallbackData as SceneItem[])
-      : ((fallbackData as { scenes: SceneItem[] }).scenes ?? []);
-
-  const defaultData: SceneItem[] = parsedInput ?? parsedFallback;
+  const defaultData: SceneItem[] = resolveScenes();
 
   return (
     <Composition
@@ -58,7 +57,8 @@ export const RemotionRoot: React.FC = () => {
       width={1080}
       height={1920}
       calculateMetadata={async ({ props }) => {
-        // normalize: --props ممكن يجي كـ {scenes:[...]} أو array مباشرة
+        // calculateMetadata بيستقبل props من defaultProps (اللي بنيناه من getInputProps)
+        // فـ props.scenes دايمًا صح هنا
         const rawScenes: SceneItem[] = Array.isArray(props.scenes)
           ? props.scenes
           : [];

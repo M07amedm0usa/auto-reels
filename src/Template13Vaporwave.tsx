@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح]
 import {
-  AbsoluteFill, Audio, staticFile,
+  AbsoluteFill,
   spring, useCurrentFrame, useVideoConfig, interpolate,
 } from 'remotion';
+// [تم الحذف]: Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { TypewriterWithPen } from './TypewriterWithPen';
 import { getP } from './types';
 import { SceneIdx } from './primitives';
 import type { SceneItem } from './types';
@@ -100,7 +100,8 @@ export const VaporwaveScene: React.FC<{
           }}>
             <div style={{ height: 3, background: 'linear-gradient(90deg,#A855F7,#FF4D8D,#FFB800)' }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background: 'transparent', fontSize: 72, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+              // [تم التصحيح]: fontSize لـ 46
+              customStyle={{ background: 'transparent', fontSize: 46, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
@@ -115,12 +116,6 @@ export const VaporwaveScene: React.FC<{
       }}>
         @flutterbymousa
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };
-
-// ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 14 — INFOGRAPHIC
-// كروت stats و bullets رسومية مرتبة بشكل جميل
-// ─────────────────────────────────────────────────────────────────────

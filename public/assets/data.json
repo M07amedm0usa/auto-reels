@@ -1,1 +1,53 @@
-[]
+{
+  "scenes": [
+    {
+      "type": "intro",
+      "template": "blueprint",
+      "color": "c-blue",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 170,
+      "content": "تعبت من InteractiveViewer؟\nإزاي تتحكم فيه!",
+      "badge": "Flutter Tip"
+    },
+    {
+      "type": "text",
+      "template": "blueprint",
+      "color": "c-blue",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 404,
+      "title": "FlutterByMousa",
+      "badge": "المشكلة الشائعة",
+      "content": "الـ InteractiveViewer ممتاز للـ Zoom، بس بنحتاج نرجع للوضع الأصلي."
+    },
+    {
+      "type": "text",
+      "template": "blueprint",
+      "color": "c-blue",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 370,
+      "title": "FlutterByMousa",
+      "badge": "مفتاح التحكم",
+      "content": "الـ TransformationController هو سر التحكم الكامل في الـ InteractiveViewer."
+    },
+    {
+      "type": "code",
+      "template": "blueprint",
+      "color": "c-blue",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 354,
+      "title": "main.dart",
+      "badge": "الكود العملي",
+      "code": "final TransformationController _tc = TransformationController();\n\nInteractiveViewer(\n  transformationController: _tc,\n  child: Image.asset('assets/my_image.png'),\n);\n\nElevatedButton(\n  onPressed: () => _tc.value = Matrix4.identity(),\n  child: const Text('Reset'),\n);"
+    },
+    {
+      "type": "text",
+      "template": "blueprint",
+      "color": "c-blue",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 530,
+      "title": "FlutterByMousa",
+      "badge": "نصيحة ذهبية ✨",
+      "content": "استخدم الـ TransformationController لـ Reset أو تطبيق Transformations مخصصة."
+    }
+  ]
+}

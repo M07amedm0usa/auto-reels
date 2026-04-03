@@ -21,6 +21,11 @@ export const TypewriterWithPen: React.FC<Props> = ({
   const chars  = [...text]; // Unicode-safe split (مهم للعربي)
   const total  = chars.length;
 
+  // guard: نص فارغ → لا تعمل interpolate بـ range صفر
+  if (total === 0) {
+    return <div style={{ fontFamily: 'Cairo, sans-serif', fontSize, lineHeight: 1.55 }} />;
+  }
+
   // سرعة الكتابة: حرف كل 1.5 frame
   const revealed = interpolate(
     Math.max(0, frame - frameOffset),

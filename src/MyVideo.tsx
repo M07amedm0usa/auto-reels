@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { AbsoluteFill, Sequence, useCurrentFrame, interpolate } from 'remotion';
 import './style.css';
 
-import { SCENE_MIN } from './types';
+import { SCENE_MIN, OVERLAP_FRAMES } from './types';
 import type { SceneItem, TemplateId } from './types';
 
 import { Enter } from './primitives';
@@ -39,7 +39,6 @@ const ALL_TEMPLATES: TemplateId[] = [
 // ─────────────────────────────────────────────────
 // CROSSFADE WRAPPER
 // ─────────────────────────────────────────────────
-const OVERLAP_FRAMES = 18;
 
 const SceneFade: React.FC<{
   children: React.ReactNode;

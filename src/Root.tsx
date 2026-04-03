@@ -2,13 +2,13 @@ import React from 'react';
 import { Composition, staticFile, getInputProps } from 'remotion';
 import { MyVideo, type SceneItem } from './MyVideo';
 import { getAudioDurationInSeconds } from '@remotion/media-utils';
+import { SCENE_MIN, OVERLAP_FRAMES } from './types';
 import fallbackData from '../public/assets/data.json';
 
-const FPS  = 30;
-const TAIL = 20; // frames بعد انتهاء الصوت
-const MIN  = 60; // أقل مشهد = ثانيتين
+const FPS     = 30;
+const TAIL    = 20;  // frames بعد انتهاء الصوت
 
-// ── معادلة المدة الصح للنص العربي ──────────────────
+// ── معادلة المدة للنص العربي ──────────────────────
 function calcTextFrames(item: SceneItem): number {
   const text = item.content ?? '';
   const code = item.code ?? '';
@@ -20,13 +20,13 @@ function calcTextFrames(item: SceneItem): number {
     return lines * 22 + 60;
   }
 
-  // text | tip | fact — معادلة الكلمات
+  // text — معادلة الكلمات
   const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
   const base = Math.ceil((wordCount / 1.8) * FPS) + TAIL;
 
-  // templates: زيادة frames حسب مدى تعقيد animation كل تمبلت
-  const heavyAnims = ['notebook','cinematic','hologram','vaporwave','neonsign'];
-  const mediumAnims = ['glass','cardstack','blueprint','infographic','comic'];
+  // زيادة frames حسب تعقيد animation كل تمبلت
+  const heavyAnims  = ['notebook', 'cinematic', 'hologram', 'vaporwave', 'neonsign'];
+  const mediumAnims = ['glass', 'cardstack', 'blueprint', 'infographic', 'comic'];
   if (item.template && heavyAnims.includes(item.template))  return base + 40;
   if (item.template && mediumAnims.includes(item.template)) return base + 20;
 
@@ -34,14 +34,12 @@ function calcTextFrames(item: SceneItem): number {
 }
 
 export const RemotionRoot: React.FC = () => {
-  // getInputProps() بيرجع الـ --props اللي ممرها لـ remotion render
+  // getInputProps() دايمًا بيرجع object — مش array مباشرة
   const inputProps = getInputProps() as Record<string, unknown>;
 
   const parsedInput: SceneItem[] | null =
-    Array.isArray(inputProps)
-      ? (inputProps as SceneItem[])
-      : Array.isArray((inputProps as { scenes?: unknown }).scenes)
-      ? ((inputProps as { scenes: SceneItem[] }).scenes)
+    Array.isArray((inputProps as { scenes?: unknown }).scenes)
+      ? (inputProps as { scenes: SceneItem[] }).scenes
       : null;
 
   const parsedFallback: SceneItem[] =
@@ -77,12 +75,10 @@ export const RemotionRoot: React.FC = () => {
 
             const textFrames = calcTextFrames(item);
 
-            // ── قاعدة المدة ─────────────────────────────────────
-            // في صوت  → المشهد يخلص مع الصوت تماماً (+ TAIL صغير)
-            //            textFrames بيُتجاهل عشان الصوت هو المرجع
-            // مفيش صوت → استخدم textFrames عشان يكفي القراءة
+            // في صوت  → audioFrames هو المرجع
+            // مفيش صوت → textFrames
             const calculatedDuration = Math.max(
-              MIN,
+              SCENE_MIN,
               audioFrames > 0 ? audioFrames : textFrames
             );
 
@@ -90,11 +86,16 @@ export const RemotionRoot: React.FC = () => {
           })
         );
 
-        const total =
-          enriched.reduce(
-            (acc, s) => acc + (s.calculatedDuration ?? MIN),
-            0
-          ) + 30; // 1 ثانية extra في الآخر
+        // يطابق منطق cursor في MyVideo.tsx:
+        // كل مشهد يبدأ بعد (dur - OVERLAP_FRAMES) من السابق
+        // الأخير يأخذ dur + 15 كامل
+        let total = 0;
+        for (let i = 0; i < enriched.length; i++) {
+          const dur    = Math.max(SCENE_MIN, Math.ceil(enriched[i]?.calculatedDuration ?? SCENE_MIN));
+          const isLast = i === enriched.length - 1;
+          total += isLast ? dur + 15 : Math.max(SCENE_MIN / 2, dur - OVERLAP_FRAMES);
+        }
+        total += 30; // ثانية extra في الآخر
 
         return {
           fps: FPS,

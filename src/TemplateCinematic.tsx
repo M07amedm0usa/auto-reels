@@ -18,7 +18,7 @@ export const CinematicScene: React.FC<{ item: SceneItem; index: number; total: n
   // [FIX CRITICAL] pct من duration الممرر — مش من durationInFrames الكلي
   const pct = duration > 0 ? frame / duration : 0;
 
-  const isIntro = item.type === 'intro' || item.type === undefined;
+  const isIntro = item.type === 'intro';  // intro لا يصلها الـ router، بس نحتفظ بالـ guard
   const isCode  = item.type === 'code';
   // [FIX LOGIC] حذف isFact — النوع ملغي، badge يحل محله
   const words = (item.title ?? item.content?.split('\n')[0] ?? '').split(' ');

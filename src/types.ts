@@ -38,8 +38,9 @@ export interface IntroScene extends BaseScene { type?: 'intro'; badge?: string; 
 export interface CodeScene  extends BaseScene { type: 'code';   badge?: string; }
 export type SceneItem = TextScene | IntroScene | CodeScene;
 
-// [FIX LOGIC] توحيد الـ floor مع Root.tsx (MIN = 60)
-export const SCENE_MIN = 60;
+// يجب أن يطابق SCENE_MIN قيمة OVERLAP/2 في Root.tsx و MyVideo.tsx
+export const SCENE_MIN     = 60;  // أقل مدة مشهد (2 ثانية)
+export const OVERLAP_FRAMES = 18;  // crossfade overlap — يُستخدم في MyVideo.tsx و Root.tsx
 
 // ─────────────────────────────────────────────────
 // PALETTE

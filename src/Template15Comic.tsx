@@ -5,17 +5,13 @@ import {
 } from 'remotion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { TypewriterWithPen } from './TypewriterWithPen';
 import { getP } from './types';
-import {
-  DotGrid, GraphPaper, FilmGrain, ScanLines,
-  RadialGlow, ProgressBar, WinBar, SceneIdx, Enter,
-} from './primitives';
+// primitives not used in this template
 import type { SceneItem } from './types';
 
 // ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 5 — HOLOGRAM
-// تأثير هولوغرام مضيء مع خطوط سكانر وtitle يطلع من الوسط
+// TEMPLATE 15 — COMIC PANEL
+// بانيل كوميك بـ thick borders وspeech bubble
 // ─────────────────────────────────────────────────────────────────────
 export const ComicPanelScene: React.FC<{
   item: SceneItem; index: number; total: number; duration: number;

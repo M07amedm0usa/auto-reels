@@ -7,15 +7,12 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { TypewriterWithPen } from './TypewriterWithPen';
 import { getP } from './types';
-import {
-  DotGrid, GraphPaper, FilmGrain, ScanLines,
-  RadialGlow, ProgressBar, WinBar, SceneIdx, Enter,
-} from './primitives';
+import { SceneIdx, RadialGlow } from './primitives';
 import type { SceneItem } from './types';
 
 // ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 5 — HOLOGRAM
-// تأثير هولوغرام مضيء مع خطوط سكانر وtitle يطلع من الوسط
+// TEMPLATE 11 — DARK MINIMAL
+// minimal — text on black مع accent line
 // ─────────────────────────────────────────────────────────────────────
 export const DarkMinimalScene: React.FC<{
   item: SceneItem; index: number; total: number; duration: number;

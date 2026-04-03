@@ -7,15 +7,12 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { TypewriterWithPen } from './TypewriterWithPen';
 import { getP } from './types';
-import {
-  DotGrid, GraphPaper, FilmGrain, ScanLines,
-  RadialGlow, ProgressBar, WinBar, SceneIdx, Enter,
-} from './primitives';
+import { DotGrid, SceneIdx, ProgressBar } from './primitives';
 import type { SceneItem } from './types';
 
 // ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 5 — HOLOGRAM
-// تأثير هولوغرام مضيء مع خطوط سكانر وtitle يطلع من الوسط
+// TEMPLATE 7 — GLASSMORPHISM
+// كارد شفاف frosted glass فوق خلفية gradient
 // ─────────────────────────────────────────────────────────────────────
 export const GlassScene: React.FC<{
   item: SceneItem; index: number; total: number; duration: number;

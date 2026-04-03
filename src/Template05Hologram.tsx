@@ -7,10 +7,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { TypewriterWithPen } from './TypewriterWithPen';
 import { getP } from './types';
-import {
-  DotGrid, GraphPaper, FilmGrain, ScanLines,
-  RadialGlow, ProgressBar, WinBar, SceneIdx, Enter,
-} from './primitives';
+import { ScanLines, SceneIdx, RadialGlow } from './primitives';
 import type { SceneItem } from './types';
 
 // ─────────────────────────────────────────────────────────────────────

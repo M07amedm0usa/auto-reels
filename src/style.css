@@ -13,11 +13,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── تأكد إن direction: ltr على code دايماً ── */
-pre, code, .syntax-block {
+/* ── تأكد إن direction: ltr على code دايماً وإجبار الخط ── */
+pre, code, .syntax-block, code span {
   direction: ltr !important;
-  unicode-bidi: plaintext;
-  font-family: 'JetBrains Mono', monospace;
+  unicode-bidi: plaintext !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  
+  /* 🚨 الإجبار هنا: هنكبر الخط ونظبط المسافات غصب عن المكتبة */
+  font-size: 64px !important; 
+  line-height: 1.5 !important; 
+  font-weight: 700 !important;
+  
   /* منع الكود من الالتفاف العشوائي اللي ممكن يغير الأبعاد فجأة */
-  white-space: pre-wrap; 
+  white-space: pre-wrap !important; 
 }

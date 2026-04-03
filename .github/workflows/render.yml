@@ -55,20 +55,23 @@ jobs:
           git config --global user.name "FlutterByMousa-Bot"
           git config --global user.email "bot@github.com"
 
-          # 1. إجبار إضافة الفيديو حتى لو كان فولدر output في الـ .gitignore
+          # 1. سحب آخر التعديلات عشان نتجنب الـ Rejected error
+          git pull origin main --rebase
+
+          # 2. إضافة الفيديو (Force)
           git add -f output/video.mp4
 
-          # 2. تصفير البيانات وحذف الصوتيات القديمة
+          # 3. تصفير الداتا وحذف الصوتيات
           echo "[]" > public/assets/data.json
           rm -f public/assets/Elevsound/*.mp3 || true
           
           git add public/assets/data.json
           git add -u public/assets/Elevsound/ || true
 
-          # 3. الرفع مع [skip ci] لمنع الدخول في حلقة مفرغة
-          git commit -m "🚀 New Reel Generated: output/video.mp4 [skip ci]"
+          # 4. عمل الكوميت والرفع
+          git commit -m "🚀 New Reel Generated: output/video.mp4 [skip ci]" || echo "No changes to commit"
           git push origin main
-
+          
       - name: Upload as Artifact (Backup)
         uses: actions/upload-artifact@v4
         with:

@@ -1,8 +1,9 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح]
 import {
-  AbsoluteFill, Audio, staticFile,
+  AbsoluteFill,
   spring, useCurrentFrame, useVideoConfig, interpolate,
 } from 'remotion';
+// [تم الحذف]: شيلنا Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { TypewriterWithPen } from './TypewriterWithPen';
@@ -22,6 +23,7 @@ export const RetroCRTScene: React.FC<{
   const { fps } = useVideoConfig();
   const sp = (d: number) => spring({ frame: Math.max(0, frame - d), fps, config: { damping: 22 } });
   const isCode = item.type === 'code';
+  // تأثير الرفرفة
   const flicker = Math.sin(frame * 0.3) * 0.02;
 
   return (
@@ -73,7 +75,8 @@ export const RetroCRTScene: React.FC<{
             </div>
             {item.content?.split('\n').slice(1).join(' ') && (
               <div style={{
-                fontFamily: 'JetBrains Mono,monospace', fontSize: 26,
+                // [تم التصحيح]: إضافة Cairo كـ Fallback للـ JetBrains عشان العربي يتقرأ صح
+                fontFamily: 'JetBrains Mono, Cairo, monospace', fontSize: 26,
                 color: `${accent}77`, direction: 'rtl', marginTop: 28, lineHeight: 1.6,
                 opacity: interpolate(sp(24), [0, 1], [0, 1]),
               }}>
@@ -90,7 +93,8 @@ export const RetroCRTScene: React.FC<{
           }}>
             <div style={{ height: 3, background: `linear-gradient(90deg,transparent,${accent},transparent)` }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background: 'transparent', fontSize: 72, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+              // [تم التصحيح]: تصغير مقاس الكود لـ 46
+              customStyle={{ background: 'transparent', fontSize: 46, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
@@ -114,12 +118,6 @@ export const RetroCRTScene: React.FC<{
         <span>@flutterbymousa</span>
         <span>CRT MODE ●</span>
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };
-
-// ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 9 — NEON SIGN
-// title يضيء زي نيون حقيقي مع flicker و glow effects
-// ─────────────────────────────────────────────────────────────────────

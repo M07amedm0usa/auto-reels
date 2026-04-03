@@ -1,5 +1,6 @@
-import React from 'react';
-import { AbsoluteFill, Audio, staticFile, spring, useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
+import React from 'react'; // [تم التصحيح]
+import { AbsoluteFill, spring, useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
+// [تم الحذف]: Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { TypewriterWithPen } from './TypewriterWithPen';
@@ -30,7 +31,7 @@ export const TerminalIntro: React.FC<{ item: SceneItem; duration: number }> = ({
         background:'rgba(0,0,0,0.4)', flexShrink:0, zIndex:10 }}>
         <span>
           <span style={{ display:'inline-block', width:12, height:12, borderRadius:'50%',
-            background:accent, boxShadow:`0 0 8px ${accent}`, marginRight:10, verticalAlign:'middle' }} />
+            background:accent, boxShadow:`0 0 8px ${accent}`, marginInlineEnd:10, verticalAlign:'middle' }} />
           LIVE
         </span>
         <span>flutter_os v3.7.2</span>
@@ -73,7 +74,6 @@ export const TerminalIntro: React.FC<{ item: SceneItem; duration: number }> = ({
           <div style={{ 
             fontFamily:'Cairo,sans-serif', fontWeight:900, fontSize:72,
             color:'#fff', direction:'rtl', lineHeight:1.2, marginBottom:12,
-            /* 🔴 التعديل السحري هنا: إجبار النص على اللف (Wrap) بشكل سليم */
             display: 'flex', flexWrap: 'wrap', columnGap: 16, rowGap: 8, wordBreak: 'break-word',
             opacity: interpolate(sp(50),[0,0.4,1],[0,0.6,1]),
             transform:`translateY(${Math.round((1-sp(50))*30)}px)` }}>
@@ -107,13 +107,12 @@ export const TerminalIntro: React.FC<{ item: SceneItem; duration: number }> = ({
         <span style={{ fontFamily:'JetBrains Mono,monospace', fontSize:18,
           letterSpacing:4, color:accent }}>REC ●</span>
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };
 
 // ─────────────────────────────────────────────────
-// GENERIC TEXT SCENE (terminal/default)
+// GENERIC TEXT SCENE
 // ─────────────────────────────────────────────────
 export const GenericTextScene: React.FC<{ item: SceneItem; index: number; total: number; duration: number }> = ({ item, index, total, duration }) => {
   const { accent, glow, dim } = getP(item.color);
@@ -132,14 +131,8 @@ export const GenericTextScene: React.FC<{ item: SceneItem; index: number; total:
         borderRadius:32, 
         overflow:'hidden',
         boxShadow:`0 0 0 1px rgba(255,255,255,0.06),0 40px 80px rgba(0,0,0,.7),0 0 80px ${glow}`,
-        position:'relative',
-        transform: 'translateZ(0)',
-        willChange: 'transform'
+        position:'relative'
       }}>
-        <div style={{ position:'absolute', inset:0, borderRadius:32, padding:1,
-          background:`linear-gradient(140deg,${accent}88 0%,transparent 50%)`,
-          WebkitMask:'linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0)',
-          WebkitMaskComposite:'xor', maskComposite:'exclude', pointerEvents:'none', zIndex:10 }} />
         <WinBar title={item.title ?? 'flutter_by_mousa'} />
         <div style={{ padding:'48px 52px', minHeight:400, display:'flex',
           flexDirection:'column', justifyContent:'center', direction: isRTL ? 'rtl' : 'ltr' }}>
@@ -158,7 +151,6 @@ export const GenericTextScene: React.FC<{ item: SceneItem; index: number; total:
         </div>
         <ProgressBar accent={accent} duration={duration} />
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };
@@ -186,15 +178,13 @@ export const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total:
         borderRadius:32, 
         overflow:'hidden',
         boxShadow:`0 0 0 1px rgba(255,255,255,0.06),0 40px 80px rgba(0,0,0,.7),0 0 60px ${glow}`,
-        transform: 'translateZ(0)',
-        willChange: 'transform'
       }}>
         <WinBar title={item.title ?? 'main.dart'}
           right={<span style={{ fontFamily:'JetBrains Mono,monospace', fontSize:18, letterSpacing:3, color:accent }}>DART</span>} />
         <div style={{ padding:'40px 44px', display:'flex', gap:24, direction:'ltr' }}>
           {/* line numbers */}
           <div style={{ display:'flex', flexDirection:'column', color:'rgba(255,255,255,0.15)',
-            fontFamily:'"JetBrains Mono",monospace', fontSize:72, lineHeight:1.5,
+            fontFamily:'JetBrains Mono,monospace', fontSize: 46, lineHeight:1.5,
             textAlign:'right', flexShrink:0, borderRight:'1px solid rgba(255,255,255,0.06)',
             paddingRight:24, minWidth:64, userSelect:'none' }}>
             {lines.map((_,i) => (
@@ -225,9 +215,9 @@ export const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total:
               }}
               customStyle={{ 
                 background:'transparent', 
-                fontSize: 72, 
+                fontSize: 46, // [تم التصحيح]
                 fontWeight: 700, 
-                fontFamily: '"JetBrains Mono",monospace', 
+                fontFamily: 'JetBrains Mono,monospace', 
                 padding:0, 
                 margin:0, 
                 lineHeight: 1.5, 
@@ -240,8 +230,6 @@ export const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total:
         </div>
         <ProgressBar accent={accent} duration={duration} />
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };
-                

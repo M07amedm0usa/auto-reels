@@ -129,7 +129,7 @@ export const ComicPanelScene: React.FC<{
           }}>
             <div style={{ height: 4, background: `linear-gradient(90deg,${accent},#FF4D8D,${accent})` }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background: 'transparent', fontSize: 56, padding: '24px 28px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+              customStyle={{ background: 'transparent', fontSize: 72, padding: '24px 28px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>

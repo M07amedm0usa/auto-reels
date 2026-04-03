@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح]
 import {
-  AbsoluteFill, Audio, staticFile,
+  AbsoluteFill,
   spring, useCurrentFrame, useVideoConfig, interpolate,
 } from 'remotion';
+// [تم الحذف]: شيلنا Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { getP } from './types';
-// primitives not used in this template
 import type { SceneItem } from './types';
 
 // ─────────────────────────────────────────────────────────────────────
@@ -98,7 +98,8 @@ export const NewspaperScene: React.FC<{
           }}>
             <div style={{ height: 3, background: `linear-gradient(90deg,transparent,${accent},transparent)` }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background: 'transparent', fontSize: 72, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+              // [تم التصحيح]: تصغير مقاس الخط لـ 46
+              customStyle={{ background: 'transparent', fontSize: 46, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
@@ -114,12 +115,6 @@ export const NewspaperScene: React.FC<{
         <span>Flutter بالعربي</span>
         <span>{String(index + 1).padStart(2, '0')} من {String(total).padStart(2, '0')}</span>
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };
-
-// ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 11 — DARK MINIMAL
-// minimal جداً — text on black مع accent line فقط
-// ─────────────────────────────────────────────────────────────────────

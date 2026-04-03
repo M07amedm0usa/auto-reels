@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح] حرف الـ i سمول
 import { useCurrentFrame, useVideoConfig, interpolate, spring } from 'remotion';
 
 interface Props {
@@ -17,8 +17,11 @@ export const TypewriterWithPen: React.FC<Props> = ({
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const isRTL = /[\u0600-\u06FF]/.test(text);
-  const chars  = [...text]; // Unicode-safe split (مهم للعربي)
+  // [إضافة حماية]: لو النص مش موجود، نعتبره نص فاضي عشان الفيديو ميضربش
+  const safeText = text || '';
+
+  const isRTL = /[\u0600-\u06FF]/.test(safeText);
+  const chars  = [...safeText]; // Unicode-safe split
   const total  = chars.length;
 
   // guard: نص فارغ → لا تعمل interpolate بـ range صفر
@@ -47,6 +50,7 @@ export const TypewriterWithPen: React.FC<Props> = ({
   return (
     <div
       style={{
+        // لو حابب تتأكد إن العربي بيقرا الـ class اللي عملناها في style.css ممكن تحط 'arabic-text'
         fontFamily: 'Cairo, sans-serif',
         fontWeight: 900,
         fontSize,
@@ -55,7 +59,8 @@ export const TypewriterWithPen: React.FC<Props> = ({
         lineHeight: 1.55,
         opacity: interpolate(containerP, [0, 0.4, 1], [0, 0.6, 1]),
         transform: `translateY(${(1 - containerP) * 30}px)`,
-        wordBreak: 'break-word',
+        // استخدام overflowWrap أأمن من wordBreak عشان ميكسرش الكلمات العربية في النص
+        overflowWrap: 'break-word', 
       }}
     >
       {chars.slice(0, visibleChars).join('')}

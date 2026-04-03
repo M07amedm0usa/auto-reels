@@ -1,8 +1,9 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح]
 import {
-  AbsoluteFill, Audio, staticFile,
+  AbsoluteFill,
   spring, useCurrentFrame, useVideoConfig, interpolate,
 } from 'remotion';
+// [تم الحذف]: شيلنا Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { TypewriterWithPen } from './TypewriterWithPen';
@@ -105,7 +106,8 @@ export const GlassScene: React.FC<{
             }}>
               <div style={{ height: 3, background: `linear-gradient(90deg,transparent,${accent},transparent)` }} />
               <SyntaxHighlighter language="dart" style={vscDarkPlus}
-                customStyle={{ background: 'transparent', fontSize: 72, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+                // [تم التصحيح]: تصغير fontSize لـ 46
+                customStyle={{ background: 'transparent', fontSize: 46, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
                 {item.code ?? ''}
               </SyntaxHighlighter>
             </div>
@@ -114,12 +116,6 @@ export const GlassScene: React.FC<{
 
         <ProgressBar accent={accent} duration={duration} />
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };
-
-// ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 8 — RETRO CRT
-// شاشة قديمة phosphor green مع scanlines ووميض
-// ─────────────────────────────────────────────────────────────────────

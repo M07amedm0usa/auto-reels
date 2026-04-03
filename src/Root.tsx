@@ -58,8 +58,17 @@ export const RemotionRoot: React.FC = () => {
       width={1080}
       height={1920}
       calculateMetadata={async ({ props }) => {
+        // normalize: --props ممكن يجي كـ {scenes:[...]} أو array مباشرة
+        const rawScenes: SceneItem[] = Array.isArray(props.scenes)
+          ? props.scenes
+          : [];
+
+        if (rawScenes.length === 0) {
+          return { fps: FPS, durationInFrames: 30, props: { scenes: [] } };
+        }
+
         const enriched = await Promise.all(
-          props.scenes.map(async (item: SceneItem, i: number) => {
+          rawScenes.map(async (item: SceneItem, i: number) => {
             let audioFrames = 0;
 
             if (item.voiceFile) {

@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح]
 import {
-  AbsoluteFill, Audio, staticFile,
+  AbsoluteFill,
   spring, useCurrentFrame, useVideoConfig, interpolate,
 } from 'remotion';
+// [تم الحذف]: Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-// import { TypewriterWithPen } from './TypewriterWithPen'; // مش محتاجينها هنا
 import { getP } from './types';
 import { GraphPaper, SceneIdx, RadialGlow, ProgressBar } from './primitives';
 import type { SceneItem } from './types';
@@ -24,7 +24,8 @@ export const InfographicScene: React.FC<{
   const text = item.content ?? '';
   const isCode = item.type === 'code';
 
-  const defaultBullets = text.split('\n').filter(Boolean).map((t, i) => ({ text: t, done: i % 2 === 0 }));
+  // معالجة الـ Bullets تلقائياً من النص لو مبعوتش checkItems من الشيت
+  const defaultBullets = text.split('\n').filter(Boolean).map((t, i) => ({ text: t, done: true }));
   const bullets = item.checkItems ?? defaultBullets;
 
   return (
@@ -51,12 +52,12 @@ export const InfographicScene: React.FC<{
         )}
         <div style={{
           fontFamily: 'Cairo,sans-serif', fontWeight: 900, 
-          fontSize: 72, /* 🔴 كبرنا العنوان لـ 72 */
+          fontSize: 72, 
           color: '#fff', direction: 'rtl', lineHeight: 1.1,
           opacity: interpolate(sp(10), [0, 0.5, 1], [0, 0.6, 1]),
         }}>
           {(item.title ?? text.split('\n')[0] ?? '').split(' ').map((w, i) => (
-            <span key={i} style={{ color: i === 0 ? accent : '#fff', marginRight: 12 }}>{w} </span>
+            <span key={i} style={{ color: i === 0 ? accent : '#fff', marginInlineStart: i === 0 ? 0 : 12 }}>{w} </span>
           ))}
         </div>
       </div>
@@ -85,22 +86,22 @@ export const InfographicScene: React.FC<{
               <div key={i} style={{
                 display: 'flex', alignItems: 'center', gap: 24,
                 fontFamily: 'Cairo,sans-serif', 
-                fontSize: 48, /* 🔴 كبرنا النص بتاع النقطة لـ 48 */
+                fontSize: 48, 
                 color: 'rgba(255,255,255,0.85)',
                 opacity: interpolate(sp(18 + i * 8), [0, 1], [0, 1]),
                 transform: `translateX(${(1 - sp(18 + i * 8)) * -20}px)`,
                 lineHeight: 1.5,
               }}>
                 <div style={{
-                  width: 56, height: 56, borderRadius: 16, flexShrink: 0, /* 🔴 كبرنا المربع بتاع علامة الصح */
+                  width: 56, height: 56, borderRadius: 16, flexShrink: 0,
                   background: b.done ? `${accent}18` : 'rgba(255,255,255,0.04)',
                   border: b.done ? `3px solid ${accent}` : '3px dashed rgba(255,255,255,0.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 28, fontWeight: 'bold', color: b.done ? accent : 'transparent', /* 🔴 كبرنا علامة الصح نفسها */
+                  fontSize: 28, fontWeight: 'bold', color: b.done ? accent : 'transparent',
                 }}>
                   {b.done ? '✓' : '○'}
                 </div>
-                <div style={{ flex: 1 }}>{b.text}</div> {/* 🔴 flex: 1 عشان لو النص سطرين ينزل تحت بعضه مظبوط */}
+                <div style={{ flex: 1 }}>{b.text}</div>
               </div>
             ))}
           </div>
@@ -114,7 +115,8 @@ export const InfographicScene: React.FC<{
           }}>
             <div style={{ height: 3, background: `linear-gradient(90deg,transparent,${accent},transparent)` }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background: 'transparent', fontSize: 56, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+              // [تم التصحيح]: fontSize لـ 46 ليتماشى مع باقي التمبلتس
+              customStyle={{ background: 'transparent', fontSize: 46, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
@@ -122,7 +124,6 @@ export const InfographicScene: React.FC<{
       </div>
 
       <ProgressBar accent={accent} duration={duration} />
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };

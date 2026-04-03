@@ -1,1 +1,48 @@
-[]
+{
+  "scenes": [
+    {
+      "type": "intro",
+      "color": "c-purple",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 170,
+      "content": "وداعاً للـ Row والـ Column\nاهلاً بالـ Layout الحر!",
+      "badge": "Flutter Tip"
+    },
+    {
+      "type": "text",
+      "color": "c-purple",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 537,
+      "title": "FlutterByMousa",
+      "badge": "إيه هو Flow؟",
+      "content": "Flow Widget: يرص العناصر بحرية كاملة، مش مجرد خط أو Wrap."
+    },
+    {
+      "type": "text",
+      "color": "c-purple",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 487,
+      "title": "FlutterByMousa",
+      "badge": "السر في الـ Delegate",
+      "content": "بيستخدم FlowDelegate عشان يرسم ويتحكم في كل Widget على حدة."
+    },
+    {
+      "type": "code",
+      "color": "c-purple",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 454,
+      "title": "lib/custom_flow_layout.dart",
+      "badge": "الكود",
+      "code": "class CustomFlowDelegate extends FlowDelegate {\n  @override\n  void paintChildren(FlowPaintingContext context) {\n    for (int i = 0; i < context.childCount; i++) {\n      context.paintChild(\n        i,\n        transform: Matrix4.translationValues(i * 30.0, i * 15.0, 0),\n      );\n    }\n  }\n  @override\n  bool shouldRepaint(FlowDelegate oldDelegate) => false;\n}"
+    },
+    {
+      "type": "text",
+      "color": "c-purple",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 547,
+      "title": "FlutterByMousa",
+      "badge": "نصيحة ذهبية ✨",
+      "content": "جرب Flow مع Animation عشان تعمل Layouts ديناميكية مبهرة!"
+    }
+  ]
+}

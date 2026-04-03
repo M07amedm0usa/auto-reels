@@ -1,5 +1,6 @@
-import React from 'react';
-import { AbsoluteFill, Audio, staticFile, spring, useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
+import React from 'react'; // [تم التصحيح]
+import { AbsoluteFill, spring, useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
+// [تم الحذف]: Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { getP } from './types';
@@ -15,12 +16,12 @@ export const CinematicScene: React.FC<{ item: SceneItem; index: number; total: n
   const { fps } = useVideoConfig();
   const sp = (d: number) => spring({ frame:Math.max(0,frame-d), fps, config:{ damping:22 } });
 
-  // [FIX CRITICAL] pct من duration الممرر — مش من durationInFrames الكلي
+  // تأمين من القسمة على صفر
   const pct = duration > 0 ? frame / duration : 0;
 
-  const isIntro = item.type === 'intro';  // intro لا يصلها الـ router، بس نحتفظ بالـ guard
+  const isIntro = item.type === 'intro';
   const isCode  = item.type === 'code';
-  // [FIX LOGIC] حذف isFact — النوع ملغي، badge يحل محله
+  
   const words = (item.title ?? item.content?.split('\n')[0] ?? '').split(' ');
   const body  = item.content?.split('\n').slice(1).join(' ') ?? '';
 
@@ -49,9 +50,9 @@ export const CinematicScene: React.FC<{ item: SceneItem; index: number; total: n
       {!isIntro && <SceneIdx index={index} total={total} />}
 
       {/* Content */}
-      <div style={{ position:'absolute', bottom: isIntro ? 100 : undefined,
+      <div style={{ position:'absolute', bottom: isIntro ? 150 : undefined,
         left:0, right:0, padding:'0 48px', zIndex:10 }}>
-        {/* [FIX LOGIC] label يعتمد على badge بدل أنواع ملغية */}
+        
         <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:18, letterSpacing:6,
           color:'rgba(255,255,255,0.4)', textTransform:'uppercase', marginBottom:16, direction:'ltr',
           opacity: interpolate(sp(5),[0,1],[0,1]) }}>
@@ -65,7 +66,8 @@ export const CinematicScene: React.FC<{ item: SceneItem; index: number; total: n
               <span key={i} style={{
                 color:i===0?accent:'#fff',
                 textShadow:i===0?`0 0 28px ${accent}`:'none',
-                marginRight:16 }}>{w} </span>
+                // [تم التعديل]: المسافة بين الكلمات العربي
+                marginInlineStart: i === 0 ? 0 : 16 }}>{w} </span>
             ))}
           </div>
         </div>
@@ -84,7 +86,8 @@ export const CinematicScene: React.FC<{ item: SceneItem; index: number; total: n
             opacity: interpolate(sp(15),[0,1],[0,1]), direction:'ltr' }}>
             <div style={{ height:3, background:`linear-gradient(90deg,transparent,${accent},transparent)` }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background:'transparent', fontSize:72, padding:'28px 32px', margin:0, lineHeight:'1.65', direction:'ltr' }}>
+              // [تم التصحيح]: fontSize لـ 46 ليتماشى مع الموبايل
+              customStyle={{ background:'transparent', fontSize: 46, padding:'28px 32px', margin:0, lineHeight:'1.65', direction:'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
@@ -118,7 +121,6 @@ export const CinematicScene: React.FC<{ item: SceneItem; index: number; total: n
           EP.{String(index+1).padStart(2,'0')}
         </span>
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };

@@ -1,5 +1,6 @@
-import React from 'react';
-import { AbsoluteFill, Audio, staticFile, spring, useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
+import React from 'react'; // [تم التصحيح]
+import { AbsoluteFill, spring, useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
+// [تم الحذف]: Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { TypewriterWithPen } from './TypewriterWithPen';
@@ -16,7 +17,7 @@ export const NotebookScene: React.FC<{ item: SceneItem; index: number; total: nu
   const { fps } = useVideoConfig();
   const sp = (d: number) => spring({ frame:Math.max(0,frame-d), fps, config:{ damping:22 } });
 
-  // [FIX CRITICAL] pct من duration الممرر — مش من durationInFrames الكلي
+  // تأمين من القسمة على صفر
   const pct = duration > 0 ? frame / duration : 0;
 
   const isCode = item.type === 'code';
@@ -71,7 +72,8 @@ export const NotebookScene: React.FC<{ item: SceneItem; index: number; total: nu
         ) : (
           <div style={{ direction:'ltr' }}>
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background:'transparent', fontSize:72, padding:0, margin:0, lineHeight:'1.65', direction:'ltr' }}>
+              // [تم التصحيح]: fontSize لـ 46
+              customStyle={{ background:'transparent', fontSize:46, padding:0, margin:0, lineHeight:'1.65', direction:'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
@@ -118,7 +120,6 @@ export const NotebookScene: React.FC<{ item: SceneItem; index: number; total: nu
           PAGE {String(index+1).padStart(2,'0')}
         </div>
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };

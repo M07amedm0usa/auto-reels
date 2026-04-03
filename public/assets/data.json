@@ -1,1 +1,52 @@
-[]
+{
+  "scenes": [
+    {
+      "type": "intro",
+      "template": "blueprint",
+      "color": "c-cyan",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 287,
+      "content": "ليه تتعلم Flutter في 2024؟",
+      "badge": "Flutter Tip"
+    },
+    {
+      "type": "text",
+      "template": "blueprint",
+      "color": "c-cyan",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 287,
+      "title": "ما هو Flutter ولماذا نتعلمه؟",
+      "badge": "ما هو Flutter",
+      "content": "Flutter = إطار عمل من Google\nكود واحد = تطبيق على كل المنصات\nسريع و جميل و مجاني"
+    },
+    {
+      "type": "code",
+      "template": "blueprint",
+      "color": "c-cyan",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 204,
+      "title": "main.dart",
+      "badge": "الكود",
+      "code": "void main() {\n  runApp(\n    MaterialApp(\n      home: Text('Hello Flutter!'),\n    ),\n  );\n}"
+    },
+    {
+      "type": "text",
+      "template": "blueprint",
+      "color": "c-cyan",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 154,
+      "title": "ما هو Flutter ولماذا نتعلمه؟",
+      "badge": "نصيحة سريعة 💡",
+      "content": "Flutter مجاني 100% وبيدعم أكتر من 30 لغة!"
+    },
+    {
+      "type": "intro",
+      "template": "blueprint",
+      "color": "c-cyan",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 297,
+      "content": "استنى الفيديو الجاي! 🚀\n#FlutterByMousa",
+      "badge": "Flutter Tip"
+    }
+  ]
+}

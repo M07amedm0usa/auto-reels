@@ -1,1 +1,48 @@
-[]
+{
+  "scenes": [
+    {
+      "type": "intro",
+      "color": "c-blue",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 104,
+      "content": "الإنتراكتيف فيور خربان؟\nازاي تتحكم فيه!",
+      "badge": "Flutter Tip"
+    },
+    {
+      "type": "text",
+      "color": "c-blue",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 587,
+      "title": "FlutterByMousa",
+      "badge": "التحكم في العرض",
+      "content": "InteractiveViewer بيديك حرية بس التحكم فيه صعب بدون TransformationController."
+    },
+    {
+      "type": "text",
+      "color": "c-blue",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 654,
+      "title": "FlutterByMousa",
+      "badge": "المشكلة والحل",
+      "content": "لما تحب تتحكم في زوم أو بان الـ InteractiveViewer، الـ TransformationController هو المفتاح."
+    },
+    {
+      "type": "code",
+      "color": "c-blue",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 521,
+      "title": "main.dart",
+      "badge": "الكود",
+      "code": "final TransformationController _controller = TransformationController();\n\n// ... inside build method\nInteractiveViewer(\n  transformationController: _controller,\n  child: Image.network('your_image_url'),\n),\nFloatingActionButton(\n  onPressed: () {\n    _controller.value = Matrix4.identity(); // Reset!\n  },\n  child: Icon(Icons.refresh),\n)"
+    },
+    {
+      "type": "text",
+      "color": "c-blue",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 680,
+      "title": "FlutterByMousa",
+      "badge": "نصيحة ذهبية ✨",
+      "content": "استخدم TransformationController للتحكم الكامل في InteractiveViewer. جربها بنفسك!"
+    }
+  ]
+}

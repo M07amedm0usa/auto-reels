@@ -1,8 +1,9 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح]
 import {
-  AbsoluteFill, Audio, staticFile,
+  AbsoluteFill,
   spring, useCurrentFrame, useVideoConfig, interpolate,
 } from 'remotion';
+// [تم الحذف]: شيلنا Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { TypewriterWithPen } from './TypewriterWithPen';
@@ -88,7 +89,7 @@ export const BlueprintScene: React.FC<{
                 text={item.content ?? ''}
                 frameOffset={16}
                 color={accent}
-                fontSize={46}
+                fontSize={46} // تم تأكيد الحجم
               />
             </div>
           </>
@@ -107,7 +108,8 @@ export const BlueprintScene: React.FC<{
               <div style={{
                 display: 'flex', flexDirection: 'column',
                 color: 'rgba(255,255,255,0.15)', fontFamily: 'JetBrains Mono,monospace',
-                fontSize: 56, lineHeight: 1.65, textAlign: 'right',
+                // [تم التصحيح]: تصغير أرقام السطور لتتناسب مع الكود
+                fontSize: 46, lineHeight: 1.65, textAlign: 'right',
                 flexShrink: 0, borderRight: `1px solid ${accent}20`,
                 paddingRight: 20, minWidth: 52, userSelect: 'none',
               }}>
@@ -134,7 +136,8 @@ export const BlueprintScene: React.FC<{
                       },
                     };
                   }}
-                  customStyle={{ background: 'transparent', fontSize: 72, padding: 0, margin: 0, lineHeight: '1.65', direction: 'ltr' }}
+                  // [تم التصحيح]: تصغير الكود لـ 46
+                  customStyle={{ background: 'transparent', fontSize: 46, padding: 0, margin: 0, lineHeight: '1.65', direction: 'ltr' }}
                 >
                   {item.code ?? ' '}
                 </SyntaxHighlighter>
@@ -157,12 +160,7 @@ export const BlueprintScene: React.FC<{
           {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
         </span>
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };
-
-// ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 7 — GLASSMORPHISM
-// كارد شفاف frosted glass فوق خلفية gradient حية
-// ─────────────────────────────────────────────────────────────────────
+      

@@ -19,11 +19,28 @@ pre, code, .syntax-block, code span {
   unicode-bidi: plaintext !important;
   font-family: 'JetBrains Mono', monospace !important;
   
-  /* 🚨 الإجبار هنا: هنكبر الخط ونظبط المسافات غصب عن المكتبة */
-  font-size: 64px !important; 
+  /* 🚨 تم التصغير لـ 46px عشان يستوعب كود أكتر ويفضل مقروء */
+  font-size: 46px !important; 
   line-height: 1.5 !important; 
   font-weight: 700 !important;
   
-  /* منع الكود من الالتفاف العشوائي اللي ممكن يغير الأبعاد فجأة */
+  /* منع الكود من الالتفاف العشوائي، بس يسمح بلف السطور الطويلة جداً */
   white-space: pre-wrap !important; 
+  word-break: break-word !important;
+  
+  /* حجم الـ Tab عشان لو الداتا فيها Tabs متكونش واسعة أوي */
+  tab-size: 2 !important; 
+}
+
+/* إعطاء مساحة للكود عشان ميبقاش لازق في الحواف */
+pre {
+  padding: 24px 32px !important; 
+  overflow: hidden !important;
+}
+
+/* ── إعدادات الخط العربي ── */
+.arabic-text {
+  font-family: 'Cairo', sans-serif !important;
+  direction: rtl;
+  line-height: 1.6; 
 }

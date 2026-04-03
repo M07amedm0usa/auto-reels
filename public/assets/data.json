@@ -1,1 +1,53 @@
-[]
+{
+  "scenes": [
+    {
+      "type": "intro",
+      "template": "infographic",
+      "color": "c-blue",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 120,
+      "content": "InteractiveViewer:\nالحدود مش مشكلتك!",
+      "badge": "Flutter Tip"
+    },
+    {
+      "type": "text",
+      "template": "infographic",
+      "color": "c-blue",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 470,
+      "title": "FlutterByMousa",
+      "badge": "المشكلة فين؟",
+      "content": "محتواك أكبر من الشاشة، والـ InteractiveViewer مش راضي يوريك كله؟"
+    },
+    {
+      "type": "text",
+      "template": "infographic",
+      "color": "c-blue",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 437,
+      "title": "FlutterByMousa",
+      "badge": "الحل السحري",
+      "content": "غيّر الـ `boundaryMargin` وخلي `constrained` بـ `false`!"
+    },
+    {
+      "type": "code",
+      "template": "infographic",
+      "color": "c-blue",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 537,
+      "title": "interactive_viewer_magic.dart",
+      "badge": "الكود العملي",
+      "code": "InteractiveViewer(\n  boundaryMargin: EdgeInsets.all(double.infinity),\n  minScale: 0.1,\n  maxScale: 4.0,\n  constrained: false, // المفتاح هنا!\n  child: SizedBox(\n    width: 2000,\n    height: 2000,\n    child: Text('محتوى كبير جداً!'),\n  ),\n)"
+    },
+    {
+      "type": "text",
+      "template": "infographic",
+      "color": "c-blue",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 597,
+      "title": "FlutterByMousa",
+      "badge": "نصيحة ذهبية ✨",
+      "content": "استغل `constrained: false` و `boundaryMargin` عشان مفيش حدود لإبداعك في Flutter!"
+    }
+  ]
+}

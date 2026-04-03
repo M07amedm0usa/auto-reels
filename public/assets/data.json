@@ -1,1 +1,53 @@
-[]
+{
+  "scenes": [
+    {
+      "type": "intro",
+      "template": "darkminimal",
+      "color": "c-blue",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 170,
+      "content": "InteractiveViewer:\nأبعد من الصور",
+      "badge": "Flutter Tip"
+    },
+    {
+      "type": "text",
+      "template": "darkminimal",
+      "color": "c-blue",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 504,
+      "title": "FlutterByMousa",
+      "badge": "المشكلة فين؟",
+      "content": "الـ Custom UIs محتاجة Zoom و Pan.\nالمشكلة في الكود المعقد والأداء."
+    },
+    {
+      "type": "text",
+      "template": "darkminimal",
+      "color": "c-blue",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 570,
+      "title": "FlutterByMousa",
+      "badge": "الحل السحري",
+      "content": "InteractiveViewer مش للصور بس.\nحوله لأي Widget تتخيله!"
+    },
+    {
+      "type": "code",
+      "template": "darkminimal",
+      "color": "c-blue",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 587,
+      "title": "custom_ui_wrapper.dart",
+      "badge": "الكود العملي",
+      "code": "InteractiveViewer(\n  maxScale: 4.0,\n  minScale: 0.5,\n  constrained: false, // For content bigger than viewport\n  child: Text( // Example: complex custom painter\n    'Your Custom UI Here',\n    style: TextStyle(fontSize: 50, color: Colors.green),\n  ),\n)"
+    },
+    {
+      "type": "text",
+      "template": "darkminimal",
+      "color": "c-blue",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 564,
+      "title": "FlutterByMousa",
+      "badge": "نصيحة ذهبية ✨",
+      "content": "استخدم InteractiveViewer لأي حاجة\nمش بس الصور. استكشف بنفسك!"
+    }
+  ]
+}

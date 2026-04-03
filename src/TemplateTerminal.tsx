@@ -54,7 +54,6 @@ export const TerminalIntro: React.FC<{ item: SceneItem; duration: number }> = ({
             return (
               <div key={i} style={{ display:'flex', gap:20, fontFamily:'JetBrains Mono,monospace',
                 fontSize:22, direction:'ltr', opacity:p, 
-                // تم إضافة Math.round هنا لمنع رعشة البيكسلات
                 transform:`translateX(${Math.round((1-p)*-20)}px)` }}>
                 <span style={{ color:accent, fontWeight:700 }}>{pre}</span>
                 <span style={{ color:'rgba(255,255,255,0.4)', flex:1 }}>{msg}</span>
@@ -71,14 +70,16 @@ export const TerminalIntro: React.FC<{ item: SceneItem; duration: number }> = ({
             opacity: interpolate(sp(44),[0,1],[0,0.75]) }}>
             // Flutter Tutorial — بالعربي
           </div>
-          <div style={{ fontFamily:'Cairo,sans-serif', fontWeight:900, fontSize:72,
-            color:'#fff', direction:'rtl', lineHeight:1.1, marginBottom:12,
+          <div style={{ 
+            fontFamily:'Cairo,sans-serif', fontWeight:900, fontSize:72,
+            color:'#fff', direction:'rtl', lineHeight:1.2, marginBottom:12,
+            /* 🔴 التعديل السحري هنا: إجبار النص على اللف (Wrap) بشكل سليم */
+            display: 'flex', flexWrap: 'wrap', columnGap: 16, rowGap: 8, wordBreak: 'break-word',
             opacity: interpolate(sp(50),[0,0.4,1],[0,0.6,1]),
-            // تم إضافة Math.round هنا لمنع الهزة العمودية أثناء الأنيميشن
             transform:`translateY(${Math.round((1-sp(50))*30)}px)` }}>
             {words.map((w,i) => (
               <span key={i} style={{ color:i===0?accent:'#fff',
-                textShadow:i===0?`0 0 30px ${accent}`:'none', marginRight:18 }}>{w}</span>
+                textShadow:i===0?`0 0 30px ${accent}`:'none' }}>{w}</span>
             ))}
           </div>
           {sub && (
@@ -243,4 +244,4 @@ export const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total:
     </AbsoluteFill>
   );
 };
-  
+                

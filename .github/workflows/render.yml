@@ -1,4 +1,4 @@
-name: 🎬 Render Reel
+name: 🎬 Render & Push Reel
 
 on:
   push:
@@ -13,79 +13,65 @@ permissions:
 
 jobs:
   render:
-    # [FIX] تثبيت إصدار أوبونتو على 22.04 لتجنب مشاكل توافق حزم Chromium
     runs-on: ubuntu-22.04
-    
-    # [CRITICAL] منع الـ Infinite Loop
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     timeout-minutes: 40
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # عشان الـ Push يتم بسلاسة
 
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Install Chromium system deps
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y \
-            libnss3 libatk1.0-0 libatk-bridge2.0-0 \
-            libcups2 libxkbcommon0 libxdamage1 libgbm1 \
-            libasound2 libpangocairo-1.0-0 libxss1 \
-            libgtk-3-0 --no-install-recommends
+      - name: Install Remotion Browser
+        run: npx remotion browser install
 
       - name: Render video
         run: |
           mkdir -p output
-
-          # تحقق إن data.json فيه scenes فعلية قبل الـ render
-          SCENE_COUNT=$(jq 'length' public/assets/data.json)
-          echo "Scenes to render: $SCENE_COUNT"
-          if [ "$SCENE_COUNT" -eq 0 ]; then
-            echo "ERROR: data.json is empty — aborting render"
+          
+          # التأكد من وجود بيانات للريندر
+          SCENE_COUNT=$(jq 'if type == "array" then length else .scenes | length end' public/assets/data.json)
+          if [ "$SCENE_COUNT" == "0" ] || [ "$SCENE_COUNT" == "null" ]; then
+            echo "No scenes found. Skipping..."
             exit 1
           fi
 
-          # Root.tsx بيقرأ data.json عن طريق getInputProps + static import
-          # تم إزالة --gl=swiftshader لمنع الهزة (Jitter) الناتجة عن محاكاة كارت الشاشة
           npx remotion render \
             src/index.ts \
             ReelAutomationScene \
             output/video.mp4 \
-            --concurrency=2 \
             --log=verbose
 
-      - name: Reset Data, Clean Audio & Save Video
+      - name: Commit & Push Video to Repo
         run: |
-          git config --global user.name "Reel-Bot"
+          git config --global user.name "FlutterByMousa-Bot"
           git config --global user.email "bot@github.com"
 
-          # 1. تصفير الداتا
-          echo "[]" > public/assets/data.json
-
-          # 2. مسح ملفات الصوت
-          rm -f public/assets/Elevsound/*.mp3 || true
-
-          # 3. تجهيز الرفع
+          # 1. إجبار إضافة الفيديو حتى لو كان فولدر output في الـ .gitignore
           git add -f output/video.mp4
-          git add public/assets/data.json
+
+          # 2. تصفير البيانات وحذف الصوتيات القديمة
+          echo "[]" > public/assets/data.json
+          rm -f public/assets/Elevsound/*.mp3 || true
           
-          # [التعديل هنا] استخدم -u عشان يعمل stage لعملية الحذف
+          git add public/assets/data.json
           git add -u public/assets/Elevsound/ || true
 
-          # 4. الرفع مع تجاوز التشغيل التلقائي
-          git commit -m "Video Generated, Audio Cleaned & Data Reset [skip ci]" || echo "No changes to commit"
-          git push
-          
-      - name: Upload artifact
+          # 3. الرفع مع [skip ci] لمنع الدخول في حلقة مفرغة
+          git commit -m "🚀 New Reel Generated: output/video.mp4 [skip ci]"
+          git push origin main
+
+      - name: Upload as Artifact (Backup)
         uses: actions/upload-artifact@v4
         with:
-          name: reel-output-${{ github.run_number }}
+          name: video-file
           path: output/video.mp4
-          retention-days: 7
           

@@ -1,8 +1,9 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح]
 import {
-  AbsoluteFill, Audio, staticFile,
+  AbsoluteFill,
   spring, useCurrentFrame, useVideoConfig, interpolate,
 } from 'remotion';
+// [تم الحذف]: Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { TypewriterWithPen } from './TypewriterWithPen';
@@ -30,7 +31,7 @@ export const CardStackScene: React.FC<{
       <RadialGlow glow={glow} top="50%" duration={duration} />
       <SceneIdx index={index} total={total} />
 
-      {/* Shadow card behind */}
+      {/* Shadow cards behind */}
       <div style={{
         position: 'absolute', width: '84%',
         height: 700,
@@ -87,7 +88,7 @@ export const CardStackScene: React.FC<{
                   opacity: interpolate(sp(14), [0, 0.5, 1], [0, 0.6, 1]),
                 }}>
                   {item.title.split(' ').map((w, i) => (
-                    <span key={i} style={{ color: i === 0 ? accent : '#fff', marginRight: 14 }}>{w} </span>
+                    <span key={i} style={{ color: i === 0 ? accent : '#fff', marginInlineStart: i === 0 ? 0 : 14 }}>{w} </span>
                   ))}
                 </div>
               )}
@@ -103,7 +104,8 @@ export const CardStackScene: React.FC<{
             }}>
               <div style={{ height: 3, background: `linear-gradient(90deg,transparent,${accent},transparent)` }} />
               <SyntaxHighlighter language="dart" style={vscDarkPlus}
-                customStyle={{ background: 'transparent', fontSize: 72, padding: '24px 28px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+                // [تم التصحيح]: fontSize لـ 46
+                customStyle={{ background: 'transparent', fontSize: 46, padding: '24px 28px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
                 {item.code ?? ''}
               </SyntaxHighlighter>
             </div>
@@ -134,12 +136,7 @@ export const CardStackScene: React.FC<{
         </div>
         <ProgressBar accent={accent} duration={duration} />
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };
-
-// ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 13 — VAPORWAVE
-// ألوان vaporwave (pink/purple) مع sun وgrid retrowave
-// ─────────────────────────────────────────────────────────────────────
+       

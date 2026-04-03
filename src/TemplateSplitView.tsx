@@ -1,8 +1,9 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح]
 import {
-  AbsoluteFill, Audio, staticFile,
+  AbsoluteFill,
   spring, useCurrentFrame, useVideoConfig, interpolate,
 } from 'remotion';
+// [تم الحذف]: Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { TypewriterWithPen } from './TypewriterWithPen';
@@ -11,7 +12,7 @@ import { DotGrid, RadialGlow, ProgressBar, SceneIdx } from './primitives';
 import type { SceneItem } from './types';
 
 // ─────────────────────────────────────────────────
-// TEMPLATE: HUD COMPARE (بديل SplitView)
+// TEMPLATE: HUD COMPARE (SplitView)
 // ─────────────────────────────────────────────────
 export const SplitViewScene: React.FC<{
   item: SceneItem; index: number; total: number; duration: number;
@@ -81,7 +82,8 @@ export const SplitViewScene: React.FC<{
             <span key={i} style={{
               color: i === 0 ? accent : '#fff',
               textShadow: i === 0 ? `0 0 30px ${accent}88` : 'none',
-              marginRight: 14,
+              // [تم التعديل]: مسافات عربية صحيحة
+              marginInlineStart: i === 0 ? 0 : 14,
             }}>{w}</span>
           ))}
         </div>
@@ -107,7 +109,8 @@ export const SplitViewScene: React.FC<{
             <div style={{ height: 3, background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }} />
             <div style={{ direction: 'ltr' }}>
               <SyntaxHighlighter language="dart" style={vscDarkPlus}
-                customStyle={{ background: 'transparent', fontSize: 72, padding: '28px 36px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+                // [تم التصحيح]: fontSize لـ 46
+                customStyle={{ background: 'transparent', fontSize: 46, padding: '28px 36px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
                 {item.code ?? ''}
               </SyntaxHighlighter>
             </div>
@@ -126,6 +129,7 @@ export const SplitViewScene: React.FC<{
 
         {!isCode && (item.checkItems || !text) && nodes.map((n, i) => {
           const p = sp(n.delay);
+          const nodeRTL = /[\u0600-\u06FF]/.test(n.label);
           return (
             <div key={i} style={{
               display: 'flex', alignItems: 'center', gap: 22,
@@ -146,7 +150,7 @@ export const SplitViewScene: React.FC<{
                 <div style={{
                   fontFamily: 'Cairo,sans-serif', fontWeight: 800, fontSize: 32,
                   color: 'rgba(255,255,255,0.92)',
-                  direction: /[\u0600-\u06FF]/.test(n.label) ? 'rtl' : 'ltr',
+                  direction: nodeRTL ? 'rtl' : 'ltr',
                 }}>{n.label}</div>
                 {n.sub && (
                   <div style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: 19, color: 'rgba(255,255,255,0.32)', marginTop: 5 }}>{n.sub}</div>
@@ -173,8 +177,6 @@ export const SplitViewScene: React.FC<{
         <div style={{ flex: 1, margin: '0 32px' }}><ProgressBar accent={accent} duration={duration} /></div>
         <span style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: 18, letterSpacing: 3, color: `${accent}66` }}>HUD.{String(index + 1).padStart(2, '0')}</span>
       </div>
-
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };

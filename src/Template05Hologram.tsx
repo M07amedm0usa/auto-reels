@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح]
 import {
-  AbsoluteFill, Audio, staticFile,
+  AbsoluteFill,
   spring, useCurrentFrame, useVideoConfig, interpolate,
 } from 'remotion';
+// [تم الحذف]: شيلنا Audio و staticFile لأننا بنشغلهم من MyVideo.tsx دلوقتي
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { TypewriterWithPen } from './TypewriterWithPen';
 import { getP } from './types';
 import { ScanLines, SceneIdx, RadialGlow } from './primitives';
 import type { SceneItem } from './types';
@@ -21,9 +21,13 @@ export const HologramScene: React.FC<{
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const sp = (d: number) => spring({ frame: Math.max(0, frame - d), fps, config: { damping: 20 } });
+  
+  // تأمين من القسمة على صفر
   const pct = duration > 0 ? frame / duration : 0;
+  
   const isCode = item.type === 'code';
   const text = item.content ?? '';
+  const safeTitle = item.title ?? text.split('\n')[0] ?? '';
 
   return (
     <AbsoluteFill style={{ background: '#000510', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -70,7 +74,7 @@ export const HologramScene: React.FC<{
             opacity: interpolate(sp(14), [0, 0.5, 1], [0, 0.6, 1]),
             transform: `scale(${interpolate(sp(14), [0, 1], [0.92, 1])})`,
           }}>
-            {(item.title ?? text.split('\n')[0] ?? '').split(' ').map((w, i) => (
+            {safeTitle.split(' ').map((w, i) => (
               <span key={i} style={{ color: i === 0 ? accent : '#fff', marginRight: 14 }}>{w} </span>
             ))}
           </div>
@@ -93,8 +97,9 @@ export const HologramScene: React.FC<{
             direction: 'ltr', overflow: 'hidden',
           }}>
             <div style={{ height: 3, background: `linear-gradient(90deg,transparent,${accent},transparent)` }} />
+            {/* [تم التصحيح]: تغيير fontSize لـ 46 ليتناسب مع الموبايل */}
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background: 'transparent', fontSize: 72, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+              customStyle={{ background: 'transparent', fontSize: 46, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
@@ -112,12 +117,7 @@ export const HologramScene: React.FC<{
         @flutterbymousa
         <div style={{ height: 1, width: `${pct * 200}px`, background: `linear-gradient(90deg,${accent},transparent)` }} />
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };
-
-// ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 6 — BLUEPRINT
-// تصميم هندسي زرقاق مع خطوط blueprint وcode بارزة
-// ─────────────────────────────────────────────────────────────────────
+            

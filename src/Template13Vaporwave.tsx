@@ -103,7 +103,7 @@ export const VaporwaveScene: React.FC<{
           }}>
             <div style={{ height: 3, background: 'linear-gradient(90deg,#A855F7,#FF4D8D,#FFB800)' }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background: 'transparent', fontSize: 40, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+              customStyle={{ background: 'transparent', fontSize: 56, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>

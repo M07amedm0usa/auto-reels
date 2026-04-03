@@ -176,7 +176,7 @@ export const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total:
         <div style={{ padding:'40px 44px', display:'flex', gap:24, direction:'ltr' }}>
           {/* line numbers */}
           <div style={{ display:'flex', flexDirection:'column', color:'rgba(255,255,255,0.15)',
-            fontFamily:'JetBrains Mono,monospace', fontSize:42, lineHeight:1.65,
+            fontFamily:'JetBrains Mono,monospace', fontSize:56, lineHeight:1.65,
             textAlign:'right', flexShrink:0, borderRight:'1px solid rgba(255,255,255,0.06)',
             paddingRight:24, minWidth:56, userSelect:'none' }}>
             {lines.map((_,i) => (
@@ -205,7 +205,7 @@ export const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total:
                   },
                 };
               }}
-              customStyle={{ background:'transparent', fontSize:42, padding:0, margin:0, lineHeight:'1.65', direction:'ltr' }}
+              customStyle={{ background:'transparent', fontSize:56, padding:0, margin:0, lineHeight:'1.65', direction:'ltr' }}
             >
               {code || ' '}
             </SyntaxHighlighter>

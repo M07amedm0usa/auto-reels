@@ -111,7 +111,7 @@ export const BlueprintScene: React.FC<{
               <div style={{
                 display: 'flex', flexDirection: 'column',
                 color: 'rgba(255,255,255,0.15)', fontFamily: 'JetBrains Mono,monospace',
-                fontSize: 40, lineHeight: 1.65, textAlign: 'right',
+                fontSize: 56, lineHeight: 1.65, textAlign: 'right',
                 flexShrink: 0, borderRight: `1px solid ${accent}20`,
                 paddingRight: 20, minWidth: 52, userSelect: 'none',
               }}>
@@ -138,7 +138,7 @@ export const BlueprintScene: React.FC<{
                       },
                     };
                   }}
-                  customStyle={{ background: 'transparent', fontSize: 40, padding: 0, margin: 0, lineHeight: '1.65', direction: 'ltr' }}
+                  customStyle={{ background: 'transparent', fontSize: 56, padding: 0, margin: 0, lineHeight: '1.65', direction: 'ltr' }}
                 >
                   {item.code ?? ' '}
                 </SyntaxHighlighter>

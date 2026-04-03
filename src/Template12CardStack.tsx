@@ -106,7 +106,7 @@ export const CardStackScene: React.FC<{
             }}>
               <div style={{ height: 3, background: `linear-gradient(90deg,transparent,${accent},transparent)` }} />
               <SyntaxHighlighter language="dart" style={vscDarkPlus}
-                customStyle={{ background: 'transparent', fontSize: 40, padding: '24px 28px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+                customStyle={{ background: 'transparent', fontSize: 56, padding: '24px 28px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
                 {item.code ?? ''}
               </SyntaxHighlighter>
             </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { AbsoluteFill, Sequence, useCurrentFrame, interpolate } from 'remotion';
 import './style.css';
 
@@ -13,7 +13,7 @@ import { SplitViewScene }  from './TemplateSplitView';
 import { NotebookScene }   from './TemplateNotebook';
 import { CinematicScene }  from './TemplateCinematic';
 
-// ── new 11 (كل واحد في ملفه) ──
+// ── new 11 ──
 import { HologramScene }    from './Template05Hologram';
 import { BlueprintScene }   from './Template06Blueprint';
 import { GlassScene }       from './Template07Glass';
@@ -27,33 +27,19 @@ import { InfographicScene } from './Template14Infographic';
 import { ComicPanelScene }  from './Template15Comic';
 
 // ─────────────────────────────────────────────────
-// TEMPLATE ROTATION — 15 تمبلت بالترتيب
-// لو المشهد مش عنده template → بيدور تلقائياً
+// كل الـ templates المتاحة
 // ─────────────────────────────────────────────────
-const TEMPLATE_ROTATION: TemplateId[] = [
-  'terminal',
-  'splitview',
-  'notebook',
-  'cinematic',
-  'hologram',
-  'blueprint',
-  'glass',
-  'retrocrt',
-  'neonsign',
-  'newspaper',
-  'darkminimal',
-  'cardstack',
-  'vaporwave',
-  'infographic',
-  'comic',
+const ALL_TEMPLATES: TemplateId[] = [
+  'terminal', 'splitview', 'notebook', 'cinematic',
+  'hologram', 'blueprint', 'glass', 'retrocrt',
+  'neonsign', 'newspaper', 'darkminimal', 'cardstack',
+  'vaporwave', 'infographic', 'comic',
 ];
 
 // ─────────────────────────────────────────────────
-// SEAMLESS CROSSFADE WRAPPER
-// كل مشهد بيعمل fade-in في الأول و fade-out في الآخر
-// والـ overlap بين المشاهد بيخلي الانتقال سلس جداً
+// CROSSFADE WRAPPER
 // ─────────────────────────────────────────────────
-const OVERLAP_FRAMES = 18; // ~0.6 ثانية crossfade
+const OVERLAP_FRAMES = 18;
 
 const SceneFade: React.FC<{
   children: React.ReactNode;
@@ -96,9 +82,11 @@ const Scene: React.FC<{
 }> = ({ item, index, total, duration, tmpl }) => {
   const type = item.type ?? 'text';
 
+  // intro دايمًا terminal
+  if (type === 'intro') return <TerminalIntro item={item} duration={duration} />;
+
   if (tmpl === 'terminal') {
-    if (type === 'intro') return <TerminalIntro item={item} duration={duration} />;
-    if (type === 'code')  return <Enter><GenericCodeScene item={item} index={index} total={total} duration={duration} /></Enter>;
+    if (type === 'code') return <Enter><GenericCodeScene item={item} index={index} total={total} duration={duration} /></Enter>;
     return <Enter><GenericTextScene item={item} index={index} total={total} duration={duration} /></Enter>;
   }
   if (tmpl === 'splitview')   return <SplitViewScene   item={item} index={index} total={total} duration={duration} />;
@@ -129,21 +117,21 @@ export { type SceneItem };
 export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
   if (!scenes?.length) return <AbsoluteFill style={{ background: '#04040A' }} />;
 
-  // ── Template rotation ────────────────────────────
-  // لو عنده template صريح في الـ data.json → استخدمه
-  // لو ماعندوش → rotate أوتوماتيك (0→terminal, 1→splitview, ...)
-  const resolvedTemplates: TemplateId[] = scenes.map((item, i) =>
-    item.template ?? TEMPLATE_ROTATION[i % TEMPLATE_ROTATION.length]!
-  );
+  // ── template واحد عشوائي للـ video كلها ──────────
+  // لو الـ data.json بيحدد template في أول مشهد non-intro → استخدمه
+  // غير كده → اختار عشوائي من الـ 15
+  const videoTemplate = useMemo<TemplateId>(() => {
+    const firstNonIntro = scenes.find(s => (s.type ?? 'text') !== 'intro');
+    if (firstNonIntro?.template) return firstNonIntro.template;
+    return ALL_TEMPLATES[Math.floor(Math.random() * ALL_TEMPLATES.length)]!;
+  }, [scenes]);
 
-  // ── Durations ────────────────────────────────────
+  // ── Durations ─────────────────────────────────────
   const durations = scenes.map(item =>
     Math.max(SCENE_MIN, Math.ceil(item.calculatedDuration ?? SCENE_MIN))
   );
 
-  // ── Offsets مع overlap ───────────────────────────
-  // كل مشهد بيبدأ قبل انتهاء السابق بـ OVERLAP_FRAMES
-  // عشان الـ crossfade يكون متواصل ومش متقطع
+  // ── Offsets مع overlap ────────────────────────────
   const offsets: number[] = [];
   let cursor = 0;
   for (let i = 0; i < durations.length; i++) {
@@ -154,9 +142,8 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
   return (
     <AbsoluteFill style={{ background: '#04040A' }}>
       {scenes.map((item, index) => {
-        const dur    = durations[index] ?? SCENE_MIN;
-        const start  = offsets[index]   ?? 0;
-        const tmpl   = resolvedTemplates[index]!;
+        const dur     = durations[index] ?? SCENE_MIN;
+        const start   = offsets[index]   ?? 0;
         const isFirst = index === 0;
         const isLast  = index === scenes.length - 1;
 
@@ -172,7 +159,7 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
                 index={index}
                 total={scenes.length}
                 duration={dur}
-                tmpl={tmpl}
+                tmpl={videoTemplate}
               />
             </SceneFade>
           </Sequence>

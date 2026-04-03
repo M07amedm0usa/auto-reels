@@ -55,24 +55,25 @@ jobs:
           git config --global user.name "FlutterByMousa-Bot"
           git config --global user.email "bot@github.com"
 
-          # 1. إضافة الفيديو الناتج للـ Staging
-          git add -f output/video.mp4
-
-          # 2. تصفير ملف الـ data.json (طلبك الأول)
-          # بنكتب قوسين فاضيين [] جوه الملف عشان يرجع لحالته الأصلية
+          # 1. المرحلة الأولى: تصفير الداتا وحذف الأصوات (طلبك الأساسي)
           echo "[]" > public/assets/data.json
-          git add public/assets/data.json
-
-          # 3. مسح ملفات الأصوات نهائياً (طلبك الثاني)
-          # بنمسح الملفات من الـ Runner أولاً
           rm -rf public/assets/Elevsound/* || true
-          # بنعرف الـ Git إن الملفات دي اتحذفت فعلياً عشان يشيلها من GitHub
-          git add -u public/assets/Elevsound/ || true
 
-          # 4. حفظ كل التعديلات دي في Commit واحد
+          # 2. المرحلة الثانية: إضافة كل التغييرات (الفيديو + الحذف + تصفير الجيسون)
+          git add -f output/video.mp4
+          git add public/assets/data.json
+          # الـ -A هنا بتضمن إن الـ Git يلقط الملفات اللي اتمسحت فعلياً
+          git add -A public/assets/Elevsound/ || true
+
+          # 3. المرحلة الثالثة: الـ Commit المحلي
           git commit -m "🚀 Reel Ready | Data Reset | Sounds Cleaned [skip ci]" || echo "No changes to commit"
 
-          # 5. سحب أي تعديلات جديدة من السيرفر ودمجها مع شغلنا
+          # 4. 🔥 السطر السحري: تنظيف أي ملفات stray أو مؤقتة متبقية
+          # ده بيخلي الـ Working Directory "فابريكا" تماماً قبل الـ Pull
+          git checkout . || true
+          git clean -fd || true
+
+          # 5. المرحلة الرابعة: السحب والدمج بذكاء
           git pull origin main --rebase -X theirs
 
           # 6. الرفع النهائي

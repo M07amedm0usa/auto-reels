@@ -69,17 +69,19 @@ jobs:
           echo "[]" > public/assets/data.json
 
           # 2. مسح ملفات الصوت
-          rm -f public/assets/Elevsound/*.mp3 || echo "No audio files found"
+          rm -f public/assets/Elevsound/*.mp3 || true
 
           # 3. تجهيز الرفع
           git add -f output/video.mp4
           git add public/assets/data.json
-          git add public/assets/Elevsound/*.mp3 || echo "Nothing to add"
+          
+          # [التعديل هنا] استخدم -u عشان يعمل stage لعملية الحذف
+          git add -u public/assets/Elevsound/ || true
 
           # 4. الرفع مع تجاوز التشغيل التلقائي
           git commit -m "Video Generated, Audio Cleaned & Data Reset [skip ci]" || echo "No changes to commit"
           git push
-
+          
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

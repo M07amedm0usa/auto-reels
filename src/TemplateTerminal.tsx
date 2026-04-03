@@ -53,7 +53,9 @@ export const TerminalIntro: React.FC<{ item: SceneItem; duration: number }> = ({
             const p = sp(i * 8);
             return (
               <div key={i} style={{ display:'flex', gap:20, fontFamily:'JetBrains Mono,monospace',
-                fontSize:22, direction:'ltr', opacity:p, transform:`translateX(${(1-p)*-20}px)` }}>
+                fontSize:22, direction:'ltr', opacity:p, 
+                // تم إضافة Math.round هنا لمنع رعشة البيكسلات
+                transform:`translateX(${Math.round((1-p)*-20)}px)` }}>
                 <span style={{ color:accent, fontWeight:700 }}>{pre}</span>
                 <span style={{ color:'rgba(255,255,255,0.4)', flex:1 }}>{msg}</span>
                 <span style={{ color: st==='!!' ? '#FFCB6B' : accent }}>{st}</span>
@@ -72,7 +74,8 @@ export const TerminalIntro: React.FC<{ item: SceneItem; duration: number }> = ({
           <div style={{ fontFamily:'Cairo,sans-serif', fontWeight:900, fontSize:72,
             color:'#fff', direction:'rtl', lineHeight:1.1, marginBottom:12,
             opacity: interpolate(sp(50),[0,0.4,1],[0,0.6,1]),
-            transform:`translateY(${(1-sp(50))*30}px)` }}>
+            // تم إضافة Math.round هنا لمنع الهزة العمودية أثناء الأنيميشن
+            transform:`translateY(${Math.round((1-sp(50))*30)}px)` }}>
             {words.map((w,i) => (
               <span key={i} style={{ color:i===0?accent:'#fff',
                 textShadow:i===0?`0 0 30px ${accent}`:'none', marginRight:18 }}>{w}</span>
@@ -122,9 +125,17 @@ export const GenericTextScene: React.FC<{ item: SceneItem; index: number; total:
   return (
     <AbsoluteFill style={{ background:'#04040A', justifyContent:'center', alignItems:'center' }}>
       <DotGrid /><RadialGlow glow={glow} duration={duration} /><SceneIdx index={index} total={total} />
-      <div style={{ width:'90%', background:'rgba(8,8,18,0.97)', borderRadius:32, overflow:'hidden',
+      <div style={{ 
+        width:'90%', 
+        background:'rgba(8,8,18,0.97)', 
+        borderRadius:32, 
+        overflow:'hidden',
         boxShadow:`0 0 0 1px rgba(255,255,255,0.06),0 40px 80px rgba(0,0,0,.7),0 0 80px ${glow}`,
-        position:'relative' }}>
+        position:'relative',
+        // تم إضافة السطرين دول للـ GPU Acceleration ومنع رعشة الظلال (Jitter)
+        transform: 'translateZ(0)',
+        willChange: 'transform'
+      }}>
         <div style={{ position:'absolute', inset:0, borderRadius:32, padding:1,
           background:`linear-gradient(140deg,${accent}88 0%,transparent 50%)`,
           WebkitMask:'linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0)',
@@ -169,8 +180,16 @@ export const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total:
   return (
     <AbsoluteFill style={{ background:'#04040A', justifyContent:'center', alignItems:'center' }}>
       <DotGrid /><RadialGlow glow={glow} duration={duration} /><SceneIdx index={index} total={total} />
-      <div style={{ width:'96%', background:'rgba(8,8,18,0.97)', borderRadius:32, overflow:'hidden',
-        boxShadow:`0 0 0 1px rgba(255,255,255,0.06),0 40px 80px rgba(0,0,0,.7),0 0 60px ${glow}` }}>
+      <div style={{ 
+        width:'96%', 
+        background:'rgba(8,8,18,0.97)', 
+        borderRadius:32, 
+        overflow:'hidden',
+        boxShadow:`0 0 0 1px rgba(255,255,255,0.06),0 40px 80px rgba(0,0,0,.7),0 0 60px ${glow}`,
+        // تم إضافة السطرين دول للـ GPU Acceleration
+        transform: 'translateZ(0)',
+        willChange: 'transform'
+      }}>
         <WinBar title={item.title ?? 'main.dart'}
           right={<span style={{ fontFamily:'JetBrains Mono,monospace', fontSize:18, letterSpacing:3, color:accent }}>DART</span>} />
         <div style={{ padding:'40px 44px', display:'flex', gap:24, direction:'ltr' }}>

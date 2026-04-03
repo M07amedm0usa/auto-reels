@@ -33,9 +33,11 @@ interface BaseScene {
   voiceFile?:          string;
   calculatedDuration?: number;
 }
-export interface TextScene  extends BaseScene { type: 'text';   badge: string;  }
-export interface IntroScene extends BaseScene { type?: 'intro'; badge?: string; }
-export interface CodeScene  extends BaseScene { type: 'code';   badge?: string; }
+
+export interface TextScene  extends BaseScene { type: 'text';  badge: string;  }
+export interface IntroScene extends BaseScene { type: 'intro'; badge?: string; } // التعديل هنا (type إجباري)
+export interface CodeScene  extends BaseScene { type: 'code';  badge?: string; }
+
 export type SceneItem = TextScene | IntroScene | CodeScene;
 
 // يجب أن يطابق SCENE_MIN قيمة OVERLAP/2 في Root.tsx و MyVideo.tsx
@@ -53,4 +55,6 @@ export const PALETTE: Record<string, { accent: string; glow: string; dim: string
   'c-pink':   { accent: '#FF4D8D', glow: 'rgba(255,77,141,0.22)',  dim: 'rgba(255,77,141,0.08)'  },
   'c-blue':   { accent: '#00C8FF', glow: 'rgba(0,200,255,0.22)',   dim: 'rgba(0,200,255,0.08)'   },
 };
-export const getP = (c?: string) => PALETTE[c ?? 'c-cyan'] ?? (PALETTE['c-cyan'] as NonNullable<typeof PALETTE[string]>);
+
+// تعديل بسيط لضمان دائمًا إرجاع أوبجيكت صالح بدون Type Assertion
+export const getP = (c?: string) => PALETTE[c || 'c-cyan'] || PALETTE['c-cyan'];

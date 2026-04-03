@@ -5,7 +5,7 @@ import {
 } from 'remotion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { TypewriterWithPen } from './TypewriterWithPen';
+// import { TypewriterWithPen } from './TypewriterWithPen'; // مش محتاجينها هنا
 import { getP } from './types';
 import { GraphPaper, SceneIdx, RadialGlow, ProgressBar } from './primitives';
 import type { SceneItem } from './types';
@@ -50,7 +50,8 @@ export const InfographicScene: React.FC<{
           </div>
         )}
         <div style={{
-          fontFamily: 'Cairo,sans-serif', fontWeight: 900, fontSize: 60,
+          fontFamily: 'Cairo,sans-serif', fontWeight: 900, 
+          fontSize: 72, /* 🔴 كبرنا العنوان لـ 72 */
           color: '#fff', direction: 'rtl', lineHeight: 1.1,
           opacity: interpolate(sp(10), [0, 0.5, 1], [0, 0.6, 1]),
         }}>
@@ -79,24 +80,27 @@ export const InfographicScene: React.FC<{
         )}
 
         {!isCode && bullets.length > 0 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, direction: 'rtl' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, direction: 'rtl' }}>
             {bullets.slice(0, 5).map((b, i) => (
               <div key={i} style={{
-                display: 'flex', alignItems: 'center', gap: 16,
-                fontFamily: 'Cairo,sans-serif', fontSize: 28, color: 'rgba(255,255,255,0.75)',
+                display: 'flex', alignItems: 'center', gap: 24,
+                fontFamily: 'Cairo,sans-serif', 
+                fontSize: 48, /* 🔴 كبرنا النص بتاع النقطة لـ 48 */
+                color: 'rgba(255,255,255,0.85)',
                 opacity: interpolate(sp(18 + i * 8), [0, 1], [0, 1]),
                 transform: `translateX(${(1 - sp(18 + i * 8)) * -20}px)`,
+                lineHeight: 1.5,
               }}>
                 <div style={{
-                  width: 32, height: 32, borderRadius: 8, flexShrink: 0,
+                  width: 56, height: 56, borderRadius: 16, flexShrink: 0, /* 🔴 كبرنا المربع بتاع علامة الصح */
                   background: b.done ? `${accent}18` : 'rgba(255,255,255,0.04)',
-                  border: b.done ? `1px solid ${accent}` : '1px dashed rgba(255,255,255,0.15)',
+                  border: b.done ? `3px solid ${accent}` : '3px dashed rgba(255,255,255,0.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 14, color: b.done ? accent : 'transparent',
+                  fontSize: 28, fontWeight: 'bold', color: b.done ? accent : 'transparent', /* 🔴 كبرنا علامة الصح نفسها */
                 }}>
                   {b.done ? '✓' : '○'}
                 </div>
-                {b.text}
+                <div style={{ flex: 1 }}>{b.text}</div> {/* 🔴 flex: 1 عشان لو النص سطرين ينزل تحت بعضه مظبوط */}
               </div>
             ))}
           </div>
@@ -110,7 +114,7 @@ export const InfographicScene: React.FC<{
           }}>
             <div style={{ height: 3, background: `linear-gradient(90deg,transparent,${accent},transparent)` }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background: 'transparent', fontSize: 72, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+              customStyle={{ background: 'transparent', fontSize: 56, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
@@ -122,8 +126,3 @@ export const InfographicScene: React.FC<{
     </AbsoluteFill>
   );
 };
-
-// ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 15 — COMIC PANEL
-// بانيل كوميك بـ thick borders وspeech bubble للـ tips
-// ─────────────────────────────────────────────────────────────────────

@@ -134,7 +134,7 @@ export const BlueprintScene: React.FC<{
                       },
                     };
                   }}
-                  customStyle={{ background: 'transparent', fontSize: 56, padding: 0, margin: 0, lineHeight: '1.65', direction: 'ltr' }}
+                  customStyle={{ background: 'transparent', fontSize: 72, padding: 0, margin: 0, lineHeight: '1.65', direction: 'ltr' }}
                 >
                   {item.code ?? ' '}
                 </SyntaxHighlighter>

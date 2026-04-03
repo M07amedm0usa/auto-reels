@@ -36,17 +36,19 @@ jobs:
           sudo apt-get install -y \
             libnss3 libatk1.0-0 libatk-bridge2.0-0 \
             libcups2 libxkbcommon0 libxdamage1 libgbm1 \
-            libasound2 libpangocairo-1.0-0 libxss1 \
+            libasound2t64 libpangocairo-1.0-0 libxss1 \
             libgtk-3-0 --no-install-recommends
 
       - name: Render video
         run: |
           mkdir -p output
-          # [PERFORMANCE] concurrency=2 لمنع استهلاك الميموري بالكامل
+          # jq يبني JSON object صح بغض النظر عن المحتوى
+          RENDER_PROPS=$(jq -c '{scenes:.}' public/assets/data.json)
           npx remotion render \
             src/index.ts \
             ReelAutomationScene \
             output/video.mp4 \
+            --props="$RENDER_PROPS" \
             --concurrency=2 \
             --gl=swiftshader \
             --log=verbose

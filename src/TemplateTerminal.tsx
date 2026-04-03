@@ -132,7 +132,6 @@ export const GenericTextScene: React.FC<{ item: SceneItem; index: number; total:
         overflow:'hidden',
         boxShadow:`0 0 0 1px rgba(255,255,255,0.06),0 40px 80px rgba(0,0,0,.7),0 0 80px ${glow}`,
         position:'relative',
-        // تم إضافة السطرين دول للـ GPU Acceleration ومنع رعشة الظلال (Jitter)
         transform: 'translateZ(0)',
         willChange: 'transform'
       }}>
@@ -186,7 +185,6 @@ export const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total:
         borderRadius:32, 
         overflow:'hidden',
         boxShadow:`0 0 0 1px rgba(255,255,255,0.06),0 40px 80px rgba(0,0,0,.7),0 0 60px ${glow}`,
-        // تم إضافة السطرين دول للـ GPU Acceleration
         transform: 'translateZ(0)',
         willChange: 'transform'
       }}>
@@ -195,9 +193,9 @@ export const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total:
         <div style={{ padding:'40px 44px', display:'flex', gap:24, direction:'ltr' }}>
           {/* line numbers */}
           <div style={{ display:'flex', flexDirection:'column', color:'rgba(255,255,255,0.15)',
-            fontFamily:'JetBrains Mono,monospace', fontSize:56, lineHeight:1.65,
+            fontFamily:'"JetBrains Mono",monospace', fontSize:72, lineHeight:1.5,
             textAlign:'right', flexShrink:0, borderRight:'1px solid rgba(255,255,255,0.06)',
-            paddingRight:24, minWidth:56, userSelect:'none' }}>
+            paddingRight:24, minWidth:64, userSelect:'none' }}>
             {lines.map((_,i) => (
               <div key={i} style={{ opacity: i<=full ? (i===hl ? 0.7 : 0.25) : 0, color: i===hl ? accent : undefined }}>{i+1}</div>
             ))}
@@ -224,7 +222,16 @@ export const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total:
                   },
                 };
               }}
-              customStyle={{ background:'transparent', fontSize:56, padding:0, margin:0, lineHeight:'1.65', direction:'ltr' }}
+              customStyle={{ 
+                background:'transparent', 
+                fontSize: 72, 
+                fontWeight: 700, 
+                fontFamily: '"JetBrains Mono",monospace', 
+                padding:0, 
+                margin:0, 
+                lineHeight: 1.5, 
+                direction:'ltr' 
+              }}
             >
               {code || ' '}
             </SyntaxHighlighter>
@@ -236,3 +243,4 @@ export const GenericCodeScene: React.FC<{ item: SceneItem; index: number; total:
     </AbsoluteFill>
   );
 };
+  

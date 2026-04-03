@@ -51,13 +51,12 @@ jobs:
             exit 1
           fi
 
-          # بناء --props كـ {"scenes":[...]}
-          RENDER_PROPS=$(jq -c '{scenes:.}' public/assets/data.json)
+          # Root.tsx بيقرأ data.json عن طريق getInputProps + static import
+          # مش محتاج --props من بره
           npx remotion render \
             src/index.ts \
             ReelAutomationScene \
             output/video.mp4 \
-            --props="$RENDER_PROPS" \
             --concurrency=2 \
             --gl=swiftshader \
             --log=verbose
@@ -89,4 +88,4 @@ jobs:
           path: output/video.mp4
           retention-days: 7
 
-                    
+          

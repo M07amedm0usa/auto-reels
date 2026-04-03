@@ -6,6 +6,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  
+  /* [مهم جداً] إجبار المتصفح على الدقة ومنع رعشة الخطوط */
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ── تأكد إن direction: ltr على code دايماً ── */
@@ -13,4 +18,6 @@ pre, code, .syntax-block {
   direction: ltr !important;
   unicode-bidi: plaintext;
   font-family: 'JetBrains Mono', monospace;
+  /* منع الكود من الالتفاف العشوائي اللي ممكن يغير الأبعاد فجأة */
+  white-space: pre-wrap; 
 }

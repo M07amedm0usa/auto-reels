@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح]
 import {
-  AbsoluteFill, Audio, staticFile,
+  AbsoluteFill,
   spring, useCurrentFrame, useVideoConfig, interpolate,
 } from 'remotion';
+// [تم الحذف]: Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { TypewriterWithPen } from './TypewriterWithPen';
 import { getP } from './types';
 import { SceneIdx, RadialGlow } from './primitives';
 import type { SceneItem } from './types';
@@ -59,7 +59,8 @@ export const DarkMinimalScene: React.FC<{
               <span key={i} style={{
                 color: i === 0 ? accent : '#fff',
                 textShadow: i === 0 ? `0 0 40px ${accent}` : 'none',
-                marginRight: 16,
+                // [تم التعديل]: مسافة بين الكلمات العربي
+                marginInlineStart: i === 0 ? 0 : 16,
               }}>{w} </span>
             ))}
           </div>
@@ -83,14 +84,15 @@ export const DarkMinimalScene: React.FC<{
           }}>
             <div style={{ height: 3, background: `linear-gradient(90deg,transparent,${accent},transparent)` }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background: 'transparent', fontSize: 72, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+              // [تم التصحيح]: fontSize لـ 46
+              customStyle={{ background: 'transparent', fontSize: 46, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
         )}
       </div>
 
-      {/* Bottom */}
+      {/* Bottom Progress */}
       <div style={{
         position: 'absolute', bottom: 60, left: 88, right: 88,
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10,
@@ -98,12 +100,6 @@ export const DarkMinimalScene: React.FC<{
         <span style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: 16, letterSpacing: 4, color: 'rgba(255,255,255,0.2)' }}>@flutterbymousa</span>
         <div style={{ height: 1, width: `${pct * 160}px`, background: `linear-gradient(90deg,transparent,${accent})` }} />
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };
-
-// ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 12 — CARD STACK
-// محتوى داخل كارد واحد bold مع gradient border حواه
-// ─────────────────────────────────────────────────────────────────────

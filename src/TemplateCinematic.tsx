@@ -84,7 +84,7 @@ export const CinematicScene: React.FC<{ item: SceneItem; index: number; total: n
             opacity: interpolate(sp(15),[0,1],[0,1]), direction:'ltr' }}>
             <div style={{ height:3, background:`linear-gradient(90deg,transparent,${accent},transparent)` }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background:'transparent', fontSize:56, padding:'28px 32px', margin:0, lineHeight:'1.65', direction:'ltr' }}>
+              customStyle={{ background:'transparent', fontSize:72, padding:'28px 32px', margin:0, lineHeight:'1.65', direction:'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>

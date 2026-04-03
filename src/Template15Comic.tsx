@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح]
 import {
-  AbsoluteFill, Audio, staticFile,
+  AbsoluteFill,
   spring, useCurrentFrame, useVideoConfig, interpolate,
 } from 'remotion';
+// [تم الحذف]: Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { getP } from './types';
-// primitives not used in this template
 import type { SceneItem } from './types';
 
 // ─────────────────────────────────────────────────────────────────────
@@ -16,7 +16,7 @@ import type { SceneItem } from './types';
 export const ComicPanelScene: React.FC<{
   item: SceneItem; index: number; total: number; duration: number;
 }> = ({ item, index, total, duration }) => {
-  const { accent, dim } = getP(item.color ?? 'c-cyan');
+  const { accent } = getP(item.color ?? 'c-cyan');
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const sp = (d: number) => spring({ frame: Math.max(0, frame - d), fps, config: { damping: 18, stiffness: 130 } });
@@ -25,7 +25,7 @@ export const ComicPanelScene: React.FC<{
 
   return (
     <AbsoluteFill style={{ background: '#f0f0f0', flexDirection: 'column' }}>
-      {/* Halftone dots */}
+      {/* Halftone dots background */}
       <div style={{
         position: 'absolute', inset: 0,
         backgroundImage: `radial-gradient(circle,rgba(0,0,0,0.07) 1px,transparent 1px)`,
@@ -33,11 +33,12 @@ export const ComicPanelScene: React.FC<{
         zIndex: 0,
       }} />
 
-      {/* Panel border */}
+      {/* Panel border overlay */}
       <div style={{
         position: 'absolute', inset: 20,
         border: '6px solid #1a1a1a',
         borderRadius: 8, zIndex: 1,
+        pointerEvents: 'none',
       }} />
 
       {/* Black header panel */}
@@ -58,13 +59,13 @@ export const ComicPanelScene: React.FC<{
         </div>
       </div>
 
-      {/* Content */}
+      {/* Content area */}
       <div style={{
         flex: 1, padding: '32px 52px', zIndex: 5, display: 'flex',
         flexDirection: 'column', justifyContent: 'center', margin: '0 20px',
         background: 'rgba(240,240,240,0.95)',
       }}>
-        {/* Speech bubble */}
+        {/* Speech bubble for Text/Intro */}
         {!isCode && (
           <div style={{
             background: '#fff', border: '4px solid #1a1a1a', borderRadius: 20,
@@ -72,7 +73,7 @@ export const ComicPanelScene: React.FC<{
             opacity: interpolate(sp(10), [0, 1], [0, 1]),
             transform: `scale(${interpolate(sp(10), [0, 1], [0.9, 1])})`,
           }}>
-            {/* Speech tail */}
+            {/* Speech tails (Border then fill) */}
             <div style={{
               position: 'absolute', bottom: -36, right: 60,
               width: 0, height: 0,
@@ -102,12 +103,13 @@ export const ComicPanelScene: React.FC<{
               fontSize: 56, color: '#1a1a1a', direction: 'rtl', lineHeight: 1.1,
             }}>
               {(item.title ?? text.split('\n')[0] ?? '').split(' ').map((w, i) => (
-                <span key={i} style={{ color: i === 0 ? accent : '#1a1a1a', marginRight: 10 }}>{w} </span>
+                <span key={i} style={{ color: i === 0 ? accent : '#1a1a1a', marginInlineStart: i === 0 ? 0 : 10 }}>{w} </span>
               ))}
             </div>
           </div>
         )}
 
+        {/* Tip / Content Block */}
         {!isCode && text.split('\n').slice(1).join(' ') && (
           <div style={{
             fontFamily: 'Cairo,sans-serif', fontSize: 28, color: '#333',
@@ -120,6 +122,7 @@ export const ComicPanelScene: React.FC<{
           </div>
         )}
 
+        {/* Code Block */}
         {isCode && (
           <div style={{
             background: '#1a1a1a', borderRadius: 12, overflow: 'hidden',
@@ -129,7 +132,8 @@ export const ComicPanelScene: React.FC<{
           }}>
             <div style={{ height: 4, background: `linear-gradient(90deg,${accent},#FF4D8D,${accent})` }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              customStyle={{ background: 'transparent', fontSize: 72, padding: '24px 28px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+              // [تم التصحيح]: fontSize لـ 46
+              customStyle={{ background: 'transparent', fontSize: 46, padding: '24px 28px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
@@ -151,7 +155,6 @@ export const ComicPanelScene: React.FC<{
           #{String(index + 1).padStart(2, '0')}
         </span>
       </div>
-      {item.voiceFile && <Audio src={staticFile(`assets/Elevsound/${item.voiceFile}`)} />}
     </AbsoluteFill>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; // [تم التصحيح] حرف الـ i سمول
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 
 // ─────────────────────────────────────────────────
@@ -28,6 +28,7 @@ export const GraphPaper: React.FC = () => (
 // [FIX CRITICAL] RadialGlow يستقبل duration من الخارج بدل useVideoConfig().durationInFrames
 export const RadialGlow: React.FC<{ glow: string; top?: string; duration: number }> = ({ glow, top = '30%', duration }) => {
   const frame = useCurrentFrame();
+  // حماية من القسمة على صفر أو القيم السالبة
   const drift = interpolate(frame, [0, Math.max(1, duration)], [-20, 20]);
   return (
     <div style={{
@@ -60,8 +61,8 @@ export const Letterbox: React.FC = () => (
   </>
 );
 
-// [FIX CONSISTENCY] WinBar — letterSpacing:0 للعناوين العربية لحماية الـ Ligatures
-export const WinBar: React.FC<{ title: string; right?: React.ReactNode }> = ({ title, right }) => {
+// [FIX CONSISTENCY] WinBar — تم إضافة حماية لو الـ title جاي undefined من n8n
+export const WinBar: React.FC<{ title?: string; right?: React.ReactNode }> = ({ title = '', right }) => {
   const isRTL = /[\u0600-\u06FF]/.test(title);
   return (
     <div style={{ display:'flex', alignItems:'center', gap:20, padding:'28px 40px',
@@ -73,7 +74,8 @@ export const WinBar: React.FC<{ title: string; right?: React.ReactNode }> = ({ t
         ))}
       </div>
       <div style={{ flex:1, textAlign:'center', fontSize:20,
-        fontFamily:'JetBrains Mono,monospace',
+        // ملحوظة: لو الخط العربي شكله مش حلو، ضيف اسم الخط العربي بتاعك قبل JetBrains
+        fontFamily:'JetBrains Mono, sans-serif',
         letterSpacing: isRTL ? 0 : 3,
         direction: isRTL ? 'rtl' : 'ltr',
         textTransform:'uppercase', color:'rgba(255,255,255,0.3)' }}>
@@ -84,7 +86,7 @@ export const WinBar: React.FC<{ title: string; right?: React.ReactNode }> = ({ t
   );
 };
 
-// [FIX CRITICAL] ProgressBar يستقبل duration من الخارج — مش من useVideoConfig
+// [FIX CRITICAL] ProgressBar يستقبل duration من الخارج
 export const ProgressBar: React.FC<{ accent: string; duration: number }> = ({ accent, duration }) => {
   const frame = useCurrentFrame();
   const pct = duration > 0 ? frame / duration : 0;

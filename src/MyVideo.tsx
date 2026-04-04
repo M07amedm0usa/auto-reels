@@ -7,7 +7,7 @@ import type { SceneItem, TemplateId } from './types';
 
 import { Enter } from './primitives';
 
-// -- استيراد كل التمبلتس --
+// -- استيراد التمبلتس --
 import { TerminalIntro, GenericTextScene, GenericCodeScene } from './TemplateTerminal';
 import { SplitViewScene }  from './TemplateSplitView';
 import { NotebookScene }   from './TemplateNotebook';
@@ -31,40 +31,23 @@ const ALL_TEMPLATES: TemplateId[] = [
   'vaporwave', 'infographic', 'comic',
 ];
 
-// -- مكوّن التلاشي (Crossfade) --
-const SceneFade: React.FC<{ 
-  children: React.ReactNode; 
-  duration: number; 
-  isFirst: boolean; 
-  isLast: boolean; 
-}> = ({ children, duration, isFirst, isLast }) => {
+const SceneFade: React.FC<{ children: React.ReactNode; duration: number; isFirst: boolean; isLast: boolean; }> = ({ children, duration, isFirst, isLast }) => {
   const frame = useCurrentFrame();
   const fadeIn = isFirst ? 1 : interpolate(frame, [0, OVERLAP_FRAMES], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   const fadeOut = isLast ? 1 : interpolate(frame, [duration - OVERLAP_FRAMES, duration], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   return <div style={{ width: '100%', height: '100%', opacity: Math.min(fadeIn, fadeOut) }}>{children}</div>;
 };
 
-// -- موجه المشاهد (Scene Router) --
-const Scene: React.FC<{ 
-  item: SceneItem; 
-  index: number; 
-  total: number; 
-  duration: number; 
-  tmpl: TemplateId; 
-}> = ({ item, index, total, duration, tmpl }) => {
+const Scene: React.FC<{ item: SceneItem; index: number; total: number; duration: number; tmpl: TemplateId; }> = ({ item, index, total, duration, tmpl }) => {
   const type = item.type ?? 'text';
-  
-  // دمج البيانات للتأكد من وصول الـ topic للانترو
   const inputProps = getInputProps() as any;
   const enrichedItem = { ...item, topic: inputProps.topic || (item as any).topic };
 
-  // --- التعديل هنا: فك ارتباط الـ Intro بالـ Terminal دايماً ---
-  // لو التمبلت terminal، بنشغل الـ TerminalIntro المخصص
+  // الـ Intro هيتبع التمبلت المختار لو مش terminal
   if (type === 'intro' && tmpl === 'terminal') {
     return <TerminalIntro item={enrichedItem} duration={duration} />;
   }
 
-  // في حالة أي تمبلت تاني، بنخلي التمبلت هو اللي يرسم الـ Intro بطريقته
   switch (tmpl) {
     case 'notebook':    return <NotebookScene    item={enrichedItem} index={index} total={total} duration={duration} />;
     case 'splitview':   return <SplitViewScene   item={item} index={index} total={total} duration={duration} />;
@@ -82,26 +65,38 @@ const Scene: React.FC<{
     case 'comic':       return <ComicPanelScene  item={item} index={index} total={total} duration={duration} />;
     case 'terminal':
     default:
-      // Fallback في حالة الـ Intro لو مفيش تمبلت واضح
       if (type === 'intro') return <TerminalIntro item={enrichedItem} duration={duration} />;
       if (type === 'code') return <Enter><GenericCodeScene item={item} index={index} total={total} duration={duration} /></Enter>;
       return <Enter><GenericTextScene item={item} index={index} total={total} duration={duration} /></Enter>;
   }
 };
 
-// -- المكوّن الرئيسي للفيديو --
 export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
   if (!scenes?.length) return <AbsoluteFill style={{ background: '#04040A' }} />;
 
-  // تحديد التمبلت بناءً على أول مشهد متاح فيه التمبلت
+  // --- التعديل الجوهري لضمان التقاط الـ Notebook ---
   const videoTemplate = useMemo<TemplateId>(() => {
-    const sceneWithTemplate = scenes.find(s => s.template);
-    if (sceneWithTemplate?.template) return sceneWithTemplate.template as TemplateId;
+    const inputProps = getInputProps() as any;
+    
+    // 1. البحث في الـ Props العمومية (سواء template أو Template)
+    const globalTmpl = inputProps.template || inputProps.Template;
+    if (globalTmpl && ALL_TEMPLATES.includes(globalTmpl as TemplateId)) {
+        return globalTmpl as TemplateId;
+    }
+
+    // 2. البحث جوه المشاهد (سواء t أو T)
+    const sceneWithTmpl = scenes.find(s => s.template || (s as any).Template);
+    const finalTmpl = sceneWithTmpl?.template || (sceneWithTmpl as any)?.Template;
+    
+    if (finalTmpl && ALL_TEMPLATES.includes(finalTmpl as TemplateId)) {
+        return finalTmpl as TemplateId;
+    }
+
+    // 3. عشوائي كآخر حل
     return ALL_TEMPLATES[Math.floor(Math.random() * ALL_TEMPLATES.length)]!;
   }, [scenes]);
 
   const durations = scenes.map(item => Math.max(SCENE_MIN, Math.ceil(item.calculatedDuration ?? SCENE_MIN)));
-
   const offsets: number[] = [];
   let cursor = 0;
   for (let i = 0; i < durations.length; i++) {
@@ -130,3 +125,4 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
     </AbsoluteFill>
   );
 };
+      

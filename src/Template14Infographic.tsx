@@ -1,19 +1,14 @@
-import React from 'react'; // [تم التصحيح]
+import React from 'react';
 import {
   AbsoluteFill,
   spring, useCurrentFrame, useVideoConfig, interpolate,
 } from 'remotion';
-// [تم الحذف]: Audio و staticFile
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { getP } from './types';
 import { GraphPaper, SceneIdx, RadialGlow, ProgressBar } from './primitives';
 import type { SceneItem } from './types';
 
-// ─────────────────────────────────────────────────────────────────────
-// TEMPLATE 14 — INFOGRAPHIC
-// كروت stats وbullets رسومية مرتبة
-// ─────────────────────────────────────────────────────────────────────
 export const InfographicScene: React.FC<{
   item: SceneItem; index: number; total: number; duration: number;
 }> = ({ item, index, total, duration }) => {
@@ -21,102 +16,115 @@ export const InfographicScene: React.FC<{
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const sp = (d: number) => spring({ frame: Math.max(0, frame - d), fps, config: { damping: 22 } });
+  
   const text = item.content ?? '';
   const isCode = item.type === 'code';
 
-  // معالجة الـ Bullets تلقائياً من النص لو مبعوتش checkItems من الشيت
-  const defaultBullets = text.split('\n').filter(Boolean).map((t, i) => ({ text: t, done: true }));
+  const defaultBullets = text.split('\n').filter(Boolean).map((t) => ({ text: t, done: true }));
   const bullets = item.checkItems ?? defaultBullets;
 
   return (
     <AbsoluteFill style={{ background: '#050512', flexDirection: 'column' }}>
       <GraphPaper />
-      <RadialGlow glow={glow} top="30%" duration={duration} />
+      <RadialGlow glow={glow} top="20%" duration={duration} />
       <SceneIdx index={index} total={total} />
 
-      {/* Header */}
+      {/* 1. Header - مسافات ملمومة */}
       <div style={{
-        padding: '44px 52px 32px', flexShrink: 0, zIndex: 5,
+        padding: '100px 60px 40px', // زيادة الـ top padding لنزول العنوان شوية عن الحافة
+        flexShrink: 0, zIndex: 5,
         opacity: interpolate(sp(5), [0, 1], [0, 1]),
       }}>
         {item.badge && (
           <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 20,
+            display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 25,
             background: dim, border: `1px solid ${accent}44`, borderRadius: 100,
-            padding: '10px 24px', fontFamily: 'JetBrains Mono,monospace',
-            fontSize: 18, letterSpacing: 4, color: accent, textTransform: 'uppercase',
+            padding: '12px 28px', fontFamily: 'JetBrains Mono,monospace',
+            fontSize: 22, letterSpacing: 4, color: accent, textTransform: 'uppercase',
           }}>
-            <div style={{ width: 8, height: 8, borderRadius: '50%', background: accent, boxShadow: `0 0 8px ${accent}` }} />
+            <div style={{ width: 10, height: 10, borderRadius: '50%', background: accent, boxShadow: `0 0 12px ${accent}` }} />
             {item.badge}
           </div>
         )}
         <div style={{
           fontFamily: 'Cairo,sans-serif', fontWeight: 900, 
-          fontSize: 72, 
+          fontSize: 85, // تكبير العنوان قليلاً
           color: '#fff', direction: 'rtl', lineHeight: 1.1,
           opacity: interpolate(sp(10), [0, 0.5, 1], [0, 0.6, 1]),
         }}>
           {(item.title ?? text.split('\n')[0] ?? '').split(' ').map((w, i) => (
-            <span key={i} style={{ color: i === 0 ? accent : '#fff', marginInlineStart: i === 0 ? 0 : 12 }}>{w} </span>
+            <span key={i} style={{ color: i === 0 ? accent : '#fff', marginInlineStart: i === 0 ? 0 : 15 }}>{w} </span>
           ))}
         </div>
       </div>
 
-      {/* Body */}
-      <div style={{ flex: 1, padding: '0 52px 32px', zIndex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      {/* 2. Body - تم إلغاء الـ justifyContent: center لتقريب المسافات */}
+      <div style={{ 
+        flex: 1, 
+        padding: '0 60px', 
+        zIndex: 3, 
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'flex-start', // جعل العناصر تبدأ من الأعلى
+        marginTop: 40 // مسافة ثابتة تحت العنوان
+      }}>
+        
+        {/* Stats Section */}
         {!isCode && item.stats && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 40 }}>
             {item.stats.map((s, i) => (
               <div key={i} style={{
                 background: 'rgba(255,255,255,0.03)', border: `1px solid ${accent}22`,
-                borderRadius: 20, padding: '24px 28px',
+                borderRadius: 24, padding: '30px',
                 opacity: interpolate(sp(14 + i * 6), [0, 1], [0, 1]),
                 transform: `translateY(${(1 - sp(14 + i * 6)) * 20}px)`,
               }}>
-                <div style={{ fontFamily: 'Cairo,sans-serif', fontSize: 60, fontWeight: 900, color: accent, lineHeight: 1, marginBottom: 6, textShadow: `0 0 20px ${accent}66` }}>{s.value}</div>
-                <div style={{ fontFamily: 'Cairo,sans-serif', fontSize: 22, color: 'rgba(255,255,255,0.35)' }}>{s.label}</div>
+                <div style={{ fontFamily: 'Cairo,sans-serif', fontSize: 65, fontWeight: 900, color: accent, lineHeight: 1, marginBottom: 8 }}>{s.value}</div>
+                <div style={{ fontFamily: 'Cairo,sans-serif', fontSize: 24, color: 'rgba(255,255,255,0.4)' }}>{s.label}</div>
               </div>
             ))}
           </div>
         )}
 
+        {/* Bullets Section - مسافات محكمة */}
         {!isCode && bullets.length > 0 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, direction: 'rtl' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 30, direction: 'rtl' }}>
             {bullets.slice(0, 5).map((b, i) => (
               <div key={i} style={{
-                display: 'flex', alignItems: 'center', gap: 24,
+                display: 'flex', alignItems: 'center', gap: 25,
                 fontFamily: 'Cairo,sans-serif', 
-                fontSize: 48, 
-                color: 'rgba(255,255,255,0.85)',
+                fontSize: 44, // تصغير بسيط ليناسب الأسطر المتقاربة
+                color: 'rgba(255,255,255,0.9)',
                 opacity: interpolate(sp(18 + i * 8), [0, 1], [0, 1]),
-                transform: `translateX(${(1 - sp(18 + i * 8)) * -20}px)`,
-                lineHeight: 1.5,
+                transform: `translateX(${(1 - sp(18 + i * 8)) * -30}px)`,
+                lineHeight: 1.3,
               }}>
                 <div style={{
-                  width: 56, height: 56, borderRadius: 16, flexShrink: 0,
-                  background: b.done ? `${accent}18` : 'rgba(255,255,255,0.04)',
-                  border: b.done ? `3px solid ${accent}` : '3px dashed rgba(255,255,255,0.15)',
+                  width: 50, height: 50, borderRadius: 14, flexShrink: 0,
+                  background: b.done ? `${accent}25` : 'rgba(255,255,255,0.05)',
+                  border: b.done ? `3px solid ${accent}` : '2px dashed rgba(255,255,255,0.2)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 28, fontWeight: 'bold', color: b.done ? accent : 'transparent',
+                  fontSize: 24, color: accent,
                 }}>
-                  {b.done ? '✓' : '○'}
+                  {b.done ? '✓' : ''}
                 </div>
-                <div style={{ flex: 1 }}>{b.text}</div>
+                <div style={{ flex: 1, fontWeight: 600 }}>{b.text}</div>
               </div>
             ))}
           </div>
         )}
 
+        {/* Code Section */}
         {isCode && (
           <div style={{
-            background: 'rgba(5,5,18,0.98)', borderRadius: 20, overflow: 'hidden',
-            border: `1px solid ${accent}22`,
+            background: 'rgba(5,5,18,0.98)', borderRadius: 24, overflow: 'hidden',
+            border: `1px solid ${accent}33`,
             direction: 'ltr', opacity: interpolate(sp(12), [0, 1], [0, 1]),
+            boxShadow: `0 20px 50px rgba(0,0,0,0.5)`
           }}>
-            <div style={{ height: 3, background: `linear-gradient(90deg,transparent,${accent},transparent)` }} />
+            <div style={{ height: 4, background: `linear-gradient(90deg,transparent,${accent},transparent)` }} />
             <SyntaxHighlighter language="dart" style={vscDarkPlus}
-              // [تم التصحيح]: fontSize لـ 46 ليتماشى مع باقي التمبلتس
-              customStyle={{ background: 'transparent', fontSize: 46, padding: '28px 32px', margin: 0, lineHeight: '1.65', direction: 'ltr' }}>
+              customStyle={{ background: 'transparent', fontSize: 42, padding: '35px', margin: 0, lineHeight: '1.6', direction: 'ltr' }}>
               {item.code ?? ''}
             </SyntaxHighlighter>
           </div>
@@ -127,3 +135,4 @@ export const InfographicScene: React.FC<{
     </AbsoluteFill>
   );
 };
+            

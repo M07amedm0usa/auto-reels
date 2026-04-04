@@ -7,7 +7,7 @@ import type { SceneItem, TemplateId } from './types';
 
 import { Enter } from './primitives';
 
-// -- استيراد كل التمبلتس (نفس اللي عندك) --
+// -- استيراد كل التمبلتس --
 import { TerminalIntro, GenericTextScene, GenericCodeScene } from './TemplateTerminal';
 import { SplitViewScene }  from './TemplateSplitView';
 import { NotebookScene }   from './TemplateNotebook';
@@ -31,29 +31,43 @@ const ALL_TEMPLATES: TemplateId[] = [
   'vaporwave', 'infographic', 'comic',
 ];
 
-// -- SceneFade (نفس الكود بتاعك) --
-const SceneFade: React.FC<{ children: React.ReactNode; duration: number; isFirst: boolean; isLast: boolean; }> = ({ children, duration, isFirst, isLast }) => {
+// -- مكوّن التلاشي (Crossfade) --
+const SceneFade: React.FC<{ 
+  children: React.ReactNode; 
+  duration: number; 
+  isFirst: boolean; 
+  isLast: boolean; 
+}> = ({ children, duration, isFirst, isLast }) => {
   const frame = useCurrentFrame();
   const fadeIn = isFirst ? 1 : interpolate(frame, [0, OVERLAP_FRAMES], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   const fadeOut = isLast ? 1 : interpolate(frame, [duration - OVERLAP_FRAMES, duration], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   return <div style={{ width: '100%', height: '100%', opacity: Math.min(fadeIn, fadeOut) }}>{children}</div>;
 };
 
-// -- SCENE ROUTER المعدل --
-const Scene: React.FC<{ item: SceneItem; index: number; total: number; duration: number; tmpl: TemplateId; }> = ({ item, index, total, duration, tmpl }) => {
+// -- موجه المشاهد (Scene Router) --
+const Scene: React.FC<{ 
+  item: SceneItem; 
+  index: number; 
+  total: number; 
+  duration: number; 
+  tmpl: TemplateId; 
+}> = ({ item, index, total, duration, tmpl }) => {
   const type = item.type ?? 'text';
   
-  // لجعل الانترو يقرأ الـ topic حتى لو مش موجود جوه الـ item نفسه
+  // دمج البيانات للتأكد من وصول الـ topic للانترو
   const inputProps = getInputProps() as any;
   const enrichedItem = { ...item, topic: inputProps.topic || (item as any).topic };
 
-  // الـ Intro دايماً Terminal للبراندنج، بس دلوقتي بياخد الـ enrichedItem المتغير
-  if (type === 'intro') return <TerminalIntro item={enrichedItem} duration={duration} />;
+  // --- التعديل هنا: فك ارتباط الـ Intro بالـ Terminal دايماً ---
+  // لو التمبلت terminal، بنشغل الـ TerminalIntro المخصص
+  if (type === 'intro' && tmpl === 'terminal') {
+    return <TerminalIntro item={enrichedItem} duration={duration} />;
+  }
 
-  // منطق اختيار التمبلت لباقي الفيديو
+  // في حالة أي تمبلت تاني، بنخلي التمبلت هو اللي يرسم الـ Intro بطريقته
   switch (tmpl) {
+    case 'notebook':    return <NotebookScene    item={enrichedItem} index={index} total={total} duration={duration} />;
     case 'splitview':   return <SplitViewScene   item={item} index={index} total={total} duration={duration} />;
-    case 'notebook':    return <NotebookScene    item={item} index={index} total={total} duration={duration} />;
     case 'cinematic':   return <CinematicScene   item={item} index={index} total={total} duration={duration} />;
     case 'hologram':    return <HologramScene    item={item} index={index} total={total} duration={duration} />;
     case 'blueprint':   return <BlueprintScene   item={item} index={index} total={total} duration={duration} />;
@@ -68,22 +82,21 @@ const Scene: React.FC<{ item: SceneItem; index: number; total: number; duration:
     case 'comic':       return <ComicPanelScene  item={item} index={index} total={total} duration={duration} />;
     case 'terminal':
     default:
+      // Fallback في حالة الـ Intro لو مفيش تمبلت واضح
+      if (type === 'intro') return <TerminalIntro item={enrichedItem} duration={duration} />;
       if (type === 'code') return <Enter><GenericCodeScene item={item} index={index} total={total} duration={duration} /></Enter>;
       return <Enter><GenericTextScene item={item} index={index} total={total} duration={duration} /></Enter>;
   }
 };
 
+// -- المكوّن الرئيسي للفيديو --
 export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
   if (!scenes?.length) return <AbsoluteFill style={{ background: '#04040A' }} />;
 
-  // تعديل: البحث عن التمبلت في كل السيز (scenes) مش بس اللي مش انترو
+  // تحديد التمبلت بناءً على أول مشهد متاح فيه التمبلت
   const videoTemplate = useMemo<TemplateId>(() => {
-    // 1. شوف لو الانترو نفسه معاه تمبلت محدد
-    if (scenes[0]?.template) return scenes[0].template as TemplateId;
-    // 2. شوف أول مشهد بعده معاه تمبلت
     const sceneWithTemplate = scenes.find(s => s.template);
     if (sceneWithTemplate?.template) return sceneWithTemplate.template as TemplateId;
-    // 3. عشوائي لو مفيش خالص
     return ALL_TEMPLATES[Math.floor(Math.random() * ALL_TEMPLATES.length)]!;
   }, [scenes]);
 
@@ -117,4 +130,3 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
     </AbsoluteFill>
   );
 };
-  

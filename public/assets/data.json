@@ -2,7 +2,7 @@
   "videoConfig": {
     "template": "terminal",
     "totalScenes": 5,
-    "generatedAt": "2026-04-04T12:26:02.704Z"
+    "generatedAt": "2026-04-04T12:31:17.197Z"
   },
   "scenes": [
     {
@@ -11,7 +11,7 @@
       "template": "terminal",
       "color": "c-cyan",
       "voiceFile": "scene_01.mp3",
-      "calculatedDuration": 42,
+      "calculatedDuration": 47,
       "title": "FlutterByMousa",
       "content": "",
       "badge": "المعلومة"
@@ -22,7 +22,7 @@
       "template": "terminal",
       "color": "c-cyan",
       "voiceFile": "scene_02.mp3",
-      "calculatedDuration": 42,
+      "calculatedDuration": 47,
       "title": "FlutterByMousa",
       "content": "",
       "badge": "المعلومة"
@@ -33,7 +33,7 @@
       "template": "terminal",
       "color": "c-cyan",
       "voiceFile": "scene_03.mp3",
-      "calculatedDuration": 42,
+      "calculatedDuration": 47,
       "title": "FlutterByMousa",
       "content": "",
       "badge": "المعلومة"
@@ -44,7 +44,7 @@
       "template": "terminal",
       "color": "c-cyan",
       "voiceFile": "scene_04.mp3",
-      "calculatedDuration": 42,
+      "calculatedDuration": 47,
       "title": "FlutterByMousa",
       "content": "",
       "badge": "المعلومة"
@@ -55,7 +55,7 @@
       "template": "terminal",
       "color": "c-cyan",
       "voiceFile": "scene_05.mp3",
-      "calculatedDuration": 102,
+      "calculatedDuration": 107,
       "title": "FlutterByMousa",
       "content": "",
       "badge": "المعلومة"

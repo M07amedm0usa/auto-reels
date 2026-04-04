@@ -1,6 +1,7 @@
-import React from 'react'; // تم تصحيح حرف الـ I
+import React from 'react';
 import { Composition, staticFile, getInputProps } from 'remotion';
-import { MyVideo, type SceneItem } from './MyVideo';
+import { MyVideo } from './MyVideo';
+import type { SceneItem } from './types'; // تأكد إن الـ Import ده من ملف الـ types
 import { getAudioDurationInSeconds } from '@remotion/media-utils';
 import { SCENE_MIN, OVERLAP_FRAMES } from './types';
 import fallbackData from '../public/assets/data.json';
@@ -33,37 +34,41 @@ function calcTextFrames(item: SceneItem): number {
   return base;
 }
 
-// ── parse scenes من getInputProps (n8n/CLI) أو fallback ──────
-function resolveScenes(): SceneItem[] {
-  const inp = getInputProps() as Record<string, unknown>;
-  if (Array.isArray((inp as { scenes?: unknown }).scenes)) {
-    return (inp as { scenes: SceneItem[] }).scenes;
-  }
-  // fallback: data.json
-  return Array.isArray(fallbackData)
-    ? (fallbackData as SceneItem[])
-    : ((fallbackData as { scenes: SceneItem[] }).scenes ?? []);
+// ── 🔥 التعديل هنا: قراءة الداتا كاملة (المشاهد + الإعدادات) ──────
+function resolveData() {
+  const inp = getInputProps() as any;
+  
+  // سحب المشاهد
+  const scenes: SceneItem[] = 
+    inp.scenes || 
+    (fallbackData as any).scenes || 
+    (Array.isArray(fallbackData) ? fallbackData : []);
+
+  // سحب الإعدادات العامة (عشان التمبلت)
+  const videoConfig = inp.videoConfig || (fallbackData as any).videoConfig || {};
+
+  return { scenes, videoConfig };
 }
 
 export const RemotionRoot: React.FC = () => {
-  const defaultData: SceneItem[] = resolveScenes();
+  const { scenes: defaultScenes, videoConfig: defaultVideoConfig } = resolveData();
 
   return (
     <Composition
-      id="ReelAutomationScene"
+      id="ReelAutomationScene" // أو MyVideo حسب اسم الكومبوننت اللي إنت عايزه في الرندر
       component={MyVideo}
-      defaultProps={{ scenes: defaultData }}
+      // 🔥 تمرير الـ videoConfig مع المشاهد
+      defaultProps={{ scenes: defaultScenes, videoConfig: defaultVideoConfig }}
       fps={FPS}
       width={1080}
       height={1920}
       calculateMetadata={async ({ props }) => {
         // حساب الـ Metadata بشكل غير متزامن لضمان قراءة الصوت
-        const rawScenes: SceneItem[] = Array.isArray(props.scenes)
-          ? props.scenes
-          : [];
+        const rawScenes: SceneItem[] = Array.isArray(props.scenes) ? props.scenes : [];
 
         if (rawScenes.length === 0) {
-          return { fps: FPS, durationInFrames: 30, props: { scenes: [] } };
+          // الحفاظ على الـ videoConfig حتى لو المشاهد فاضية
+          return { fps: FPS, durationInFrames: 30, props: { scenes: [], videoConfig: props.videoConfig } };
         }
 
         const enriched = await Promise.all(
@@ -107,9 +112,13 @@ export const RemotionRoot: React.FC = () => {
         return {
           fps: FPS,
           durationInFrames: Math.max(total, 30),
-          props: { scenes: enriched },
+          props: { 
+            scenes: enriched,
+            videoConfig: props.videoConfig // 🔥 إرجاع الـ config تاني بعد الحسابات
+          },
         };
       }}
     />
   );
 };
+      

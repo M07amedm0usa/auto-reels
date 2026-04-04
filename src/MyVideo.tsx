@@ -40,15 +40,19 @@ const SceneFade: React.FC<{ children: React.ReactNode; duration: number; isFirst
 
 const Scene: React.FC<{ item: SceneItem; index: number; total: number; duration: number; tmpl: TemplateId; }> = ({ item, index, total, duration, tmpl }) => {
   const type = item.type ?? 'text';
+  
+  // دمج الـ Topic لو موجود بره الـ scenes
   const inputProps = getInputProps() as any;
   const enrichedItem = { ...item, topic: inputProps.topic || (item as any).topic };
 
-  // الـ Intro هيتبع التمبلت المختار لو مش terminal
+  // الـ Intro يتبع التمبلت المختار لو كان Terminal، غير كدة يروح للتمبلت نفسه
   if (type === 'intro' && tmpl === 'terminal') {
     return <TerminalIntro item={enrichedItem} duration={duration} />;
   }
 
+  // الـ Router بيختار التمبلت بناءً على الـ tmpl اللي محسوب تحت
   switch (tmpl) {
+    case 'infographic': return <InfographicScene item={item} index={index} total={total} duration={duration} />;
     case 'notebook':    return <NotebookScene    item={enrichedItem} index={index} total={total} duration={duration} />;
     case 'splitview':   return <SplitViewScene   item={item} index={index} total={total} duration={duration} />;
     case 'cinematic':   return <CinematicScene   item={item} index={index} total={total} duration={duration} />;
@@ -61,7 +65,6 @@ const Scene: React.FC<{ item: SceneItem; index: number; total: number; duration:
     case 'darkminimal': return <DarkMinimalScene item={item} index={index} total={total} duration={duration} />;
     case 'cardstack':   return <CardStackScene   item={item} index={index} total={total} duration={duration} />;
     case 'vaporwave':   return <VaporwaveScene   item={item} index={index} total={total} duration={duration} />;
-    case 'infographic': return <InfographicScene item={item} index={index} total={total} duration={duration} />;
     case 'comic':       return <ComicPanelScene  item={item} index={index} total={total} duration={duration} />;
     case 'terminal':
     default:
@@ -72,29 +75,28 @@ const Scene: React.FC<{ item: SceneItem; index: number; total: number; duration:
 };
 
 export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
-  if (!scenes?.length) return <AbsoluteFill style={{ background: '#04040A' }} />;
+  const inputProps = getInputProps() as any;
 
-  // --- التعديل الجوهري لضمان التقاط الـ Notebook ---
+  // ── التعديل الجوهري لالتقاط التمبلت من الداتا الجديدة ──────────
   const videoTemplate = useMemo<TemplateId>(() => {
-    const inputProps = getInputProps() as any;
-    
-    // 1. البحث في الـ Props العمومية (سواء template أو Template)
-    const globalTmpl = inputProps.template || inputProps.Template;
-    if (globalTmpl && ALL_TEMPLATES.includes(globalTmpl as TemplateId)) {
-        return globalTmpl as TemplateId;
+    // 1. محاولة قراءة التمبلت من videoConfig (زي الداتا اللي إنت بعتها)
+    const configTmpl = inputProps.videoConfig?.template || (inputProps as any).template;
+    if (configTmpl && ALL_TEMPLATES.includes(configTmpl as TemplateId)) {
+        return configTmpl as TemplateId;
     }
 
-    // 2. البحث جوه المشاهد (سواء t أو T)
-    const sceneWithTmpl = scenes.find(s => s.template || (s as any).Template);
-    const finalTmpl = sceneWithTmpl?.template || (sceneWithTmpl as any)?.Template;
-    
-    if (finalTmpl && ALL_TEMPLATES.includes(finalTmpl as TemplateId)) {
-        return finalTmpl as TemplateId;
+    // 2. محاولة قراءة التمبلت من أول مشهد (fallback)
+    const firstScene = scenes[0];
+    const sceneTmpl = firstScene?.template || (firstScene as any)?.Template;
+    if (sceneTmpl && ALL_TEMPLATES.includes(sceneTmpl as TemplateId)) {
+        return sceneTmpl as TemplateId;
     }
 
-    // 3. عشوائي كآخر حل
-    return ALL_TEMPLATES[Math.floor(Math.random() * ALL_TEMPLATES.length)]!;
-  }, [scenes]);
+    // 3. لو مفيش خالص، افتراضي terminal
+    return 'terminal'; 
+  }, [scenes, inputProps]);
+
+  if (!scenes?.length) return <AbsoluteFill style={{ background: '#04040A' }} />;
 
   const durations = scenes.map(item => Math.max(SCENE_MIN, Math.ceil(item.calculatedDuration ?? SCENE_MIN)));
   const offsets: number[] = [];
@@ -125,4 +127,4 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
     </AbsoluteFill>
   );
 };
-      
+                                           

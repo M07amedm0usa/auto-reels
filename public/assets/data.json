@@ -1,1 +1,62 @@
-[]
+{
+  "videoConfig": {
+    "template": "splitview",
+    "totalScenes": 5,
+    "generatedAt": "2026-04-04T14:04:46.497Z"
+  },
+  "scenes": [
+    {
+      "sceneIndex": 0,
+      "type": "intro",
+      "template": "splitview",
+      "color": "c-blue",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 219,
+      "content": "قواعد المساحة والـ 'Constraints'",
+      "badge": "سلسلة الـ Container"
+    },
+    {
+      "sceneIndex": 1,
+      "type": "text",
+      "template": "splitview",
+      "color": "c-blue",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 286,
+      "title": "الأب بيفرض مساحته",
+      "content": "والابن بيحاول يملى\nالمكان المتاح",
+      "badge": "خناقة الأب والابن"
+    },
+    {
+      "sceneIndex": 2,
+      "type": "code",
+      "template": "splitview",
+      "color": "c-blue",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 185,
+      "title": "constraints.dart",
+      "badge": "الكود",
+      "code": "ConstrainedBox(\n  constraints: BoxConstraints.tightFor(width: 100),\n  child: Container(color: Colors.green),\n)"
+    },
+    {
+      "sceneIndex": 3,
+      "type": "text",
+      "template": "splitview",
+      "color": "c-blue",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 269,
+      "title": "الـ Constraints في الـ Container",
+      "content": "تريكة المحاذاة",
+      "badge": "نصيحة سريعة 💡"
+    },
+    {
+      "sceneIndex": 4,
+      "type": "intro",
+      "template": "splitview",
+      "color": "c-blue",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 262,
+      "content": "تابع السلسلة",
+      "badge": "النهاية"
+    }
+  ]
+}

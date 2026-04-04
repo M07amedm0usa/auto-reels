@@ -1,1 +1,19 @@
-
+{
+  "videoConfig": {
+    "template": "terminal",
+    "totalScenes": 1,
+    "generatedAt": "2026-04-04T12:12:15.699Z"
+  },
+  "scenes": [
+    {
+      "sceneIndex": 0,
+      "type": "text",
+      "template": "terminal",
+      "color": "c-cyan",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 102,
+      "content": "",
+      "badge": "المعلومة"
+    }
+  ]
+}

@@ -1,64 +1,62 @@
 {
   "videoConfig": {
-    "template": "terminal",
+    "template": "notebook",
     "totalScenes": 5,
-    "generatedAt": "2026-04-04T12:31:17.197Z"
+    "generatedAt": "2026-04-04T12:37:15.063Z"
   },
   "scenes": [
     {
       "sceneIndex": 0,
-      "type": "text",
-      "template": "terminal",
-      "color": "c-cyan",
+      "type": "intro",
+      "template": "notebook",
+      "color": "c-purple",
       "voiceFile": "scene_01.mp3",
-      "calculatedDuration": 47,
-      "title": "FlutterByMousa",
-      "content": "",
-      "badge": "المعلومة"
+      "calculatedDuration": 235,
+      "content": "تغيير شكل الـ 'Container'",
+      "badge": "سلسلة الـ Container"
     },
     {
       "sceneIndex": 1,
       "type": "text",
-      "template": "terminal",
-      "color": "c-cyan",
+      "template": "notebook",
+      "color": "c-purple",
       "voiceFile": "scene_02.mp3",
-      "calculatedDuration": 47,
-      "title": "FlutterByMousa",
-      "content": "",
-      "badge": "المعلومة"
+      "calculatedDuration": 202,
+      "title": "استخدام حواف دائرية",
+      "content": "إضافة حدود خارجية\nتغيير الألوان",
+      "badge": "التنسيق"
     },
     {
       "sceneIndex": 2,
-      "type": "text",
-      "template": "terminal",
-      "color": "c-cyan",
+      "type": "code",
+      "template": "notebook",
+      "color": "c-purple",
       "voiceFile": "scene_03.mp3",
-      "calculatedDuration": 47,
-      "title": "FlutterByMousa",
-      "content": "",
-      "badge": "المعلومة"
+      "calculatedDuration": 185,
+      "title": "decoration.dart",
+      "badge": "الكود",
+      "code": "decoration: BoxDecoration(\n  color: Colors.red,\n  borderRadius: BorderRadius.circular(20),\n)"
     },
     {
       "sceneIndex": 3,
       "type": "text",
-      "template": "terminal",
-      "color": "c-cyan",
+      "template": "notebook",
+      "color": "c-purple",
       "voiceFile": "scene_04.mp3",
-      "calculatedDuration": 47,
-      "title": "FlutterByMousa",
-      "content": "",
-      "badge": "المعلومة"
+      "calculatedDuration": 252,
+      "title": "ديكور الـ Container",
+      "content": "ملحوظة مهمة",
+      "badge": "نصيحة سريعة 💡"
     },
     {
       "sceneIndex": 4,
-      "type": "text",
-      "template": "terminal",
-      "color": "c-cyan",
+      "type": "intro",
+      "template": "notebook",
+      "color": "c-purple",
       "voiceFile": "scene_05.mp3",
-      "calculatedDuration": 107,
-      "title": "FlutterByMousa",
-      "content": "",
-      "badge": "المعلومة"
+      "calculatedDuration": 229,
+      "content": "تابع السلسلة",
+      "badge": "النهاية"
     }
   ]
 }

@@ -1,1 +1,62 @@
-[]
+{
+  "videoConfig": {
+    "template": "cinematic",
+    "totalScenes": 5,
+    "generatedAt": "2026-04-04T14:17:00.742Z"
+  },
+  "scenes": [
+    {
+      "sceneIndex": 0,
+      "type": "intro",
+      "template": "cinematic",
+      "color": "c-green",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 219,
+      "content": "توسيط العناصر بسهولة",
+      "badge": "سلسلة الـ Container"
+    },
+    {
+      "sceneIndex": 1,
+      "type": "text",
+      "template": "cinematic",
+      "color": "c-green",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 235,
+      "title": "استخدام خاصية 'alignment'",
+      "content": "تحديد المكان بالظبط\nفوق.. تحت.. أو سنتر",
+      "badge": "المحاذاة"
+    },
+    {
+      "sceneIndex": 2,
+      "type": "code",
+      "template": "cinematic",
+      "color": "c-green",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 202,
+      "title": "align_demo.dart",
+      "badge": "الكود",
+      "code": "Container(\n  alignment: Alignment.bottomRight,\n  child: Text('Mousa'),\n)"
+    },
+    {
+      "sceneIndex": 3,
+      "type": "text",
+      "template": "cinematic",
+      "color": "c-green",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 235,
+      "title": "الـ Alignment جوه الـ Container",
+      "content": "الإحداثيات",
+      "badge": "نصيحة سريعة 💡"
+    },
+    {
+      "sceneIndex": 4,
+      "type": "intro",
+      "template": "cinematic",
+      "color": "c-green",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 262,
+      "content": "شير للفيديو",
+      "badge": "النهاية"
+    }
+  ]
+}

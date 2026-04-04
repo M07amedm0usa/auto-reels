@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { AbsoluteFill, Sequence, useCurrentFrame, interpolate, Audio, staticFile, getInputProps } from 'remotion';
 import './style.css';
 
@@ -41,16 +41,13 @@ const SceneFade: React.FC<{ children: React.ReactNode; duration: number; isFirst
 const Scene: React.FC<{ item: SceneItem; index: number; total: number; duration: number; tmpl: TemplateId; }> = ({ item, index, total, duration, tmpl }) => {
   const type = item.type ?? 'text';
   
-  // دمج الـ Topic لو موجود بره الـ scenes
   const inputProps = getInputProps() as any;
   const enrichedItem = { ...item, topic: inputProps.topic || (item as any).topic };
 
-  // الـ Intro يتبع التمبلت المختار لو كان Terminal، غير كدة يروح للتمبلت نفسه
   if (type === 'intro' && tmpl === 'terminal') {
     return <TerminalIntro item={enrichedItem} duration={duration} />;
   }
 
-  // الـ Router بيختار التمبلت بناءً على الـ tmpl اللي محسوب تحت
   switch (tmpl) {
     case 'infographic': return <InfographicScene item={item} index={index} total={total} duration={duration} />;
     case 'notebook':    return <NotebookScene    item={enrichedItem} index={index} total={total} duration={duration} />;
@@ -74,27 +71,8 @@ const Scene: React.FC<{ item: SceneItem; index: number; total: number; duration:
   }
 };
 
-export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
+export const MyVideo: React.FC<{ scenes: SceneItem[], videoConfig?: any }> = ({ scenes, videoConfig }) => {
   const inputProps = getInputProps() as any;
-
-  // ── التعديل الجوهري لالتقاط التمبلت من الداتا الجديدة ──────────
-  const videoTemplate = useMemo<TemplateId>(() => {
-    // 1. محاولة قراءة التمبلت من videoConfig (زي الداتا اللي إنت بعتها)
-    const configTmpl = inputProps.videoConfig?.template || (inputProps as any).template;
-    if (configTmpl && ALL_TEMPLATES.includes(configTmpl as TemplateId)) {
-        return configTmpl as TemplateId;
-    }
-
-    // 2. محاولة قراءة التمبلت من أول مشهد (fallback)
-    const firstScene = scenes[0];
-    const sceneTmpl = firstScene?.template || (firstScene as any)?.Template;
-    if (sceneTmpl && ALL_TEMPLATES.includes(sceneTmpl as TemplateId)) {
-        return sceneTmpl as TemplateId;
-    }
-
-    // 3. لو مفيش خالص، افتراضي terminal
-    return 'terminal'; 
-  }, [scenes, inputProps]);
 
   if (!scenes?.length) return <AbsoluteFill style={{ background: '#04040A' }} />;
 
@@ -106,6 +84,9 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
     cursor += Math.max(SCENE_MIN / 2, (durations[i] ?? SCENE_MIN) - OVERLAP_FRAMES);
   }
 
+  // الاحتفاظ بالتمبلت العام كبديل أخير لو المشهد ملوش تمبلت
+  const globalConfigTmpl = videoConfig?.template || inputProps?.videoConfig?.template || inputProps?.template;
+
   return (
     <AbsoluteFill style={{ background: '#04040A' }}>
       {scenes.map((item, index) => {
@@ -115,11 +96,20 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
         const isLast  = index === scenes.length - 1;
         const audioSrc = item.voiceFile ? staticFile(`assets/Elevsound/${item.voiceFile}`) : null;
 
+        // 🔥 هنا السحر: بنسحب التمبلت من الـ (item) الخاص بالمشهد نفسه من الداتا!
+        const rawTmpl = item.template || (item as any).Template || globalConfigTmpl || 'terminal';
+        
+        // تنظيف الكلمة عشان نتأكد إن مفيش مسافات تبوظ الدنيا
+        const cleanTmpl = String(rawTmpl).toLowerCase().trim() as TemplateId;
+        
+        // التأكد إن التمبلت ده موجود فعلاً في قائمة التمبلتس بتاعتنا
+        const finalTmpl = ALL_TEMPLATES.includes(cleanTmpl) ? cleanTmpl : 'terminal';
+
         return (
           <Sequence key={`scene-${index}`} from={start} durationInFrames={dur + (isLast ? 15 : OVERLAP_FRAMES)}>
             {audioSrc && <Audio src={audioSrc} />}
             <SceneFade duration={dur} isFirst={isFirst} isLast={isLast}>
-              <Scene item={item} index={index} total={scenes.length} duration={dur} tmpl={videoTemplate} />
+              <Scene item={item} index={index} total={scenes.length} duration={dur} tmpl={finalTmpl} />
             </SceneFade>
           </Sequence>
         );
@@ -127,4 +117,4 @@ export const MyVideo: React.FC<{ scenes: SceneItem[] }> = ({ scenes }) => {
     </AbsoluteFill>
   );
 };
-                                           
+  

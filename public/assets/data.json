@@ -1,1 +1,62 @@
-[]
+{
+  "videoConfig": {
+    "template": "terminal",
+    "totalScenes": 5,
+    "generatedAt": "2026-04-04T09:28:17.370Z"
+  },
+  "scenes": [
+    {
+      "sceneIndex": 0,
+      "type": "intro",
+      "template": "terminal",
+      "color": "c-cyan",
+      "voiceFile": "scene_01.mp3",
+      "calculatedDuration": 204,
+      "content": "إيه هو الـ 'Container'؟",
+      "badge": "نصيحة فلاتر"
+    },
+    {
+      "sceneIndex": 1,
+      "type": "text",
+      "template": "terminal",
+      "color": "c-cyan",
+      "voiceFile": "scene_02.mp3",
+      "calculatedDuration": 271,
+      "title": "أساسيات الـ Container",
+      "badge": "الشرح",
+      "content": "صندوق بتقدر تحط\nجواه ويدجت تانية\nوتتحكم في مقاسها"
+    },
+    {
+      "sceneIndex": 2,
+      "type": "code",
+      "template": "terminal",
+      "color": "c-cyan",
+      "voiceFile": "scene_03.mp3",
+      "calculatedDuration": 154,
+      "title": "main.dart",
+      "badge": "الكود",
+      "code": "Container(\n  width: 200,\n  height: 200,\n  color: Colors.blue,\n)"
+    },
+    {
+      "sceneIndex": 3,
+      "type": "text",
+      "template": "terminal",
+      "color": "c-cyan",
+      "voiceFile": "scene_04.mp3",
+      "calculatedDuration": 204,
+      "title": "أساسيات الـ Container",
+      "badge": "نصيحة سريعة 💡",
+      "content": "المقاسات مهمة"
+    },
+    {
+      "sceneIndex": 4,
+      "type": "intro",
+      "template": "terminal",
+      "color": "c-cyan",
+      "voiceFile": "scene_05.mp3",
+      "calculatedDuration": 314,
+      "content": "استنى الجزء التاني",
+      "badge": "نصيحة فلاتر"
+    }
+  ]
+}

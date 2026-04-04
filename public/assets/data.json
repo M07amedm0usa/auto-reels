@@ -1,60 +1,60 @@
 {
   "videoConfig": {
-    "template": "notebook",
+    "template": "splitview",
     "totalScenes": 5,
-    "generatedAt": "2026-04-04T12:37:15.063Z"
+    "generatedAt": "2026-04-04T12:57:59.366Z"
   },
   "scenes": [
     {
       "sceneIndex": 0,
       "type": "intro",
-      "template": "notebook",
-      "color": "c-purple",
+      "template": "splitview",
+      "color": "c-blue",
       "voiceFile": "scene_01.mp3",
-      "calculatedDuration": 235,
-      "content": "تغيير شكل الـ 'Container'",
+      "calculatedDuration": 219,
+      "content": "قواعد المساحة والـ 'Constraints'",
       "badge": "سلسلة الـ Container"
     },
     {
       "sceneIndex": 1,
       "type": "text",
-      "template": "notebook",
-      "color": "c-purple",
+      "template": "splitview",
+      "color": "c-blue",
       "voiceFile": "scene_02.mp3",
-      "calculatedDuration": 202,
-      "title": "استخدام حواف دائرية",
-      "content": "إضافة حدود خارجية\nتغيير الألوان",
-      "badge": "التنسيق"
+      "calculatedDuration": 286,
+      "title": "الأب بيفرض مساحته",
+      "content": "والابن بيحاول يملى\nالمكان المتاح",
+      "badge": "خناقة الأب والابن"
     },
     {
       "sceneIndex": 2,
       "type": "code",
-      "template": "notebook",
-      "color": "c-purple",
+      "template": "splitview",
+      "color": "c-blue",
       "voiceFile": "scene_03.mp3",
       "calculatedDuration": 185,
-      "title": "decoration.dart",
+      "title": "constraints.dart",
       "badge": "الكود",
-      "code": "decoration: BoxDecoration(\n  color: Colors.red,\n  borderRadius: BorderRadius.circular(20),\n)"
+      "code": "ConstrainedBox(\n  constraints: BoxConstraints.tightFor(width: 100),\n  child: Container(color: Colors.green),\n)"
     },
     {
       "sceneIndex": 3,
       "type": "text",
-      "template": "notebook",
-      "color": "c-purple",
+      "template": "splitview",
+      "color": "c-blue",
       "voiceFile": "scene_04.mp3",
-      "calculatedDuration": 252,
-      "title": "ديكور الـ Container",
-      "content": "ملحوظة مهمة",
+      "calculatedDuration": 269,
+      "title": "الـ Constraints في الـ Container",
+      "content": "تريكة المحاذاة",
       "badge": "نصيحة سريعة 💡"
     },
     {
       "sceneIndex": 4,
       "type": "intro",
-      "template": "notebook",
-      "color": "c-purple",
+      "template": "splitview",
+      "color": "c-blue",
       "voiceFile": "scene_05.mp3",
-      "calculatedDuration": 229,
+      "calculatedDuration": 262,
       "content": "تابع السلسلة",
       "badge": "النهاية"
     }
